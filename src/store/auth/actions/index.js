@@ -75,8 +75,8 @@ export const getAuthUser = (callbackFun) => (dispatch) => {
 };
 
 export const getMeAfterLogin = (callbackFun) => (dispatch) => {
-  const apiEndPoint = `/api/auth`;
-  axios
+  const apiEndPoint = `/auth/me`;
+  baseAxios
     .get(apiEndPoint)
     .then((response) => {
       if (response.status === 200) {
@@ -109,7 +109,7 @@ export const login =
 
       .then((response) => {
         if (response.status === 200) {
-          // dispatch(getMeAfterLogin(callbackFun));
+          dispatch(getMeAfterLogin(callbackFun));
           notify("success", `You are logged in successfully`);
           callbackFun(true);
         }

@@ -8,6 +8,6 @@ console.log(import.meta.env);
 const cancelationToken = axios.CancelToken.source();
 export const baseAxios = axios.create({
   baseURL: `${VITE_BASE_URL}/api/${VITE_API_VERSION}`,
-  //   cancelToken: cancelationToken.token,
-  //   withCredentials: true,
+  cancelToken: cancelationToken.token,
+  withCredentials: true,
 });
