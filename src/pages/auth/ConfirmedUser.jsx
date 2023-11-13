@@ -1,35 +1,34 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import Logo from '../../../components/custom/Logo';
-import { confirmedUser, forgotPassword } from '../../../store/auth/actions';
-import ProgressLoader from 'components/custom/loader/ProgressLoader';
-import Layout from 'components/Layout';
-import { useRouter } from 'next/router';
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { confirmedUser } from "../../store/auth/actions";
+import ProgressLoader from "../../utils/custom/ProgressLoader";
+import { getIdFromUrl } from "../../utils/utolity";
 
 const ConfirmedUser = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const navigate = useNavigate();
   const [isProgressLogin, setIsProgressLogin] = useState(false);
-  const { token } = router.query;
+  const token = getIdFromUrl();
 
   const responseBack = (isSuccess) => {
     if (isSuccess) {
-      router.push('/auth/login');
+      navigate("/login");
     } else {
       setIsProgressLogin(false);
     }
   };
-  const [email, setEmail] = useState('');
 
   const handleForgotPassword = () => {
     setIsProgressLogin(true);
+    console.log(token);
     dispatch(confirmedUser(token, responseBack));
   };
   return (
-    <Layout title="Forgot Password">
+    <div className="bg-white min-h-screen">
       <ProgressLoader isProgress={isProgressLogin}>
         <div className="container">
-          <div className="my-[4.5rem] lg:mt-[9rem]">
+          <div>
             <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
               <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="rounded-sm bg-white py-8 px-4 shadow shadow-primary sm:px-10">
@@ -42,12 +41,12 @@ const ConfirmedUser = () => {
 
                     <div className="flex items-center justify-end">
                       <div className="text-sm">
-                        <a
-                          href="/auth/login"
+                        <Link
+                          to="/login"
                           className="font-medium text-indigo-600 hover:text-indigo-500"
                         >
                           Back to Login
-                        </a>
+                        </Link>
                       </div>
                     </div>
                     <div>
@@ -67,7 +66,7 @@ const ConfirmedUser = () => {
           </div>
         </div>
       </ProgressLoader>
-    </Layout>
+    </div>
   );
 };
 

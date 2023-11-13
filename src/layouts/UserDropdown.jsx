@@ -21,7 +21,7 @@ const UserDropdown = () => {
   // };
 
   const handleCallback = () => {
-    navigate("/auth/login");
+    navigate("/login");
   };
   const handleLogout = () => {
     dispatch(logout(handleCallback));
