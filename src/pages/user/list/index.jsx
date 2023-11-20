@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers } from "../../../store/user/store";
+import { getAllUsers } from "../../../store/user";
 import { userColumn } from "./column";
 
 const UserList = () => {
