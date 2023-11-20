@@ -12,8 +12,8 @@ export const bindAuthUser = (user) => (dispatch) => {
 };
 
 export const logout = (handleCallback) => async (dispatch) => {
-  const apiEndPoint = `/api/auth/logout`;
-  await axios
+  const apiEndPoint = `/auth/logout`;
+  await baseAxios
     .get(apiEndPoint)
     .then((response) => {
       if (response.status === 200) {
@@ -161,8 +161,8 @@ export const resetPassword = (obj, responseBack) => async (dispatch) => {
 };
 
 export const register = (obj, responseBack) => async (dispatch) => {
-  const apiEndPoint = `/api/auth/registration`;
-  await axios
+  const apiEndPoint = `/auth/register`;
+  await baseAxios
     .post(apiEndPoint, obj)
     .then((response) => {
       if (response.status === 200) {
@@ -179,9 +179,9 @@ export const register = (obj, responseBack) => async (dispatch) => {
 };
 
 export const confirmedUser = (token, responseBack) => async (dispatch) => {
-  const apiEndPoint = `/api/auth/confirm-user`;
-  await axios
-    .post(apiEndPoint, { token })
+  const apiEndPoint = `/auth/confirm-user/${token}`;
+  await baseAxios
+    .put(apiEndPoint, { token })
     .then((response) => {
       if (response.status === 200) {
         notify("success", `Great!! You can login now.`);

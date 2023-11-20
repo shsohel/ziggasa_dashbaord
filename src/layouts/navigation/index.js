@@ -15,8 +15,8 @@ export const mainNavigation = [
     title: "Manage List ",
     navigation: [
       {
-        name: "Add Listing",
-        href: "/add-listing",
+        name: "Blogs",
+        href: "/blogs",
         icon: LinkIcon,
         current: false,
       },

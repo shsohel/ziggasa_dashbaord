@@ -35,7 +35,9 @@ import { renderRoutes } from "./GenerateRoute";
 import Dashboard from "../pages/dashboard";
 import UserList from "../pages/user/list";
 import Login from "../pages/auth/Login";
-import Register from "../pages/auth/register";
+import Register from "../pages/auth/Register";
+import ConfirmedUser from "../pages/auth/ConfirmedUser";
+import Blogs from "../pages/dashboard/blogs/list";
 
 const appRoutes = [
   {
@@ -55,6 +57,13 @@ const appRoutes = [
         path: "/register",
         isPublic: true,
       },
+      {
+        name: "register",
+        title: "Register",
+        component: ConfirmedUser,
+        path: "/confirm-user/:token",
+        isPublic: true,
+      },
     ],
   },
   {
@@ -65,6 +74,12 @@ const appRoutes = [
         title: "Home page",
         component: Dashboard,
         path: "/",
+      },
+      {
+        name: "blogs",
+        title: "Blogs",
+        component: Blogs,
+        path: "/blogs",
       },
       {
         name: "users",

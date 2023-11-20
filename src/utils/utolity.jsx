@@ -1,7 +1,7 @@
 /** @format */
 
 import defaultImage from "../assets/images/agent-1.jpg";
-import Cookies from "js-cookie";
+import Cookies from "js-cookies";
 export const imageLoader = ({ src, width, quality }) => {
   return `${src}?w=${width}&q=${quality || 75}`;
 };
@@ -203,6 +203,16 @@ export const capitalizeAndSpace = (str) => {
 };
 
 export const getCookie = (name) => {
-  const cookie = Cookies.get(name);
+  const cookie = Cookies.getItem(name);
   return cookie;
+};
+
+/// Get ID from URL Path
+export const getIdFromUrl = () => {
+  const urlSearchParams = new URLSearchParams(window.location);
+  const params = Object.fromEntries(urlSearchParams.entries());
+
+  // const params = useLocation();
+  const query = params.pathname.substring(params.pathname.lastIndexOf("/") + 1);
+  return query;
 };
