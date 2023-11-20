@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Bars4Icon } from "@heroicons/react/24/outline";
 import Header from "./Header";
+import UserDropdown from "./UserDropdown";
 
 function AppLayout(props) {
   const { children } = props;
@@ -51,7 +52,9 @@ function AppLayout(props) {
                 </div>
               </form>
             </div>
-            <div className="flex items-center">{/* <UserDropdown /> */}</div>
+            <div className="flex items-center">
+              <UserDropdown />
+            </div>
           </div>
         </div>
         <main className="flex-1">
