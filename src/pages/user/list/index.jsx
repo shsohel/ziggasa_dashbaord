@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers } from "../../../store/user/store";
+import { getAllUsers } from "../../../store/user/reducers";
 import { userColumn } from "./column";
 
 const UserList = () => {
-  const {users, loading} = useSelector(({users}) => users);
+  const { users, loading } = useSelector(({ users }) => users);
   const dispatch = useDispatch();
 
   const getUsers = () => {
@@ -21,49 +21,44 @@ const UserList = () => {
     getUsers();
   }, []);
 
-
   const handleEdit = () => {
-    console.log('edit');
-  }
+    console.log("edit");
+  };
   const handleDelete = () => {
-    console.log('delete');
-  }
+    console.log("delete");
+  };
   const handleView = () => {
-    console.log('view');
-  }
+    console.log("view");
+  };
 
   return (
     <>
       <div>
-      <DataTable
-            noHeader
-            persistTableHead
-            defaultSortAsc
-            sortServer
-            // onSort={handleSort}
-            progressPending={loading}
-            progressComponent={
-              <div>Loading</div>
-            }
-            dense
-            subHeader={false}
-            highlightOnHover
-            responsive={true}
-            paginationServer
-            // expandableRows={true}
-            // expandOnRowClicked
-            columns={userColumn( handleView, handleEdit, handleDelete )}
-            // sortIcon={<ChevronDown />}
-            // onRowExpandToggled={( bool, row ) => getRowIdClick( row.id )}
-            className="react-custom-dataTable"
-            // expandableRowsComponent={<AllLcList lcScData={lcScData} />}
-            data={users}
-
-          />
+        <DataTable
+          noHeader
+          persistTableHead
+          defaultSortAsc
+          sortServer
+          // onSort={handleSort}
+          progressPending={loading}
+          progressComponent={<div>Loading</div>}
+          dense
+          subHeader={false}
+          highlightOnHover
+          responsive={true}
+          paginationServer
+          // expandableRows={true}
+          // expandOnRowClicked
+          columns={userColumn(handleView, handleEdit, handleDelete)}
+          // sortIcon={<ChevronDown />}
+          // onRowExpandToggled={( bool, row ) => getRowIdClick( row.id )}
+          className="react-custom-dataTable"
+          // expandableRowsComponent={<AllLcList lcScData={lcScData} />}
+          data={users}
+        />
       </div>
     </>
   );
 };
 
 export default UserList;
-

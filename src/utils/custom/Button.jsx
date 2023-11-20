@@ -29,7 +29,7 @@ export const Button = (props) => {
 Button.defaultProps = {
   id: "btn-default-id",
   bgColor: "bg-primary",
-  Color: "bg-primary",
+  color: "bg-primary",
   textColor: "text-dark",
   hoverText: "text-light",
   hoverBg: "bg-secondary",

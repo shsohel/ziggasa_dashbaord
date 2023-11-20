@@ -1,5 +1,5 @@
 import { Routes } from "./routes";
-import { getCookie } from "./utils/utolity";
+import { getCookie } from "./utils/utility";
 
 const App = () => {
   const token = getCookie("token");

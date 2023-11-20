@@ -3,8 +3,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import auth from "./auth/reducers";
-import users from "./user/store";
-import propertyReducers from "./property/reducers";
+import users from "./user/reducers";
+import blogs from "./blog";
 
 import basicReducers from "./basic/reducers";
 
@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
   auth,
   basicReducers,
   users,
-  propertyReducers,
+  blogs,
 });
 
 // const middleware = [thunk, createDebounce()];

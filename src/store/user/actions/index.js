@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 import { notify } from "../../../utils/custom/Notification";
 import { confirmObj, status } from "../../../utils/enum";
@@ -6,7 +6,7 @@ import {
   capitalizeFirstLetter,
   convertQueryString,
   uniqId,
-} from "../../../utils/utolity";
+} from "../../../utils/utility";
 import {
   USER_DATA_ON_PROGRESS,
   USER_DATA_SUBMIT_PROGRESS,
@@ -38,7 +38,7 @@ export const userSidebarOpen = (condition) => (dispatch) => {
   });
 };
 export const bindUserBasicInfo = (user) => (dispatch) => {
-  console.log('first');
+  console.log("first");
   dispatch({
     type: BIND_USER_BASIC_INFO,
     user,
@@ -65,9 +65,9 @@ export const getUsers = (queryParams, queryObj) => async (dispatch) => {
     })
     .catch(({ response }) => {
       if (response.status === 400) {
-        notify('warning', response.data.error);
+        notify("warning", response.data.error);
       } else if (response.status === 401) {
-        notify('errror', response.data.error);
+        notify("errror", response.data.error);
       }
       dispatch(userDataOnProgress(false));
       dispatch({
@@ -89,7 +89,7 @@ export const addUser = (user, redirectCallBack) => (dispatch) => {
       if (response.status === 201) {
         dispatch(userDataSubmitOnProgress(false));
         dispatch(bindUserBasicInfo(userBasicInfoModal));
-        notify('success', 'The User has been added successfully');
+        notify("success", "The User has been added successfully");
 
         redirectCallBack(response.data.data.slug);
       }
@@ -97,7 +97,7 @@ export const addUser = (user, redirectCallBack) => (dispatch) => {
     .catch(({ response }) => {
       console.log(response);
       if (response.status === 400) {
-        notify('error', `${response.data.error}`);
+        notify("error", `${response.data.error}`);
       }
     });
 };
@@ -110,7 +110,7 @@ export const getUser = (User) => async (dispatch, getState) => {
     .then((response) => {
       if (response.status === status.success) {
         const { data } = response.data;
-        console.log('data', data);
+        console.log("data", data);
         const UserObj = {
           ...data,
           subCategories: data.userSubCategories.map((v) => ({
@@ -127,9 +127,9 @@ export const getUser = (User) => async (dispatch, getState) => {
       console.log(response);
       dispatch(userDataOnProgress(false));
       if (response?.status === status.severError) {
-        notify('error', `Please contact the support team!!!`);
+        notify("error", `Please contact the support team!!!`);
       } else if (response?.status === status.badRequest) {
-        notify('errors', response.data.error);
+        notify("errors", response.data.error);
       }
     });
 };
@@ -161,7 +161,7 @@ export const getUserBySlug = (slug, router) => async (dispatch, getState) => {
     })
     .catch(({ response }) => {
       if (response.status === 400) {
-        router.push('/404');
+        router.push("/404");
       }
       console.log(response);
       dispatch(userDataOnProgress(false));
@@ -181,7 +181,7 @@ export const updateUser =
       .then((response) => {
         if (response.status === status.success) {
           dispatch(userDataSubmitOnProgress(false));
-          notify('success', `The User has been updated successfully `);
+          notify("success", `The User has been updated successfully `);
           redirectCallBack(response.data.data.slug);
         }
       })
@@ -189,9 +189,9 @@ export const updateUser =
         console.log(response);
         dispatch(userDataSubmitOnProgress(false));
         if (response?.status === status.severError) {
-          notify('error', `Please contact the support team!!!`);
+          notify("error", `Please contact the support team!!!`);
         } else if (response?.status === status.badRequest) {
-          notify('error', response.data.error);
+          notify("error", response.data.error);
         }
       });
   };
@@ -204,16 +204,16 @@ export const updateUserPassword =
       .then((response) => {
         if (response.status === status.success) {
           dispatch(userDataSubmitOnProgress(false));
-          notify('success', `The User Password has been updated successfully `);
+          notify("success", `The User Password has been updated successfully `);
           redirectCallBack();
         }
       })
       .catch(({ response }) => {
         dispatch(userDataSubmitOnProgress(false));
         if (response?.status === status.severError) {
-          notify('error', `Please contact the support team!!!`);
+          notify("error", `Please contact the support team!!!`);
         } else if (response?.status === status.badRequest) {
-          notify('error', response.data.error);
+          notify("error", response.data.error);
         }
       });
   };
@@ -234,7 +234,7 @@ export const deleteUser = (user) => (dispatch, getState) => {
           if (response.status === status.success) {
             const { queryParams, queryObj } = getState().users;
 
-            notify('success', 'The Item  has been deleted Successfully!');
+            notify("success", "The Item  has been deleted Successfully!");
             dispatch(getUsers(queryParams, queryObj));
             dispatch(userDataOnProgress(false));
           }
@@ -243,9 +243,9 @@ export const deleteUser = (user) => (dispatch, getState) => {
           console.log(response);
           dispatch(userDataOnProgress(false));
           if (response.status === status.severError) {
-            notify('error', `Please contact the support team!!!`);
+            notify("error", `Please contact the support team!!!`);
           } else if (response?.status === status.badRequest) {
-            notify('errors', response.data.error);
+            notify("errors", response.data.error);
           }
         });
     }

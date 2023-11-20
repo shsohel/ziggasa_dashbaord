@@ -37,7 +37,7 @@ import UserList from "../pages/user/list";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ConfirmedUser from "../pages/auth/ConfirmedUser";
-import Blogs from "../pages/dashboard/blogs/list";
+import Blogs from "../pages/blogs/list";
 
 const appRoutes = [
   {
