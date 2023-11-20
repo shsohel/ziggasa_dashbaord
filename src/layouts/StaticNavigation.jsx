@@ -1,7 +1,7 @@
 import UserDropdown from "./UserDropdown";
 import { Search } from "lucide-react";
 // import Logo from "../customs/Logo";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import InputBox from "../utils/custom/InputBox";
 
 function classNames(...classes) {
