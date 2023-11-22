@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { confirmedUser } from "../../store/auth/actions";
 import ProgressLoader from "../../utils/custom/ProgressLoader";
-import { getIdFromUrl } from "../../utils/utolity";
+import { getIdFromUrl } from "../../utils/utility";
 
 const ConfirmedUser = () => {
   const dispatch = useDispatch();
