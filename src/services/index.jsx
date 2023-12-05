@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const { VITE_BASE_URL, VITE_API_VERSION } = import.meta.env;
+export const { VITE_BASE_URL, VITE_API_VERSION, VITE_UPLOAD_PATH } = import.meta
+  .env;
 
 const cancelationToken = axios.CancelToken.source();
 export const baseAxios = axios.create({
