@@ -3,7 +3,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import auth from "./auth/reducers";
-import users from "./user/reducers";
+import users from "./user";
 import blogs from "./blog";
 
 import basicReducers from "./basic/reducers";
