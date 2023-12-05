@@ -1,9 +1,8 @@
 /** @format */
 
-import React from "react";
-import PropTypes from "prop-types";
-import { selectThemeColors } from "utils/utolity";
-import Select from "react-select";
+import PropTypes from 'prop-types';
+// import { selectThemeColors } from "utils/utolity";
+import Select from 'react-select';
 const SelectBox = (props) => {
   const {
     id,
@@ -24,10 +23,10 @@ const SelectBox = (props) => {
           classNames={{
             control: (state) =>
               state.isFocused
-                ? "border border-primary"
+                ? 'border border-primary'
                 : invalid
-                ? " border-red-600 "
-                : " ",
+                ? ' border-red-600 '
+                : ' ',
             // control: () => (invalid ? ' border-red-600 ' : ''),
           }}
           // className="react-select-container"
@@ -56,10 +55,10 @@ const SelectBox = (props) => {
 export default SelectBox;
 // ** Default Props
 SelectBox.defaultProps = {
-  id: "input-selet",
+  id: 'input-selet',
   invalid: false,
   invalidMassage: null,
-  name: "select",
+  name: 'select',
   value: null,
   //   label: "Button",
 };
@@ -68,6 +67,9 @@ SelectBox.defaultProps = {
 SelectBox.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
+  invalidMassage: PropTypes.string,
+  label: PropTypes.string,
+  options: PropTypes.array,
   value: PropTypes.any,
   invalid: PropTypes.bool,
   onChange: PropTypes.func.isRequired,

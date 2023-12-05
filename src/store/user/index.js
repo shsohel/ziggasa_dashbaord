@@ -1,29 +1,24 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { baseAxios } from "../../services";
-import { notify } from "../../utils/custom/Notification";
-import { convertQueryString } from "../../utils/utolity";
-import { userBasicInfoModal } from "./model";
-
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { baseAxios } from '../../services';
+import { notify } from '../../utils/custom/Notification';
+import { userBasicInfoModal } from './model';
 
 //Get List Data by Query
-  export const getAllUsers = createAsyncThunk('user/getUsers', async () => {
-    const apiEndpoint = `/user`;
-    try {
-      const response = await baseAxios.post(apiEndpoint, []);
-      return response.data.data;
-    } catch (error) {
-      if (error.response) {
-        notify('warning', error.response.data.error);
-      } else {
-        notify('error', 'An error occurred');
-      }
-      throw error;
+export const getAllUsers = createAsyncThunk('user/getUsers', async () => {
+  const apiEndpoint = `/user`;
+  try {
+    const response = await baseAxios.post(apiEndpoint, []);
+    return response.data.data;
+  } catch (error) {
+    if (error.response) {
+      notify('warning', error.response.data.error);
+    } else {
+      notify('error', 'An error occurred');
     }
-  });
+    throw error;
+  }
+});
 
-
-  
 // export const userDataOnProgress = (condition) => (dispatch) => {
 //     dispatch({
 //       type: USER_DATA_ON_PROGRESS,
@@ -49,7 +44,7 @@ import { userBasicInfoModal } from "./model";
 //       user,
 //     });
 //   };
-  
+
 //   //Get List Data by Query
 //   export const getUsers = (queryParams, queryObj) => async (dispatch) => {
 //     dispatch(userDataOnProgress(true));
@@ -84,7 +79,7 @@ import { userBasicInfoModal } from "./model";
 //         });
 //       });
 //   };
-  
+
 //   export const addUser = (user, redirectCallBack) => (dispatch) => {
 //     const apiEndpoint = `/api/user/create`;
 //     dispatch(userDataSubmitOnProgress(true));
@@ -95,7 +90,7 @@ import { userBasicInfoModal } from "./model";
 //           dispatch(userDataSubmitOnProgress(false));
 //           dispatch(bindUserBasicInfo(userBasicInfoModal));
 //           notify('success', 'The User has been added successfully');
-  
+
 //           redirectCallBack(response.data.data.slug);
 //         }
 //       })
@@ -106,7 +101,7 @@ import { userBasicInfoModal } from "./model";
 //         }
 //       });
 //   };
-  
+
 //   export const getUser = (User) => async (dispatch, getState) => {
 //     dispatch(userDataOnProgress(true));
 //     const apiEndpoint = `/api/user/${User._id}`;
@@ -222,10 +217,10 @@ import { userBasicInfoModal } from "./model";
 //           }
 //         });
 //     };
-  
+
 //   // ...confirmObj,
 //   // text: `<h4 class="text-primary mb-0">${item.itemNumber}</h4> <br/> <span>You can't retrieve again!</span>`,
-  
+
 //   // Delete item
 //   export const deleteUser = (user) => (dispatch, getState) => {
 //     confirmDialog(confirmObj).then(async (e) => {
@@ -238,7 +233,7 @@ import { userBasicInfoModal } from "./model";
 //           .then((response) => {
 //             if (response.status === status.success) {
 //               const { queryParams, queryObj } = getState().users;
-  
+
 //               notify('success', 'The Item  has been deleted Successfully!');
 //               dispatch(getUsers(queryParams, queryObj));
 //               dispatch(userDataOnProgress(false));
@@ -256,31 +251,27 @@ import { userBasicInfoModal } from "./model";
 //       }
 //     });
 //   };
-  
-
-
 
 const userSlice = createSlice({
-    name: "user",
-    initialState: {
-        dataProgress: false,
-        submitUserDataProgress: false,
-        openUserSidebar: false,
-        users: [],
-        user: userBasicInfoModal,
-        total: 1,
-        queryParams: {},
-        queryObj: {},
-        loading: false,
-    },
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-        .addCase(getAllUsers.fulfilled, (state, action) => {
-            state.users = action.payload;
-            state.loading = false;
-        })
-    }
-})
+  name: 'user',
+  initialState: {
+    dataProgress: false,
+    submitUserDataProgress: false,
+    openUserSidebar: false,
+    users: [],
+    user: userBasicInfoModal,
+    total: 1,
+    queryParams: {},
+    queryObj: {},
+    loading: false,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getAllUsers.fulfilled, (state, action) => {
+      state.users = action.payload;
+      state.loading = false;
+    });
+  },
+});
 
-export default userSlice.reducer
+export default userSlice.reducer;

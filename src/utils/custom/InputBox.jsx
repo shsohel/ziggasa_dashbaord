@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 const InputBox = (props) => {
   const {
     id,
@@ -11,6 +11,7 @@ const InputBox = (props) => {
     hidden,
     classNames,
     invalidMassage,
+    ...restProps
   } = props;
   return (
     <>
@@ -24,8 +25,9 @@ const InputBox = (props) => {
         value={value}
         onChange={onChange}
         className={`${
-          invalid ? " border-rose-500" : " border-gray-300"
+          invalid ? ' border-rose-500' : ' border-gray-300'
         } block w-full rounded-md  border text-secondary shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${classNames}`}
+        {...restProps}
       />
       {invalidMassage && invalid && (
         <span className="text-xs">{invalidMassage}</span>
@@ -37,14 +39,14 @@ const InputBox = (props) => {
 export default InputBox;
 // ** Default Props
 InputBox.defaultProps = {
-  id: "input-felid",
+  id: 'input-felid',
   hidden: false,
   invalidMassage: null,
-  type: "text",
-  name: "input",
-  value: "",
+  type: 'text',
+  name: 'input',
+  value: '',
   disabled: false,
-  classNames: "",
+  classNames: '',
   //   label: "Button",
 };
 
