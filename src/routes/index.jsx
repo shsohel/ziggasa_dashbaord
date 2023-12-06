@@ -34,6 +34,7 @@ import MainLayout from "./MainLayout";
 import { renderRoutes } from "./GenerateRoute";
 import Dashboard from "../pages/dashboard";
 import UserList from "../pages/user/list";
+import UserAddForm from "../pages/user/form/UserAddForm";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ConfirmedUser from "../pages/auth/ConfirmedUser";
@@ -90,6 +91,12 @@ const appRoutes = [
             title: "List of users",
             component: UserList,
             path: "/users",
+          },
+          {
+            name: "add-users",
+            title: "Add user",
+            component: UserAddForm,
+            path: "/add-user",
           },
         ],
       },

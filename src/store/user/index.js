@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseAxios } from "../../services";
 import { notify } from "../../utils/custom/Notification";
-import { convertQueryString } from "../../utils/utolity";
 import { userBasicInfoModal } from "./model";
 
 
@@ -11,6 +10,22 @@ import { userBasicInfoModal } from "./model";
     const apiEndpoint = `/user`;
     try {
       const response = await baseAxios.post(apiEndpoint, []);
+      return response.data.data;
+    } catch (error) {
+      if (error.response) {
+        notify('warning', error.response.data.error);
+      } else {
+        notify('error', 'An error occurred');
+      }
+      throw error;
+    }
+  });
+
+//Add new user by this function
+  export const addNewUser = createAsyncThunk('user/addNewUser', async (data) => {
+    const apiEndpoint = `/users/new`;
+    try {
+      const response = await baseAxios.post(apiEndpoint, data);
       return response.data.data;
     } catch (error) {
       if (error.response) {
@@ -273,14 +288,27 @@ const userSlice = createSlice({
         queryObj: {},
         loading: false,
     },
-    reducers: {},
+    reducers: {
+      bindUserBasicInfo: (state, action) => {
+        if(action.payload){
+          state.user = action.payload
+        }else{
+          state.user = userBasicInfoModal
+        }
+      }
+    },
     extraReducers: (builder) => {
         builder
         .addCase(getAllUsers.fulfilled, (state, action) => {
             state.users = action.payload;
             state.loading = false;
         })
+        .addCase(addNewUser.fulfilled, (state) => {
+            state.loading = false;
+        })
     }
 })
+
+export const {bindUserBasicInfo} = userSlice.actions
 
 export default userSlice.reducer

@@ -11,9 +11,14 @@ const InputBox = (props) => {
     hidden,
     classNames,
     invalidMassage,
+    label,
+    labelClass
   } = props;
   return (
     <>
+      <div className={` ${labelClass}`}>
+      {label && <label className={`text-sm mb-2`}>{label}</label>}
+      </div>
       <input
         id={id}
         hidden={hidden}
@@ -52,6 +57,8 @@ InputBox.defaultProps = {
 InputBox.propTypes = {
   id: PropTypes.string.isRequired,
   hidden: PropTypes.bool,
+  label: PropTypes.string,
+  labelClass: PropTypes.string,
   type: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
