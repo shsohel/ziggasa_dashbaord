@@ -1,7 +1,8 @@
-/** @format */
-
+/* eslint-disable no-prototype-builtins */
+import { twMerge } from "tailwind-merge";
 import defaultImage from "../assets/images/agent-1.jpg";
 import Cookies from "js-cookies";
+import clsx from "clsx";
 export const imageLoader = ({ src, width, quality }) => {
   return `${src}?w=${width}&q=${quality || 75}`;
 };
@@ -215,4 +216,8 @@ export const getIdFromUrl = () => {
   // const params = useLocation();
   const query = params.pathname.substring(params.pathname.lastIndexOf("/") + 1);
   return query;
+};
+
+export const cn = (...inputs) => {
+  return twMerge(clsx(inputs));
 };

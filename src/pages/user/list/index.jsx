@@ -1,12 +1,20 @@
+import { useState } from "react";
 import { useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import { getAllUsers } from "../../../store/user";
+import { Button } from "../../../utils/custom/Button";
+import FormLayout from "../../../utils/custom/FormLayout";
+import Sidebar from "../../../utils/custom/Sidebar";
+import UserAddForm from "../form/UserAddForm";
 import { userColumn } from "./column";
 
 const UserList = () => {
   const { users, loading } = useSelector(({ users }) => users);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false)
 
   const getUsers = () => {
     const paramObj = {
@@ -21,6 +29,31 @@ const UserList = () => {
     getUsers();
   }, []);
 
+  const handleOnClick = () => {
+    navigate('/add-user');
+  }
+
+  const handleSidebarOpen = () => {
+    setIsOpen(true)
+  }
+
+  const actions = [
+    {
+      id: "1",
+      name: "new-button",
+
+      button: (
+        // <button className="border p-1 text-sm font-semibold bg-primary">
+        //   Add New
+        // </button>
+        <Button 
+        id="new-button" 
+        name="New"
+        onClick={() => {handleSidebarOpen()}} />
+      ),
+    },
+  ];
+
   const handleEdit = () => {
     console.log("edit");
   };
@@ -33,7 +66,8 @@ const UserList = () => {
 
   return (
     <>
-      <div>
+    <FormLayout title="Users" actions={actions}>
+    <div>
         <DataTable
           noHeader
           persistTableHead
@@ -57,6 +91,13 @@ const UserList = () => {
           data={users}
         />
       </div>
+    </FormLayout>
+
+    <UserAddForm
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+    />
+     
     </>
   );
 };

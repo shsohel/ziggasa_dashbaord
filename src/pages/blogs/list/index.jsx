@@ -1,14 +1,14 @@
-import { Button } from '../../../utils/custom/Button';
-import FormLayout from '../../../utils/custom/FormLayout';
-import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getBlogs } from '../../../store/blog';
-import DataTable from 'react-data-table-component';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
-import Pagination from '../../../utils/custom/Pagination';
-import moment from 'moment';
-import { tableCustomStyles } from '../../../utils/utility';
-import { useNavigate } from 'react-router-dom';
+import { Button } from "../../../utils/custom/Button";
+import FormLayout from "../../../utils/custom/FormLayout";
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { getBlogs } from "../../../store/blog";
+import DataTable from "react-data-table-component";
+import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import Pagination from "../../../utils/custom/Pagination";
+import moment from "moment";
+import { tableCustomStyles } from "../../../utils/utility";
+import { useNavigate } from "react-router-dom";
 
 const Blogs = () => {
   const dispatch = useDispatch();
@@ -16,10 +16,10 @@ const Blogs = () => {
   const { blogs, loading, total } = useSelector(({ blogs }) => blogs);
   const [rowPerPage, setRowPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [orderBy, setOrderBy] = useState('desc');
-  const [sortedBy, setSortedBy] = useState('createdAt');
+  const [orderBy, setOrderBy] = useState("desc");
+  const [sortedBy, setSortedBy] = useState("createdAt");
   const [filterObj, setFilterObj] = useState({
-    title: '',
+    title: "",
   });
 
   const getAllBlogs = useCallback(() => {
@@ -42,13 +42,13 @@ const Blogs = () => {
   }, [dispatch, getAllBlogs]);
 
   const handleNew = () => {
-    navigate('/blogs/new');
+    navigate("/blogs/new");
   };
 
   const actions = [
     {
-      id: '1',
-      name: 'new-button',
+      id: "1",
+      name: "new-button",
       button: (
         <Button
           id="new-button"
@@ -109,9 +109,9 @@ const Blogs = () => {
             defaultSortFieldId={sortedBy}
             columns={[
               {
-                id: 'action',
-                name: 'Action',
-                width: '80px',
+                id: "action",
+                name: "Action",
+                width: "80px",
                 cell: (row) => (
                   <div className="flex justify-between">
                     <FaTrashAlt
@@ -133,30 +133,30 @@ const Blogs = () => {
               },
 
               {
-                id: 'title',
-                name: 'Title',
-                selector: (row) => row['title'],
+                id: "title",
+                name: "Title",
+                selector: (row) => row["title"],
               },
               {
-                id: 'writer',
-                name: 'Date',
-                width: '120px',
+                id: "createdAt",
+                name: "Date",
+                width: "120px",
                 selector: (row) =>
-                  moment(row['createdAt']).format('DD-MMM-YYYY'),
+                  moment(row["createdAt"]).format("DD-MMM-YYYY"),
               },
               {
-                id: 'writer',
-                name: 'Author',
-                width: '100px',
-                selector: (row) => row['writer'].name,
+                id: "writer",
+                name: "Author",
+                width: "100px",
+                selector: (row) => row["writer"].name,
               },
 
               {
-                id: 'active',
-                name: 'Status',
-                width: '100px',
+                id: "active",
+                name: "Status",
+                width: "100px",
                 center: true,
-                cell: (row) => (row.isActive ? 'Active' : 'InActive'),
+                cell: (row) => (row.isActive ? "Active" : "InActive"),
               },
             ]}
             paginationComponent={paginationComponent}

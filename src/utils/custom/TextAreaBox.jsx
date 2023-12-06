@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { cn } from "../utility";
-const InputBox = (props) => {
+const TextArea = (props) => {
   const {
     id,
     name,
@@ -21,7 +21,8 @@ const InputBox = (props) => {
       <div className={` ${labelClass}`}>
         {label && <label className={`text-sm mb-2`}>{label}</label>}
       </div>
-      <input
+
+      <textarea
         id={id}
         hidden={hidden}
         type={type}
@@ -30,16 +31,9 @@ const InputBox = (props) => {
         autoComplete={name}
         value={value}
         onChange={onChange}
-        // className={`${
-        //   invalid ? " border-rose-500" : " border-gray-300"
-        // } block w-full rounded-md  border text-secondary shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${classNames}`}
-        className={cn(
-          "block w-full border-gray-300 rounded-md  border text-secondary shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-          classNames,
-          {
-            "border-rose-500": invalid,
-          },
-        )}
+        className={cn("block  w-full border-gray-300 rounded-md", classNames, {
+          "border-rose-500": invalid,
+        })}
         {...restProps}
       />
       {invalidMassage && invalid && (
@@ -49,9 +43,9 @@ const InputBox = (props) => {
   );
 };
 
-export default InputBox;
+export default TextArea;
 // ** Default Props
-InputBox.defaultProps = {
+TextArea.defaultProps = {
   id: "input-felid",
   hidden: false,
   invalidMassage: null,
@@ -64,7 +58,7 @@ InputBox.defaultProps = {
 };
 
 // ** PropTypes
-InputBox.propTypes = {
+TextArea.propTypes = {
   id: PropTypes.string.isRequired,
   hidden: PropTypes.bool,
   label: PropTypes.string,
