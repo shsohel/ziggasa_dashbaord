@@ -1,1 +1,15 @@
-export const blogModel = {};
+export const blogModel = {
+  title: '',
+  slug: '',
+  category: [],
+  tag: [],
+  details: '',
+  qualifications: '',
+  responsibilities: '',
+  keyword: [],
+  metaDescription: '',
+  metaTitle: '',
+  author: '',
+  featuredImageUrl: '',
+  isActive: true,
+};

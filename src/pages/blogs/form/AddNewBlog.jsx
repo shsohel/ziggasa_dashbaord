@@ -1,15 +1,48 @@
-import { useState } from "react";
-import { Button } from "../../../utils/custom/Button";
-import RichEditor from "../../../utils/custom/Editor";
-import FormLayout from "../../../utils/custom/FormLayout";
-import InputBox from "../../../utils/custom/InputBox";
-import SelectBox from "../../../utils/custom/SelectBox";
-import TextArea from "../../../utils/custom/TextAreaBox";
-import Modal from "../../../utils/custom/Modal";
-import FileUpload from "./FileUpload";
+import { useState } from 'react';
+import { Button } from '../../../utils/custom/Button';
+import RichEditor from '../../../utils/custom/Editor';
+import FormLayout from '../../../utils/custom/FormLayout';
+import InputBox from '../../../utils/custom/InputBox';
+import SelectBox from '../../../utils/custom/SelectBox';
+import TextArea from '../../../utils/custom/TextAreaBox';
+
+import FileUpload from './FileUpload';
+
+import BlogDescriptions from './BlogDescriptions';
+import HorizontalTab from '../../../utils/custom/HorizontalTab';
+import JobQualifications from './JobQualifications';
+import JobResponsibilities from './JobResponsibilities';
+import {
+  DocumentTextIcon,
+  DocumentChartBarIcon,
+  DocumentCheckIcon,
+} from '@heroicons/react/24/outline';
+const defaultTabs = [
+  {
+    id: 'description',
+    title: 'Description',
+    icon: <DocumentTextIcon className="me-2 h-4 w-4" aria-hidden="true" />,
+    component: <BlogDescriptions />,
+    isActive: true,
+  },
+  {
+    id: 'qualifications',
+    title: 'Qualifications',
+    icon: <DocumentCheckIcon className="me-2 h-4 w-4" aria-hidden="true" />,
+    component: <JobQualifications />,
+    isActive: false,
+  },
+  {
+    id: 'responsibilities',
+    title: 'Responsibilities',
+    icon: <DocumentChartBarIcon className="me-2 h-4 w-4" aria-hidden="true" />,
+    component: <JobResponsibilities />,
+    isActive: false,
+  },
+];
 
 const AddNewBlog = () => {
-  const [blogDetails, setBlogDetails] = useState("");
+  const [blogDetails, setBlogDetails] = useState('');
   const [isOpenFileUploadModal, setIsOpenFileUploadModal] = useState(false);
 
   const handleTextEditorOnChange = (e) => {
@@ -22,8 +55,8 @@ const AddNewBlog = () => {
   const handleFileUploadSubmit = () => {};
   const actions = [
     {
-      id: "1",
-      name: "new-button",
+      id: '1',
+      name: 'new-button',
       button: <Button id="save-button" name="Save" onClick={() => {}} />,
     },
   ];
@@ -38,14 +71,7 @@ const AddNewBlog = () => {
       />
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         <div className="lg:col-span-6">
-          <RichEditor
-            id="blog-details"
-            name="details"
-            value={blogDetails}
-            onTextEditorChange={(e) => {
-              handleTextEditorOnChange(e);
-            }}
-          />
+          <HorizontalTab defaultTabs={defaultTabs} />
         </div>
         <div className="lg:col-span-3 ">
           <div className="grid grid-cols-1 gap-6">
