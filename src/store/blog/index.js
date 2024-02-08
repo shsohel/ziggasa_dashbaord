@@ -1,11 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { blogModel } from "./model";
-import { baseAxios } from "../../services";
-import { notify } from "../../utils/custom/Notification";
-import { convertQueryString } from "../../utils/utility";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { blogModel } from './model';
+import { baseAxios } from '../../services';
+import { notify } from '../../utils/custom/Notification';
+import { convertQueryString } from '../../utils/utility';
 
 //Get List Data by Query
-export const getBlogs = createAsyncThunk("blog/getBlogs", async (data) => {
+export const getBlogs = createAsyncThunk('blog/getBlogs', async (data) => {
   const { query, filterObj } = data;
   // console.log("filter", filter);
   const apiEndpoint = `/blog?${convertQueryString(query)}`;
@@ -14,16 +14,16 @@ export const getBlogs = createAsyncThunk("blog/getBlogs", async (data) => {
     return response.data;
   } catch (error) {
     if (error.response) {
-      notify("warning", error.response.data.error);
+      notify('warning', error.response.data.error);
     } else {
-      notify("error", "An error occurred");
+      notify('error', 'An error occurred');
     }
     throw error;
   }
 });
 
 const blogSlice = createSlice({
-  name: "blog",
+  name: 'blog',
   initialState: {
     dataProgress: false,
     submitUserDataProgress: false,
@@ -35,7 +35,15 @@ const blogSlice = createSlice({
     queryObj: {},
     loading: false,
   },
-  reducers: {},
+  reducers: {
+    bindBlog: (state, action) => {
+      if (action.payload) {
+        state.blog = action.payload;
+      } else {
+        state.blog = blogModel;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getBlogs.fulfilled, (state, action) => {
       // "total": 25,
@@ -55,5 +63,7 @@ const blogSlice = createSlice({
     });
   },
 });
+
+export const {bindBlog}=blogSlice.actions;
 
 export default blogSlice.reducer;

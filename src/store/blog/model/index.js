@@ -2,6 +2,7 @@ export const blogModel = {
   title: '',
   slug: '',
   category: [],
+  subCategory: [],
   tag: [],
   details: '',
   qualifications: '',

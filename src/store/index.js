@@ -1,12 +1,13 @@
 /** @format */
 
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import auth from "./auth/reducers";
-import users from "./user";
-import blogs from "./blog";
+import auth from './auth/reducers';
+import users from './user';
+import blogs from './blog';
+import category from './category';
 
-import basicReducers from "./basic/reducers";
+import basicReducers from './basic/reducers';
 
 import {
   persistReducer,
@@ -16,14 +17,15 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 const rootReducer = combineReducers({
   auth,
   basicReducers,
   users,
   blogs,
+  category,
 });
 
 // const middleware = [thunk, createDebounce()];
@@ -37,10 +39,10 @@ const rootReducer = combineReducers({
 //     : [thunk, createDebounce()];
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   version: 1,
   storage,
-  whitelist: ["auth", "productCarts"],
+  whitelist: ['auth', 'productCarts'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -56,7 +58,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
       immutableCheck: {
-        ignoredPaths: ["propertyReducers"],
+        ignoredPaths: ['propertyReducers'],
       },
     }),
 

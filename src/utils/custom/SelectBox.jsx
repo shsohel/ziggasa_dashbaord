@@ -1,9 +1,9 @@
 /** @format */
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 // import { selectThemeColors } from "utils/utolity";
-import Select from "react-select";
-import { cn } from "../utility";
+import Select from 'react-select';
+import { cn, selectThemeColors } from '../utility';
 const SelectBox = (props) => {
   const {
     id,
@@ -20,20 +20,22 @@ const SelectBox = (props) => {
   return (
     <>
       <div>
-        {label && <label className="text-sm mb-2">{label}</label>}
+        {label && <label className="text-sm font-bold mb-2">{label}</label>}
         <Select
           classNames={{
             control: (state) =>
               state.isFocused
-                ? "border border-primary"
+                ? 'border border-primary'
                 : invalid
-                ? " border-red-600 "
-                : " ",
+                ? ' border-red-600 '
+                : ' ',
+            menu: () => 'text-primary font-bold',
+            // menuList: () => 'bg-red-600',
 
             // control: () => (invalid ? ' border-red-600 ' : ''),
           }}
           className={cn(classNames)}
-          // classNamePrefix="react-select"
+          //  classNamePrefix="react-select"
           // theme={selectThemeColors}
           menuPlacement="auto"
           menuPosition="fixed"
@@ -58,11 +60,11 @@ const SelectBox = (props) => {
 export default SelectBox;
 // ** Default Props
 SelectBox.defaultProps = {
-  id: "input-selet",
+  id: 'input-selet',
   invalid: false,
   invalidMassage: null,
-  name: "select",
-  classNames: "",
+  name: 'select',
+  classNames: '',
   value: null,
   //   label: "Button",
 };

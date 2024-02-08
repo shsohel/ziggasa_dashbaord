@@ -17,6 +17,9 @@ import {
   DocumentChartBarIcon,
   DocumentCheckIcon,
 } from '@heroicons/react/24/outline';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindCategoryDropdown } from '../../../store/category';
+import { bindBlog } from '../../../store/blog';
 const defaultTabs = [
   {
     id: 'description',
@@ -42,8 +45,25 @@ const defaultTabs = [
 ];
 
 const AddNewBlog = () => {
+  const dispatch = useDispatch();
+  const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
+    ({ category }) => category
+  );
+  const { blog } = useSelector(({ blogs }) => blogs);
   const [blogDetails, setBlogDetails] = useState('');
   const [isOpenFileUploadModal, setIsOpenFileUploadModal] = useState(false);
+
+  const { category } = blog;
+
+  const handleDropdown = (data, e) => {
+    const { name } = e;
+    const updatedBlog = {
+      ...blog,
+      [name]: data,
+    };
+
+    dispatch(bindBlog(updatedBlog));
+  };
 
   const handleTextEditorOnChange = (e) => {
     const { name, value } = e.target;
@@ -74,14 +94,22 @@ const AddNewBlog = () => {
           <HorizontalTab defaultTabs={defaultTabs} />
         </div>
         <div className="lg:col-span-3 ">
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-6 ">
             <SelectBox
               id="categoryId"
               classNames=""
+              isLoading={!isCategoryDropdownLoaded}
+              isMulti={true}
               name="category"
-              options={[]}
-              onChange={() => {}}
+              options={categoryDropdown}
+              value={category}
+              onChange={(data, e) => {
+                handleDropdown(data, e);
+              }}
               placeholder="Select Category"
+              onFocus={() => {
+                dispatch(bindCategoryDropdown());
+              }}
             />
             <SelectBox
               id="subCategoryId"
