@@ -2,57 +2,63 @@ import {
   BuildingStorefrontIcon,
   HomeIcon,
   LinkIcon,
-} from "@heroicons/react/24/outline";
+} from '@heroicons/react/24/outline';
 
 export const mainNavigation = [
   {
-    title: "Main",
+    title: 'Main',
     navigation: [
-      { name: "Dashboard", href: "/", icon: HomeIcon, current: true },
+      { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
     ],
   },
   {
-    title: "Manage List ",
+    title: 'Manage List ',
     navigation: [
       {
-        name: "Blogs",
-        href: "/blogs",
+        name: 'Categories',
+        href: '/categories',
         icon: LinkIcon,
         current: false,
       },
       {
-        name: "My Properties",
-        href: "/my-properties",
+        name: 'Blogs',
+        href: '/blogs',
         icon: LinkIcon,
         current: false,
       },
       {
-        name: "My Favorites",
-        href: "/dashboard/my-favorites",
+        name: 'My Properties',
+        href: '/my-properties',
         icon: LinkIcon,
         current: false,
       },
       {
-        name: "My save search",
-        href: "/my-save-search",
+        name: 'My Favorites',
+        href: '/dashboard/my-favorites',
         icon: LinkIcon,
         current: false,
       },
       {
-        name: "Reviews",
-        href: "/dashboard/review",
+        name: 'My save search',
+        href: '/my-save-search',
         icon: LinkIcon,
         current: false,
       },
       {
-        name: "Invoice",
-        href: "/invoice",
+        name: 'Reviews',
+        href: '/dashboard/review',
+        icon: LinkIcon,
+        current: false,
+      },
+      {
+        name: 'Invoice',
+        href: '/invoice',
         icon: LinkIcon,
         current: false,
         children: [
           {
-            name: "Reviews",
-            href: "/review",
+            name: 'Reviews',
+            href: '/review',
             icon: LinkIcon,
             current: false,
           },
@@ -61,29 +67,29 @@ export const mainNavigation = [
     ],
   },
   {
-    title: "Manage Account",
+    title: 'Manage Account',
     navigation: [
       {
-        name: "Users",
-        href: "/users",
+        name: 'Users',
+        href: '/users',
         icon: BuildingStorefrontIcon,
         current: false,
       },
       {
-        name: "My Package",
-        href: "/brand",
+        name: 'My Package',
+        href: '/brand',
         icon: BuildingStorefrontIcon,
         current: false,
       },
       {
-        name: "My Profile",
-        href: "/brand",
+        name: 'My Profile',
+        href: '/brand',
         icon: BuildingStorefrontIcon,
         current: false,
       },
       {
-        name: "Logout",
-        href: "/brand",
+        name: 'Logout',
+        href: '/brand',
         icon: BuildingStorefrontIcon,
         current: false,
       },

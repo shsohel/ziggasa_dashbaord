@@ -7,7 +7,7 @@ const FormLayout = (props) => {
           <h2>{title}</h2>
         </div>
 
-        <div>
+        <div className="flex gap-3">
           {actions.map((action) => {
             return <div key={action.id}>{action.button}</div>;
           })}

@@ -1,24 +1,16 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { RxCross1 } from 'react-icons/rx';
-// import { XMarkIcon } from '@heroicons/react/24/outline';
+
+import PropTypes from 'prop-types';
 
 const Sidebar = (props) => {
-  const {
-    children,
-    FooterComponent,
-    handleSidebarModal,
-    title,
-    isOpen = false,
-  } = props;
+  const { children, FooterComponent, handleSidebarModal, title, isOpen } =
+    props;
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-50 dark:text-white"
-        onClose={handleSidebarModal}
-      >
+      <Dialog as="div" className="relative z-10" onClose={handleSidebarModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -45,11 +37,11 @@ const Sidebar = (props) => {
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl dark:bg-secondary">
+                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
                       <div className=" border-b pb-1">
                         <div className="flex items-center justify-between">
-                          <Dialog.Title className=" text-lg font-medium dark:text-white">
+                          <Dialog.Title className=" text-lg font-medium text-secondary ">
                             {title}
                           </Dialog.Title>
                           <div className="ml-3 flex h-7 items-center">
@@ -83,3 +75,21 @@ const Sidebar = (props) => {
   );
 };
 export default Sidebar;
+// ** Default Props
+Sidebar.defaultProps = {
+  FooterComponent: null,
+  children: null,
+  title: 'Default Title',
+  isOpen: false,
+
+  //   label: "Button",
+};
+
+// ** PropTypes
+Sidebar.propTypes = {
+  isOpen: PropTypes.bool,
+  FooterComponent: PropTypes.node,
+  children: PropTypes.node,
+  title: PropTypes.string.isRequired,
+  handleSidebarModal: PropTypes.func,
+};

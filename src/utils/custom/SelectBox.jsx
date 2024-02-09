@@ -29,8 +29,8 @@ const SelectBox = (props) => {
                 : invalid
                 ? ' border-red-600 '
                 : ' ',
-            menu: () => 'text-primary font-bold',
-            // menuList: () => 'bg-red-600',
+            menu: () => 'text-primary font-bold ',
+            // menuList: () => 'bg-red-600 ',
 
             // control: () => (invalid ? ' border-red-600 ' : ''),
           }}
@@ -39,7 +39,7 @@ const SelectBox = (props) => {
           // theme={selectThemeColors}
           menuPlacement="auto"
           menuPosition="fixed"
-          menuPortalTarget={document.body}
+          // menuPortalTarget={document.body}
           id={id}
           instanceId={id}
           isClearable
