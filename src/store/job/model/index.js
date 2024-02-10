@@ -1,0 +1,16 @@
+export const jobModel = {
+  title: '',
+  slug: '',
+  category: [],
+  subCategory: [],
+  tag: [],
+  details: '',
+  qualifications: '',
+  responsibilities: '',
+  keyword: [],
+  metaDescription: '',
+  metaTitle: '',
+  author: '',
+  featuredImageUrl: '',
+  isActive: true,
+};

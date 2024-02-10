@@ -2,7 +2,7 @@ import { Button } from '../../../utils/custom/Button';
 import FormLayout from '../../../utils/custom/FormLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getBlogs } from '../../../store/blog';
+import { getJobs } from '../../../store/job';
 import DataTable from 'react-data-table-component';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import Pagination from '../../../utils/custom/Pagination';
@@ -10,10 +10,10 @@ import moment from 'moment';
 import { tableCustomStyles } from '../../../utils/utility';
 import { useNavigate } from 'react-router-dom';
 
-const Blogs = () => {
+const Jobs = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { blogs, loading, total } = useSelector(({ blog }) => blog);
+  const { jobs, job, loading, total } = useSelector(({ job }) => job);
   const [rowPerPage, setRowPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [orderBy, setOrderBy] = useState('desc');
@@ -22,27 +22,27 @@ const Blogs = () => {
     title: '',
   });
 
-  const getAllBlogs = useCallback(() => {
-    const query = {
+  const getAllJobs = useCallback(() => {
+    const queryParams = {
       page: currentPage,
       limit: rowPerPage,
       sort: sortedBy,
       orderBy: orderBy,
     };
     const data = {
-      query,
-      filterObj,
+      queryParams,
+      queryObj: filterObj,
     };
-    dispatch(getBlogs(data));
+    dispatch(getJobs(data));
   }, [dispatch, rowPerPage, currentPage, orderBy, sortedBy, filterObj]);
 
   useEffect(() => {
-    getAllBlogs();
+    getAllJobs();
     return () => {};
-  }, [dispatch, getAllBlogs]);
+  }, [dispatch, getAllJobs]);
 
   const handleNew = () => {
-    navigate('/blogs/new');
+    navigate('/jobs/new');
   };
 
   const actions = [
@@ -85,7 +85,7 @@ const Blogs = () => {
     );
   };
   return (
-    <FormLayout title="Blogs" actions={actions}>
+    <FormLayout title="Jobs" actions={actions}>
       <div>
         <div>
           <DataTable
@@ -98,7 +98,7 @@ const Blogs = () => {
                 <div>Loading</div>
               </div>
             }
-            data={blogs}
+            data={jobs}
             className="border "
             onChangeRowsPerPage={handlePerPage}
             onSort={handleSort}
@@ -169,4 +169,4 @@ const Blogs = () => {
   );
 };
 
-export default Blogs;
+export default Jobs;

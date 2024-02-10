@@ -15,8 +15,26 @@ export const mainNavigation = [
     title: 'Manage List ',
     navigation: [
       {
-        name: 'Categories',
+        name: 'Category',
         href: '/categories',
+        icon: LinkIcon,
+        current: false,
+      },
+      {
+        name: 'Tag',
+        href: '/tags',
+        icon: LinkIcon,
+        current: false,
+      },
+      {
+        name: 'Keyword',
+        href: '/keywords',
+        icon: LinkIcon,
+        current: false,
+      },
+      {
+        name: 'Jobs',
+        href: '/jobs',
         icon: LinkIcon,
         current: false,
       },

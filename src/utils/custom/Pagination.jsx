@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import ReactPaginate from "react-paginate";
+import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 export default function Pagination({
   total,
   handlePagination,
@@ -41,12 +41,12 @@ export default function Pagination({
         </select>
       </div>
       <ReactPaginate
-        className="flex items-center"
-        nextClassName="border uppercase p-1 hover:text-light hover:bg-secondary"
-        previousClassName="border  uppercase p-1 hover:text-light hover:bg-secondary"
-        activeClassName="bg-primary text-light  uppercase"
+        className="flex items-center "
+        nextClassName="border uppercase p-1 hover:text-light hover:bg-secondary rounded-r"
+        previousClassName="border  uppercase p-1 hover:text-light hover:bg-secondary rounded-l"
+        activeClassName="bg-primary text-light"
         disabledClassName="bg-gray-400 text-gray-600 pointer-events-none"
-        pageClassName="border min-w-[2rem] justify-self-center text-center p-1 hover:text-light hover:bg-secondary"
+        pageClassName="border px-3 justify-self-center text-center p-1 hover:text-light hover:bg-secondary"
         breakLabel="..."
         nextLabel=">"
         onPageChange={handlePageClick}

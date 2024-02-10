@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
 import RichEditor from '../../../utils/custom/Editor';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindJob } from '../../../store/job';
 
 const JobQualifications = () => {
-  const [blogDetails, setBlogDetails] = useState('');
+  const dispatch = useDispatch();
+  const { job } = useSelector(({ job }) => job);
+  const { qualifications } = job;
+
   const handleTextEditorOnChange = (e) => {
     const { name, value } = e.target;
-    setBlogDetails(value);
+    const updated = {
+      ...job,
+      [name]: value,
+    };
+    dispatch(bindJob(updated));
   };
   return (
     <RichEditor
       id="job-qualifications"
-      name="jobQualifications"
-      value={blogDetails}
+      name="qualifications"
+      value={qualifications}
       onTextEditorChange={(e) => {
         handleTextEditorOnChange(e);
       }}

@@ -4,47 +4,30 @@ import Sidebar from '../../../utils/custom/Sidebar';
 import InputBox from '../../../utils/custom/InputBox';
 import SelectBox from '../../../utils/custom/SelectBox';
 import {
-  addCategory,
-  bindCategory,
-  bindCategoryDropdown,
-  bindCategorySidebar,
-  getCategories,
-  updateCategory,
-} from '../../../store/category';
+  addTag,
+  bindTag,
+  bindTagDropdown,
+  bindTagSidebar,
+  getTags,
+  updateTag,
+} from '../../../store/tag';
 import TextArea from '../../../utils/custom/TextAreaBox';
 import { Button } from '../../../utils/custom/Button';
 import { HttpStatusCode } from 'axios';
 
-const CategoryModal = () => {
+const TagModal = () => {
   const dispatch = useDispatch();
-  const {
-    categoryDropdown,
-    isCategoryDropdownLoaded,
-    category,
-    categorySidebarOpen,
-    loading,
-    total,
-    queryParams,
-    queryObj,
-  } = useSelector(({ category }) => category);
-  const { name, description, parentCategory, id } = category;
+  const { tag, tagSidebarOpen, loading, total, queryParams, queryObj } =
+    useSelector(({ tag }) => tag);
+  const { name, descriptions, parentTag, id } = tag;
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     const updated = {
-      ...category,
+      ...tag,
       [name]: value,
     };
-    dispatch(bindCategory(updated));
-  };
-
-  const handleDropdownOnChange = (data, e) => {
-    const { name } = e;
-    const updated = {
-      ...category,
-      [name]: data,
-    };
-    dispatch(bindCategory(updated));
+    dispatch(bindTag(updated));
   };
 
   const onSubmit = () => {
@@ -55,36 +38,33 @@ const CategoryModal = () => {
     const obj = {
       id,
       name,
-      description,
-      parentCategory: parentCategory?.value ?? '',
-      isParent: parentCategory ? false : true,
+      descriptions,
       isActive: true,
     };
-    !parentCategory && delete obj.parentCategory;
 
     if (id) {
-      dispatch(updateCategory(obj)).then((response) => {
+      dispatch(updateTag(obj)).then((response) => {
         const { payload } = response;
         if (payload.status === HttpStatusCode.Created) {
-          dispatch(getCategories(data));
+          dispatch(getTags(data));
         }
       });
     } else {
-      dispatch(addCategory(obj)).then((response) => {
+      dispatch(addTag(obj)).then((response) => {
         const { payload } = response;
         if (payload.status === HttpStatusCode.Created) {
-          dispatch(getCategories(data));
+          dispatch(getTags(data));
         }
       });
     }
   };
 
   const handleClose = () => {
-    dispatch(bindCategorySidebar(false));
+    dispatch(bindTagSidebar(false));
   };
   return (
     <Sidebar
-      isOpen={categorySidebarOpen}
+      isOpen={tagSidebarOpen}
       handleSidebarModal={handleClose}
       FooterComponent={
         <div className="p-3">
@@ -109,27 +89,13 @@ const CategoryModal = () => {
         <TextArea
           labelClass="font-bold"
           label="Description"
-          name="description"
-          value={description}
+          name="descriptions"
+          value={descriptions}
           onChange={handleOnChange}
-        />
-        <SelectBox
-          id="category"
-          name="parentCategory"
-          isLoading={!isCategoryDropdownLoaded}
-          label="Category"
-          options={categoryDropdown}
-          value={parentCategory}
-          onChange={(data, e) => {
-            handleDropdownOnChange(data, e);
-          }}
-          onFocus={() => {
-            dispatch(bindCategoryDropdown());
-          }}
         />
       </div>
     </Sidebar>
   );
 };
 
-export default CategoryModal;
+export default TagModal;

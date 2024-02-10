@@ -41,6 +41,10 @@ import ConfirmedUser from '../pages/auth/ConfirmedUser';
 import Blogs from '../pages/blogs/list';
 import AddNewBlog from '../pages/blogs/form/AddNewBlog';
 import Categories from '../pages/category/list';
+import Tags from '../pages/tag/list';
+import Keywords from '../pages/keyword/list';
+import Jobs from '../pages/job/list';
+import AddNewJob from '../pages/job/form/AddNewJob';
 
 const appRoutes = [
   {
@@ -88,11 +92,29 @@ const appRoutes = [
             component: Categories,
             path: '/categories',
           },
+        ],
+      },
+      {
+        name: 'tag',
+        title: 'Tag',
+        routes: [
           {
-            name: 'list-Categories-new',
-            title: 'List of Categories',
-            component: AddNewBlog,
-            path: '/categories/new',
+            name: 'list-tag',
+            title: 'List of Tags',
+            component: Tags,
+            path: '/tags',
+          },
+        ],
+      },
+      {
+        name: 'keyword',
+        title: 'Keywords',
+        routes: [
+          {
+            name: 'list-keyword',
+            title: 'List of Keywords',
+            component: Keywords,
+            path: '/keywords',
           },
         ],
       },
@@ -111,6 +133,24 @@ const appRoutes = [
             title: 'List of Blogs',
             component: AddNewBlog,
             path: '/blogs/new',
+          },
+        ],
+      },
+      {
+        name: 'jobs',
+        title: 'Jobs',
+        routes: [
+          {
+            name: 'list-jobs',
+            title: 'List of Jobs',
+            component: Jobs,
+            path: '/jobs',
+          },
+          {
+            name: 'list-blogs',
+            title: 'List of Jobs',
+            component: AddNewJob,
+            path: '/jobs/new',
           },
         ],
       },

@@ -10,10 +10,15 @@ import { tableCustomStyles } from '../../../utils/utility';
 import { useNavigate } from 'react-router-dom';
 import {
   bindCategorySidebar,
+  deleteCategory,
   getCategories,
   getCategory,
 } from '../../../store/category';
 import CategoryModal from '../form/CategoryForm';
+import { HttpStatusCode } from 'axios';
+import { confirmDialog } from '../../../utils/custom/ConfirmDialogBox';
+import { confirmObj } from '../../../utils/enum';
+import ListLoader from '../../../utils/custom/ListLoader';
 
 const Categories = () => {
   const dispatch = useDispatch();
@@ -30,15 +35,15 @@ const Categories = () => {
   });
 
   const getAllCategories = useCallback(() => {
-    const query = {
+    const queryParams = {
       page: currentPage,
       limit: rowPerPage,
       sort: sortedBy,
       orderBy: orderBy,
     };
     const data = {
-      query,
-      filterObj,
+      queryParams,
+      queryObj: filterObj,
     };
     dispatch(getCategories(data));
   }, [dispatch, rowPerPage, currentPage, orderBy, sortedBy, filterObj]);
@@ -90,6 +95,19 @@ const Categories = () => {
     setCurrentPage(page);
   };
 
+  const handleDelete = (id) => {
+    confirmDialog(confirmObj).then(async (e) => {
+      if (e.isConfirmed) {
+        dispatch(deleteCategory(id)).then((response) => {
+          const { payload } = response;
+          if (payload.status === HttpStatusCode.Ok) {
+            getAllCategories();
+          }
+        });
+      }
+    });
+  };
+
   const paginationComponent = (data) => {
     const { rowCount, paginationRowsPerPageOptions } = data;
     return (
@@ -114,16 +132,12 @@ const Categories = () => {
             persistTableHead
             dense
             progressPending={loading}
-            progressComponent={
-              <div className="w-full">
-                <div>Loading</div>
-              </div>
-            }
+            progressComponent={<ListLoader rowLength={5} colLength={9} />}
             data={categories}
             className="border "
             onChangeRowsPerPage={handlePerPage}
             onSort={handleSort}
-            onChangePage={handlePagination}
+            // onChangePage={handlePagination}
             paginationServer
             sortServer
             defaultSortAsc
@@ -137,7 +151,7 @@ const Categories = () => {
                   <div className="flex justify-between">
                     <FaTrashAlt
                       onClick={() => {
-                        // dispatch(deleteUser(row));
+                        handleDelete(row.id);
                       }}
                       size={16}
                       className="mr-3 cursor-pointer fill-red-600"

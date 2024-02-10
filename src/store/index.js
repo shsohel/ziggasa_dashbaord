@@ -4,8 +4,12 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import auth from './auth/reducers';
 import users from './user';
-import blogs from './blog';
+import blog from './blog';
 import category from './category';
+import tag from './tag';
+import keyword from './keyword';
+import job from './job';
+import file from './file-upload';
 
 import basicReducers from './basic/reducers';
 
@@ -24,8 +28,12 @@ const rootReducer = combineReducers({
   auth,
   basicReducers,
   users,
-  blogs,
+  blog,
+  job,
   category,
+  tag,
+  keyword,
+  file,
 });
 
 // const middleware = [thunk, createDebounce()];
@@ -56,6 +64,11 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        // ignoredActionPaths: [
+        //   'meta.arg',
+        //   'payload.timestamp',
+        //   'payload.headers',
+        // ],
       },
       // immutableCheck: {
       //   ignoredPaths: ['propertyReducers'],
