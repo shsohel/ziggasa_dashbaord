@@ -33,6 +33,7 @@ const TextArea = (props) => {
         onChange={onChange}
         className={cn("block  w-full border-gray-300 rounded-md", classNames, {
           "border-rose-500": invalid,
+          "bg-mute": disabled,
         })}
         {...restProps}
       />

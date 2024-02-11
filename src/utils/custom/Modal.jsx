@@ -1,6 +1,6 @@
-import { Fragment, useRef } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { RxCross1 } from 'react-icons/rx';
+import { Fragment, useRef } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { RxCross1 } from "react-icons/rx";
 
 const Modal = (props) => {
   const {
@@ -9,22 +9,22 @@ const Modal = (props) => {
     openModal,
     FooterComponent,
     title,
-    size = 'sm',
+    size = "sm",
     onClose,
   } = props;
 
   const cancelButtonRef = useRef(null);
 
   const getWidth = () => {
-    let widthStyle = '';
-    if (size === 'sm') {
-      widthStyle = 'max-w-xl';
-    } else if (size === 'md') {
-      widthStyle = 'max-w-2xl';
-    } else if (size === 'lg') {
-      widthStyle = 'max-w-4xl';
+    let widthStyle = "";
+    if (size === "sm") {
+      widthStyle = "max-w-xl";
+    } else if (size === "md") {
+      widthStyle = "max-w-2xl";
+    } else if (size === "lg") {
+      widthStyle = "max-w-4xl";
     } else {
-      widthStyle = 'max-w-full';
+      widthStyle = "max-w-full";
     }
     return widthStyle;
   };
@@ -66,7 +66,7 @@ const Modal = (props) => {
               <Dialog.Panel
                 className={`mx-4 block w-full transform  text-left text-base transition md:my-1  md:px-4 ${getWidth()} `}
               >
-                <div className=" w-full overflow-hidden bg-white text-dark px-4 pt-4 pb-4 shadow-2xl ">
+                <div className=" w-full overflow-hidden  bg-white text-dark px-4 pt-4 pb-4 shadow-2xl ">
                   <div className="flex  w-full place-items-center justify-between  border-b">
                     <Dialog.Title className="py-2 text-sm font-medium text-gray-700">
                       {title}
@@ -78,10 +78,10 @@ const Modal = (props) => {
                       aria-hidden="true"
                     />
                   </div>
-                  <div className="max-h-[28rem] min-h-[9rem] overflow-y-auto py-2 md:overflow-y-hidden">
+                  <div className="max-h-[28rem] min-h-[9rem] custom-scrollbar overflow-y-auto py-2 md:overflow-y-hidden">
                     {children}
                   </div>
-                  <div className="border-t">{FooterComponent}</div>
+                  <div className="border-t py-2">{FooterComponent}</div>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./src/**/*.{html,js,jsx}"],
   theme: {
     screens: {
       sm: "576px",
@@ -24,6 +24,7 @@ export default {
         danger: "#dc3545",
         light: "#f8f9fa",
         dark: "#252525",
+        mute: "#E9EEF1",
         "txt-mute": "#ababab",
         "mute-200": "#696969",
         // gray: '#696969',
@@ -36,9 +37,10 @@ export default {
   },
   plugins: [
     require("@tailwindcss/forms"),
+    require("tailwind-scrollbar")({ nocompatible: true }),
     // require('tailwindcss-animate'),
     //   require('@tailwindcss/typography'),
     //   require('@tailwindcss/forms'),
-    //   require('@tailwindcss/aspect-ratio'),
+    // require("@tailwindcss/aspect-ratio"),
   ],
 };

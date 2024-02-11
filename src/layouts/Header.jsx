@@ -27,11 +27,11 @@ const Header = (props) => {
     <>
       {/* SidebarNav  for Mobile */}
       <SidebarNav onHandleSidebar={onSidebar} isOpen={sidebarOpen}>
-        <div className="flex flex-shrink-0 items-center bg-white px-4">
+        <div className="flex flex-shrink-0 items-center text-dark ">
           {/* <Logo /> */}
           Logo
         </div>
-        <div className="mt-5 h-0 flex-1 overflow-y-auto">
+        <div className="mt-5 h-0 flex-1 custom-scrollbar overflow-y-auto">
           <nav className="px-2">
             <div className="space-y-1">
               {mainNavigation.map((nav, index) => (

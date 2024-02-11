@@ -45,7 +45,7 @@ body {
   }
 }
 
-@layer components {
+/* @layer components {
   .size-selector input:checked + label {
     @apply bg-primary text-white;
   }
@@ -53,5 +53,10 @@ body {
 @layer components {
   .color-selector input:checked + label {
     @apply ring-2 ring-primary;
+  }
+} */
+@layer components {
+  .custom-scrollbar  {
+    @apply scrollbar-thumb-rounded-xl scrollbar-thin scrollbar-h-11 scrollbar-thumb-primary scrollbar-track-slate-200 scrollbar-corner-rounded-md;
   }
 }

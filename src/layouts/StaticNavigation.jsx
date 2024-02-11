@@ -19,7 +19,7 @@ const StaticNavigation = (props) => {
           Logo
         </div>
         {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="mt-6 flex h-0 flex-1 flex-col overflow-y-auto">
+        <div className="mt-6 flex h-0 flex-1 flex-col custom-scrollbar overflow-y-auto">
           {/* User account dropdown */}
           <UserDropdown />
           {/* Sidebar Search */}

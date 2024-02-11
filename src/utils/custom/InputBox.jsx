@@ -38,6 +38,7 @@ const InputBox = (props) => {
           classNames,
           {
             "border-rose-500": invalid,
+            "bg-mute": disabled,
           },
         )}
         {...restProps}

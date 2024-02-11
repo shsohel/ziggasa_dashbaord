@@ -11,13 +11,17 @@ export const Button = (props) => {
     borderClass,
     textColor,
     mainClasses,
+    disabled,
     ...rest
   } = props;
   return (
     <button
       onClick={onClick}
       id={id}
-      className={`${mainClasses} ${borderClass} hover:${hoverText} hover:${hoverBg}   ${bgColor} ${textColor}`}
+      disabled={disabled}
+      className={`${mainClasses} ${borderClass} hover:${hoverText} hover:${hoverBg}   ${
+        disabled ? "bg-mute" : bgColor
+      } ${textColor}`}
       {...rest}
     >
       {name}
@@ -34,7 +38,8 @@ Button.defaultProps = {
   hoverText: "text-light",
   hoverBg: "bg-secondary",
   borderClass: "border",
-  mainClasses: "py-1 px-3 rounded text-sm font-semibold",
+  mainClasses:
+    "py-1 px-3 rounded text-sm font-semibold transition-all duration-500",
 };
 
 // ** PropTypes
