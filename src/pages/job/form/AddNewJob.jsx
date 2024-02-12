@@ -1,46 +1,48 @@
-import { useState } from 'react';
-import { Button } from '../../../utils/custom/Button';
-import RichEditor from '../../../utils/custom/Editor';
-import FormLayout from '../../../utils/custom/FormLayout';
-import InputBox from '../../../utils/custom/InputBox';
-import SelectBox from '../../../utils/custom/SelectBox';
-import TextArea from '../../../utils/custom/TextAreaBox';
+import { useState } from "react";
+import { Button } from "../../../utils/custom/Button";
+import RichEditor from "../../../utils/custom/Editor";
+import FormLayout from "../../../utils/custom/FormLayout";
+import InputBox from "../../../utils/custom/InputBox";
+import SelectBox from "../../../utils/custom/SelectBox";
+import TextArea from "../../../utils/custom/TextAreaBox";
 
-import FileUpload from './FileUpload';
+import FileUpload from "./FileUpload";
 
-import JobDescriptions from './JobDescriptions';
-import HorizontalTab from '../../../utils/custom/HorizontalTab';
-import JobQualifications from './JobQualifications';
-import JobResponsibilities from './JobResponsibilities';
+import JobDescriptions from "./JobDescriptions";
+import HorizontalTab from "../../../utils/custom/HorizontalTab";
+import JobQualifications from "./JobQualifications";
+import JobResponsibilities from "./JobResponsibilities";
 import {
   DocumentTextIcon,
   DocumentChartBarIcon,
   DocumentCheckIcon,
-} from '@heroicons/react/24/outline';
-import { useDispatch, useSelector } from 'react-redux';
-import { bindCategoryDropdown } from '../../../store/category';
-import { bindJob } from '../../../store/job';
-import { bindTagDropdown } from '../../../store/tag';
-import { bindKeywordDropdown } from '../../../store/keyword';
-import { getFilesByQuery } from '../../../store/file-upload';
+} from "@heroicons/react/24/outline";
+import { useDispatch, useSelector } from "react-redux";
+import { bindCategoryDropdown } from "../../../store/category";
+import { bindJob } from "../../../store/job";
+import { bindTagDropdown } from "../../../store/tag";
+import { bindKeywordDropdown } from "../../../store/keyword";
+import { getFilesByQuery } from "../../../store/file-upload";
+import { uploadUrl } from "../../../services";
+import { replaceImage } from "../../../utils/utility";
 const defaultTabs = [
   {
-    id: 'description',
-    title: 'Description',
+    id: "description",
+    title: "Description",
     icon: <DocumentTextIcon className="me-2 h-4 w-4" aria-hidden="true" />,
     component: <JobDescriptions />,
     isActive: true,
   },
   {
-    id: 'qualifications',
-    title: 'Qualifications',
+    id: "qualifications",
+    title: "Qualifications",
     icon: <DocumentCheckIcon className="me-2 h-4 w-4" aria-hidden="true" />,
     component: <JobQualifications />,
     isActive: false,
   },
   {
-    id: 'responsibilities',
-    title: 'Responsibilities',
+    id: "responsibilities",
+    title: "Responsibilities",
     icon: <DocumentChartBarIcon className="me-2 h-4 w-4" aria-hidden="true" />,
     component: <JobResponsibilities />,
     isActive: false,
@@ -50,14 +52,14 @@ const defaultTabs = [
 const AddNewJob = () => {
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category
+    ({ category }) => category,
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword
+    ({ keyword }) => keyword,
   );
   const { job } = useSelector(({ job }) => job);
-  const [jobDetails, setJobDetails] = useState('');
+  const [jobDetails, setJobDetails] = useState("");
   const [isOpenFileUploadModal, setIsOpenFileUploadModal] = useState(false);
 
   const {
@@ -72,6 +74,10 @@ const AddNewJob = () => {
     metaTitle,
     author,
     featuredImageUrl,
+    featuredImageTitle,
+    featuredImageCaptions,
+    featuredImageDescriptions,
+    featuredImageAltText,
     isActive,
   } = job;
 
@@ -98,18 +104,67 @@ const AddNewJob = () => {
     const queryParams = {
       page: 1,
       limit: 10,
-      sort: 'createdAt',
-      orderBy: 'asc',
+      sort: "createdAt",
+      orderBy: "desc",
     };
     dispatch(getFilesByQuery({ queryParams }));
     setIsOpenFileUploadModal((prev) => !prev);
   };
-  const handleFileUploadSubmit = () => {};
+  const handleModalClose = () => {
+    setIsOpenFileUploadModal((prev) => !prev);
+  };
+  const handleFileUploadSubmit = (file) => {
+    if (file) {
+      const { title, descriptions, altText, fileUrl, captions } = file;
+      const updatedJob = {
+        ...job,
+        featuredImageUrl: fileUrl,
+        featuredImageTitle: title,
+        featuredImageCaptions: captions,
+        featuredImageDescriptions: descriptions,
+        featuredImageAltText: altText,
+      };
+
+      dispatch(bindJob(updatedJob));
+      setIsOpenFileUploadModal((prev) => !prev);
+    }
+  };
+
+  const onSubmit = () => {
+    const obj = {
+      title,
+      category: category.map((cat) => cat.value),
+      tag: tag.map((t) => t.value),
+      keyword: keyword.map((t) => t.value),
+      details,
+      qualifications,
+      responsibilities,
+      metaDescription,
+      metaTitle,
+      // author,
+      featuredImageUrl,
+      featuredImageTitle,
+      featuredImageCaptions,
+      featuredImageDescriptions,
+      featuredImageAltText,
+      isActive,
+    };
+    console.log(obj);
+  };
+
   const actions = [
     {
-      id: '1',
-      name: 'new-button',
-      button: <Button id="save-button" name="Save" onClick={() => {}} />,
+      id: "1",
+      name: "new-button",
+      button: (
+        <Button
+          id="save-button"
+          name="Save"
+          onClick={() => {
+            onSubmit();
+          }}
+        />
+      ),
     },
   ];
 
@@ -125,10 +180,46 @@ const AddNewJob = () => {
         }}
       />
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
-        <div className="lg:col-span-6">
+        <div className="lg:col-span-7">
           <HorizontalTab defaultTabs={defaultTabs} />
+          <div>
+            <InputBox
+              classNames="my-3"
+              name="metaTitle"
+              placeholder="SEO Title"
+              value={metaTitle}
+              onChange={(e) => {
+                handleOnChange(e);
+              }}
+            />
+            <TextArea
+              classNames="my-3 "
+              name="metaDescription"
+              placeholder="SEO Descriptions"
+              value={metaDescription}
+              onChange={(e) => {
+                handleOnChange(e);
+              }}
+            />
+            <SelectBox
+              id="keywordId"
+              classNames=""
+              isMulti={true}
+              name="keyword"
+              isLoading={!isKeywordDropdownLoaded}
+              options={keywordDropdown}
+              value={keyword}
+              onChange={(data, e) => {
+                handleDropdown(data, e);
+              }}
+              placeholder="Select Keyword"
+              onFocus={() => {
+                dispatch(bindKeywordDropdown());
+              }}
+            />
+          </div>
         </div>
-        <div className="lg:col-span-3 ">
+        <div className="lg:col-span-2 ">
           <div className="grid grid-cols-1 gap-6 ">
             <SelectBox
               id="categoryId"
@@ -170,10 +261,19 @@ const AddNewJob = () => {
                 dispatch(bindTagDropdown());
               }}
             />
-            <div className="border rounded-md min-h-[200px]"></div>
+            <div className="border rounded-md min-h-[200px]">
+              <img
+                id="uploaded-image"
+                width={200}
+                height={200}
+                className="object-cover object-top w-[350px] h-[200px]  p-1   "
+                src={`${uploadUrl}/${featuredImageUrl ?? ""}`}
+                onError={replaceImage}
+              />
+            </div>
             <Button
               id="upload-id"
-              name="Upload"
+              name="Feature Image"
               onClick={() => {
                 handleUploadModalOpen();
               }}
@@ -182,45 +282,13 @@ const AddNewJob = () => {
         </div>
       </div>
 
-      <InputBox
-        classNames="my-3"
-        name="metaTitle"
-        placeholder="SEO Title"
-        value={metaTitle}
-        onChange={(e) => {
-          handleOnChange(e);
-        }}
-      />
-      <TextArea
-        classNames="my-3 "
-        name="metaDescription"
-        placeholder="SEO Descriptions"
-        value={metaDescription}
-        onChange={(e) => {
-          handleOnChange(e);
-        }}
-      />
-      <SelectBox
-        id="keywordId"
-        classNames=""
-        isMulti={true}
-        name="keyword"
-        isLoading={!isKeywordDropdownLoaded}
-        options={keywordDropdown}
-        value={keyword}
-        onChange={(data, e) => {
-          handleDropdown(data, e);
-        }}
-        placeholder="Select Keyword"
-        onFocus={() => {
-          dispatch(bindKeywordDropdown());
-        }}
-      />
-      <FileUpload
-        isOpen={isOpenFileUploadModal}
-        onClose={handleUploadModalOpen}
-        onSubmit={handleFileUploadSubmit}
-      />
+      {isOpenFileUploadModal && (
+        <FileUpload
+          isOpen={isOpenFileUploadModal}
+          onClose={handleModalClose}
+          onSubmit={handleFileUploadSubmit}
+        />
+      )}
     </FormLayout>
   );
 };

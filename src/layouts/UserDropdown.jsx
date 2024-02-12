@@ -10,6 +10,8 @@ import userAvatar from "../assets/images/agent-1.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../store/auth/actions";
+import { uploadUrl } from "../services";
+import { replaceImage } from "../utils/utility";
 
 const UserDropdown = () => {
   const dispatch = useDispatch();
@@ -27,19 +29,22 @@ const UserDropdown = () => {
     dispatch(logout(handleCallback));
   };
 
+  console.log(authUser);
+
   return (
     <div>
       <Menu as="div" className="relative  lg:mt-2 lg:px-3">
         <div>
-          <Menu.Button className="group w-full rounded-md border text-left text-sm font-medium text-gray-700 focus:outline-none focus:ring-0 lg:bg-white lg:px-3.5 lg:py-2 lg:hover:bg-gray-200  ">
+          <Menu.Button className="group w-full rounded-md  md:border text-left text-sm font-medium text-gray-700 focus:outline-none focus:ring-0 lg:bg-white lg:px-3.5 lg:py-2 lg:hover:bg-gray-200  ">
             <span className="flex w-full items-center justify-between">
               <span className="flex min-w-0 items-center justify-between space-x-3">
                 <img
-                  className=" flex-shrink-0 rounded-full bg-gray-300"
-                  src={userAvatar}
+                  className=" flex-shrink-0 rounded-full h-10 w-10 bg-gray-300 object-cover object-center"
+                  src={`${uploadUrl}${authUser?.photoUrl}`}
                   alt=""
                   width={45}
                   height={45}
+                  onError={replaceImage}
                 />
                 <span className="hidden min-w-0 flex-1 flex-col lg:flex">
                   <span className="truncate text-sm font-medium text-gray-900">

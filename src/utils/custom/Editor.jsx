@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Editor } from "@tinymce/tinymce-react";
 import { useState } from "react";
 import { baseAxios, uploadUrl } from "../../services";
+import { apiEndpoints } from "../../services/apis";
 
 export default function RichEditor(props) {
   const { apiKey, id, name, value, onTextEditorChange } = props;
@@ -22,17 +23,17 @@ export default function RichEditor(props) {
   };
 
   const handleImageUpload = (file, success, failure, progress) => {
-    console.log(progress);
+    const apiEndPoint = `${apiEndpoints.file}/photo`;
     // Simulating an image upload using a Promise
     return new Promise((resolve, reject) => {
       const formData = new FormData();
       formData.append("file", file.blob(), file.filename());
 
       baseAxios
-        .post("/fileupload/photo", formData)
+        .post(apiEndPoint, formData)
         .then((response) => {
           const { data } = response;
-          console.log(data.data.fileUrl);
+
           // On successful upload, resolve the Promise with the image URL
           const imageUrl = `${uploadUrl}/${data.data.fileUrl}`; // Replace this with the actual URL returned from your server
           resolve(imageUrl);

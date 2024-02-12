@@ -1,8 +1,8 @@
 /* eslint-disable no-prototype-builtins */
-import { twMerge } from 'tailwind-merge';
-import defaultImage from '../assets/images/agent-1.jpg';
-import Cookies from 'js-cookies';
-import clsx from 'clsx';
+import { twMerge } from "tailwind-merge";
+import defaultImage from "../assets/images/placeholder.png";
+import Cookies from "js-cookies";
+import clsx from "clsx";
 export const imageLoader = ({ src, width, quality }) => {
   return `${src}?w=${width}&q=${quality || 75}`;
 };
@@ -17,10 +17,10 @@ export const replaceImage = (error) => {
 export const tableCustomStyles = {
   headCells: {
     style: {
-      backgroundColor: '#F3F4F6',
-      color: '#0F172A',
-      '&:hover': {
-        cursor: 'pointer',
+      backgroundColor: "#F3F4F6",
+      color: "#0F172A",
+      "&:hover": {
+        cursor: "pointer",
       },
     },
   },
@@ -67,34 +67,34 @@ export const arrayTypeQuery = (obj) => {
   // Constructing the query string
   const queryString = Object.entries(obj)
     .map(([key, value]) => {
-      if (key === 'sort' || key === 'page' || key === 'limit') {
+      if (key === "sort" || key === "page" || key === "limit") {
         // For 'sort', 'page', and 'limit', construct a single query parameter without 'regex'
         return `${key}=${encodeValue(value)}`;
       } else if (Array.isArray(value)) {
         // If the value is an array, construct multiple query parameters
-        return value.map((v) => `${key}[regex]=${encodeValue(v)}`).join('&');
-      } else if (typeof value === 'object' && value.operators) {
+        return value.map((v) => `${key}[regex]=${encodeValue(v)}`).join("&");
+      } else if (typeof value === "object" && value.operators) {
         // If the value is an object with 'operators' property, construct dynamic parameters
         const dynamicParams = Object.entries(value.operators)
           .map(([operator, operand]) => {
             // Exclude parameters with empty values or where the upper value is zero
             if (
-              operand === '' ||
-              (operator.toLowerCase().startsWith('lt') && operand == 0)
+              operand === "" ||
+              (operator.toLowerCase().startsWith("lt") && operand == 0)
             ) {
-              return '';
+              return "";
             }
             return `${key}[${operator}]=${encodeValue(operand)}`;
           })
           .filter(Boolean)
-          .join('&');
+          .join("&");
         return dynamicParams;
       } else {
         // For other types, construct a single query parameter
         return `${key}[regex]=${encodeValue(value)}`;
       }
     })
-    .join('&');
+    .join("&");
 
   // Constructing the final URL
   const url = `?${queryString}`;
@@ -107,7 +107,7 @@ export const cleanObj = (obj) => {
     if (
       obj[propName] === null ||
       obj[propName] === undefined ||
-      obj[propName] === ''
+      obj[propName] === ""
     ) {
       delete obj[propName];
     }
@@ -177,11 +177,11 @@ export const selectThemeColors = (theme) => ({
   ...theme,
   colors: {
     ...theme.colors,
-    primary25: '#7367f01a', // for option hover bg-color
-    primary: '#fff000', // for selected option bg-color
-    neutral10: '#fff000', // for tags bg-color
-    neutral20: '#fff000', // for input border-color
-    neutral30: '#fff000', // for input hover border-color
+    primary25: "#7367f01a", // for option hover bg-color
+    primary: "#fff000", // for selected option bg-color
+    neutral10: "#fff000", // for tags bg-color
+    neutral20: "#fff000", // for input border-color
+    neutral30: "#fff000", // for input hover border-color
   },
 });
 
@@ -199,7 +199,7 @@ export const capitalizeAndSpace = (str) => {
   return str
     .split(/(?=[A-Z])/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .join(" ");
 };
 
 export const getCookie = (name) => {
@@ -213,7 +213,7 @@ export const getIdFromUrl = () => {
   const params = Object.fromEntries(urlSearchParams.entries());
 
   // const params = useLocation();
-  const query = params.pathname.substring(params.pathname.lastIndexOf('/') + 1);
+  const query = params.pathname.substring(params.pathname.lastIndexOf("/") + 1);
   return query;
 };
 

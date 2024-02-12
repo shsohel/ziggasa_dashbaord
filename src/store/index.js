@@ -1,17 +1,17 @@
 /** @format */
 
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import auth from './auth/reducers';
-import users from './user';
-import blog from './blog';
-import category from './category';
-import tag from './tag';
-import keyword from './keyword';
-import job from './job';
-import file from './file-upload';
+import auth from "./auth/reducers";
+import users from "./user";
+import blog from "./blog";
+import category from "./category";
+import tag from "./tag";
+import keyword from "./keyword";
+import job from "./job";
+import file from "./file-upload";
 
-import basicReducers from './basic/reducers';
+import basicReducers from "./basic/reducers";
 
 import {
   persistReducer,
@@ -21,8 +21,8 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({
   auth,
@@ -47,15 +47,15 @@ const rootReducer = combineReducers({
 //     : [thunk, createDebounce()];
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage,
-  whitelist: ['auth', 'productCarts'],
+  whitelist: ["auth", "productCarts"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = configureStore({
+const store = configureStore({
   reducer: persistedReducer,
   // middleware: (getDefaultMiddleware) =>
   //   getDefaultMiddleware().concat(...middleware),
@@ -80,3 +80,5 @@ export const store = configureStore({
   //     serializableCheck: false,
   //   }),
 });
+
+export { store };
