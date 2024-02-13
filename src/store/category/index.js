@@ -2,27 +2,27 @@ import {
   createAsyncThunk,
   createEntityAdapter,
   createSlice,
-} from '@reduxjs/toolkit';
-import { apiEndpoints } from '../../services/apis';
-import { baseAxios } from '../../services';
-import { convertQueryString } from '../../utils/utility';
-import { notify } from '../../utils/custom/Notification';
-import { categoryModel } from './model';
-import { PURGE } from 'redux-persist';
-import { store } from '../../store';
-import { HttpStatusCode } from 'axios';
+} from "@reduxjs/toolkit";
+import { apiEndpoints } from "../../services/apis";
+import { baseAxios } from "../../services";
+import { convertQueryString } from "../../utils/utility";
+import { notify } from "../../utils/custom/Notification";
+import { categoryModel } from "./model";
+import { PURGE } from "redux-persist";
+import { store } from "../../store";
+import { HttpStatusCode } from "axios";
 const types = {
-  GET_CATEGORY_DROPDOWN: 'GET_CATEGORY_DROPDOWN',
-  GET_ALL_CATEGORIES_BY_QUERY: 'GET_ALL_CATEGORIES_BY_QUERY',
-  GET_CATEGORY_BY_ID: 'GET_CATEGORY_BY_ID',
-  ADD_CATEGORY: 'ADD_CATEGORY',
-  UPDATE_CATEGORY: 'UPDATE_CATEGORY',
-  DELETE_CATEGORY: 'DELETE_CATEGORY',
+  GET_CATEGORY_DROPDOWN: "GET_CATEGORY_DROPDOWN",
+  GET_ALL_CATEGORIES_BY_QUERY: "GET_ALL_CATEGORIES_BY_QUERY",
+  GET_CATEGORY_BY_ID: "GET_CATEGORY_BY_ID",
+  ADD_CATEGORY: "ADD_CATEGORY",
+  UPDATE_CATEGORY: "UPDATE_CATEGORY",
+  DELETE_CATEGORY: "DELETE_CATEGORY",
 };
 
 //Get List Data by Query
 export const getCategories = createAsyncThunk(
-  'GET_ALL_CATEGORIES_BY_QUERY',
+  "GET_ALL_CATEGORIES_BY_QUERY",
   async (data) => {
     const { queryParams, queryObj } = data;
     // console.log("filter", filter);
@@ -34,7 +34,7 @@ export const getCategories = createAsyncThunk(
       queryParams,
       queryObj,
     };
-  }
+  },
 );
 
 export const bindCategoryDropdown = createAsyncThunk(
@@ -47,7 +47,7 @@ export const bindCategoryDropdown = createAsyncThunk(
       label: item.name,
     }));
     return dropdown;
-  }
+  },
 );
 
 export const addCategory = createAsyncThunk(
@@ -71,7 +71,7 @@ export const addCategory = createAsyncThunk(
         statusText: response.statusText,
       };
     }
-  }
+  },
 );
 export const updateCategory = createAsyncThunk(
   types.UPDATE_CATEGORY,
@@ -92,7 +92,7 @@ export const updateCategory = createAsyncThunk(
         statusText: response?.statusText,
       };
     }
-  }
+  },
 );
 export const deleteCategory = createAsyncThunk(
   types.DELETE_CATEGORY,
@@ -113,7 +113,7 @@ export const deleteCategory = createAsyncThunk(
         statusText: response?.statusText,
       };
     }
-  }
+  },
 );
 
 export const getCategory = createAsyncThunk(
@@ -133,12 +133,12 @@ export const getCategory = createAsyncThunk(
         : null,
     };
     return dt;
-  }
+  },
 );
 const adaper = createEntityAdapter();
 
 const categorySlice = createSlice({
-  name: 'category',
+  name: "category",
   initialState: {
     categories: [],
     category: categoryModel,
@@ -225,14 +225,14 @@ const categorySlice = createSlice({
         if (status === HttpStatusCode.Created) {
           state.categorySidebarOpen = false;
           state.category = categoryModel;
-          notify('success', 'The Category has been created successfully');
+          notify("success", "The Category has been created successfully");
         } else {
-          notify('error', `${data.error}`);
+          notify("error", `${data.error}`);
         }
       })
       .addCase(addCategory.rejected, (state) => {
         state.loading = false;
-        notify('error', 'The operation was rejected!');
+        notify("error", "The operation was rejected!");
       })
       .addCase(updateCategory.pending, (state, action) => {
         state.loading = true;
@@ -245,14 +245,14 @@ const categorySlice = createSlice({
         if (status === HttpStatusCode.Created) {
           state.categorySidebarOpen = false;
           state.category = categoryModel;
-          notify('success', 'The Category has been updated successfully');
+          notify("success", "The Category has been updated successfully");
         } else {
-          notify('error', `${data?.error}`);
+          notify("error", `${data?.error}`);
         }
       })
       .addCase(updateCategory.rejected, (state, action) => {
         state.loading = false;
-        notify('error', 'The operation was rejected!');
+        notify("error", "The operation was rejected!");
       })
       .addCase(deleteCategory.pending, (state, action) => {
         state.loading = true;
@@ -263,14 +263,14 @@ const categorySlice = createSlice({
         state.loading = false;
 
         if (status === HttpStatusCode.Ok) {
-          notify('success', 'The Category has been deleted successfully');
+          notify("success", "The Category has been deleted successfully");
         } else {
-          notify('error', `${data?.error}`);
+          notify("error", `${data?.error}`);
         }
       })
       .addCase(deleteCategory.rejected, (state, action) => {
         state.loading = false;
-        notify('error', 'The operation was rejected!');
+        notify("error", "The operation was rejected!");
       });
   },
 });

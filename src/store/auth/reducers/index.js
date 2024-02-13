@@ -1,7 +1,10 @@
-import { GET_AUTH_USER } from '../action-types';
+/** @format */
+
+import { BIND_TOKEN, GET_AUTH_USER } from "../action-types";
 
 const initialState = {
   authUser: null,
+  token: null,
 };
 
 const authReducers = (state = initialState, action) => {
@@ -10,6 +13,11 @@ const authReducers = (state = initialState, action) => {
       return {
         ...state,
         authUser: action.authUser,
+      };
+    case BIND_TOKEN:
+      return {
+        ...state,
+        token: action.token,
       };
 
     default:

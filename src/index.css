@@ -54,9 +54,28 @@ body {
   .color-selector input:checked + label {
     @apply ring-2 ring-primary;
   }
+}
+
+*/
+/* @layer base {
+  overflow-x-auto {
+    @apply scrollbar-thumb-rounded-xl scrollbar-thin scrollbar-h-11 scrollbar-thumb-primary scrollbar-track-slate-200 scrollbar-corner-rounded-md;
+  }
 } */
 @layer components {
-  .custom-scrollbar  {
+  .overflow-y-auto {
     @apply scrollbar-thumb-rounded-xl scrollbar-thin scrollbar-h-11 scrollbar-thumb-primary scrollbar-track-slate-200 scrollbar-corner-rounded-md;
+  }
+}
+
+@layer components {
+  .overflow-x-auto {
+    @apply scrollbar-thumb-rounded-xl scrollbar-thin scrollbar-h-11 scrollbar-thumb-primary scrollbar-track-slate-200 scrollbar-corner-rounded-md;
+  }
+}
+
+@layer components {
+  .custom-scrollbar {
+    @apply scrollbar-thumb-rounded-xl scrollbar-thin scrollbar-h-11 scrollbar-thumb-primary scrollbar-track-slate-200 scrollbar-corner-rounded-md
   }
 }

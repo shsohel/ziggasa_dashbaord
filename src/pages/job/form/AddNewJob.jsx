@@ -6,7 +6,6 @@ import InputBox from "../../../utils/custom/InputBox";
 import SelectBox from "../../../utils/custom/SelectBox";
 import TextArea from "../../../utils/custom/TextAreaBox";
 
-import FileUpload from "./FileUpload";
 
 import JobDescriptions from "./JobDescriptions";
 import HorizontalTab from "../../../utils/custom/HorizontalTab";
@@ -17,14 +16,16 @@ import {
   DocumentChartBarIcon,
   DocumentCheckIcon,
 } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { bindCategoryDropdown } from "../../../store/category";
-import { bindJob } from "../../../store/job";
+import { addNewJob, bindJob } from "../../../store/job";
 import { bindTagDropdown } from "../../../store/tag";
 import { bindKeywordDropdown } from "../../../store/keyword";
 import { getFilesByQuery } from "../../../store/file-upload";
 import { uploadUrl } from "../../../services";
 import { replaceImage } from "../../../utils/utility";
+import SingleFileUpload from "../../../components/SingleFileUpload";
 const defaultTabs = [
   {
     id: "description",
@@ -50,13 +51,14 @@ const defaultTabs = [
 ];
 
 const AddNewJob = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -148,8 +150,16 @@ const AddNewJob = () => {
       featuredImageDescriptions,
       featuredImageAltText,
       isActive,
+      jobType: "Full-Time",
     };
-    console.log(obj);
+    console.log("obj", JSON.stringify(obj, null, 2));
+
+    dispatch(
+      addNewJob({
+        job: obj,
+        navigate,
+      })
+    );
   };
 
   const actions = [
@@ -269,6 +279,7 @@ const AddNewJob = () => {
                 className="object-cover object-top w-[350px] h-[200px]  p-1   "
                 src={`${uploadUrl}/${featuredImageUrl ?? ""}`}
                 onError={replaceImage}
+                alt={featuredImageAltText}
               />
             </div>
             <Button
@@ -283,7 +294,7 @@ const AddNewJob = () => {
       </div>
 
       {isOpenFileUploadModal && (
-        <FileUpload
+        <SingleFileUpload
           isOpen={isOpenFileUploadModal}
           onClose={handleModalClose}
           onSubmit={handleFileUploadSubmit}

@@ -23,7 +23,7 @@ const StaticNavigation = (props) => {
           {/* User account dropdown */}
           <UserDropdown />
           {/* Sidebar Search */}
-          <div className="mt-5 px-3">
+          {/* <div className="mt-5 px-3">
             <label htmlFor="search" className="sr-only">
               Search
             </label>
@@ -46,7 +46,7 @@ const StaticNavigation = (props) => {
                 placeholder="Search"
               />
             </div>
-          </div>
+          </div> */}
           {/* Navigation */}
           <nav className="mt-6 px-3">
             {mainNavigation.map((nav, index) => (
