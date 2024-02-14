@@ -293,9 +293,16 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getAllUsers.pending, (state, action) => {
+        state.loading = true;
+      })
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.users = action.payload;
         state.loading = false;
+      })
+      .addCase(getAllUsers.rejected, (state, action) => {
+        state.loading = false;
+        notify("error", "The job has been rejected");
       })
       .addCase(addNewUser.fulfilled, (state) => {
         state.loading = false;

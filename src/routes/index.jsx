@@ -29,46 +29,47 @@
 // import MainLayout from "../layouts/MainLayout";
 
 // Pages
-import AnonymousLayout from './AnonymousLayout';
-import MainLayout from './MainLayout';
-import { renderRoutes } from './GenerateRoute';
-import Dashboard from '../pages/dashboard';
-import UserList from '../pages/user/list';
-import UserAddForm from '../pages/user/form/UserAddForm';
-import Login from '../pages/auth/Login';
-import Register from '../pages/auth/Register';
-import ConfirmedUser from '../pages/auth/ConfirmedUser';
-import Blogs from '../pages/blogs/list';
-import AddNewBlog from '../pages/blogs/form/AddNewBlog';
-import Categories from '../pages/category/list';
-import Tags from '../pages/tag/list';
-import Keywords from '../pages/keyword/list';
-import Jobs from '../pages/job/list';
-import AddNewJob from '../pages/job/form/AddNewJob';
+import AnonymousLayout from "./AnonymousLayout";
+import MainLayout from "./MainLayout";
+import { renderRoutes } from "./GenerateRoute";
+import Dashboard from "../pages/dashboard";
+import UserList from "../pages/user/list";
+import UserAddForm from "../pages/user/form/UserAddForm";
+import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
+import ConfirmedUser from "../pages/auth/ConfirmedUser";
+import Blogs from "../pages/blogs/list";
+import AddNewBlog from "../pages/blogs/form/AddNewBlog";
+import Categories from "../pages/category/list";
+import Tags from "../pages/tag/list";
+import Keywords from "../pages/keyword/list";
+import Jobs from "../pages/job/list";
+import AddNewJob from "../pages/job/form/AddNewJob";
+import EditJobForm from "../pages/job/form/EditJobForm";
 
 const appRoutes = [
   {
     layout: AnonymousLayout,
     routes: [
       {
-        name: 'login',
-        title: 'Login page',
+        name: "login",
+        title: "Login page",
         component: Login,
-        path: '/login',
+        path: "/login",
         isPublic: true,
       },
       {
-        name: 'register',
-        title: 'Register',
+        name: "register",
+        title: "Register",
         component: Register,
-        path: '/register',
+        path: "/register",
         isPublic: true,
       },
       {
-        name: 'register',
-        title: 'Register',
+        name: "register",
+        title: "Register",
         component: ConfirmedUser,
-        path: '/confirm-user/:token',
+        path: "/confirm-user/:token",
         isPublic: true,
       },
     ],
@@ -77,98 +78,104 @@ const appRoutes = [
     layout: MainLayout,
     routes: [
       {
-        name: 'home',
-        title: 'Home page',
+        name: "home",
+        title: "Home page",
         component: Dashboard,
-        path: '/',
+        path: "/",
       },
       {
-        name: 'category',
-        title: 'Category',
+        name: "category",
+        title: "Category",
         routes: [
           {
-            name: 'list-categories',
-            title: 'List of Categories',
+            name: "list-categories",
+            title: "List of Categories",
             component: Categories,
-            path: '/categories',
+            path: "/categories",
           },
         ],
       },
       {
-        name: 'tag',
-        title: 'Tag',
+        name: "tag",
+        title: "Tag",
         routes: [
           {
-            name: 'list-tag',
-            title: 'List of Tags',
+            name: "list-tag",
+            title: "List of Tags",
             component: Tags,
-            path: '/tags',
+            path: "/tags",
           },
         ],
       },
       {
-        name: 'keyword',
-        title: 'Keywords',
+        name: "keyword",
+        title: "Keywords",
         routes: [
           {
-            name: 'list-keyword',
-            title: 'List of Keywords',
+            name: "list-keyword",
+            title: "List of Keywords",
             component: Keywords,
-            path: '/keywords',
+            path: "/keywords",
           },
         ],
       },
       {
-        name: 'blogs',
-        title: 'Blogs',
+        name: "blogs",
+        title: "Blogs",
         routes: [
           {
-            name: 'list-blogs',
-            title: 'List of Blogs',
+            name: "list-blogs",
+            title: "List of Blogs",
             component: Blogs,
-            path: '/blogs',
+            path: "/blogs",
           },
           {
-            name: 'list-blogs',
-            title: 'List of Blogs',
+            name: "list-blogs",
+            title: "List of Blogs",
             component: AddNewBlog,
-            path: '/blogs/new',
+            path: "/blogs/new",
           },
         ],
       },
       {
-        name: 'jobs',
-        title: 'Jobs',
+        name: "jobs",
+        title: "Jobs",
         routes: [
           {
-            name: 'list-jobs',
-            title: 'List of Jobs',
+            name: "list-jobs",
+            title: "List of Jobs",
             component: Jobs,
-            path: '/jobs',
+            path: "/jobs",
           },
           {
-            name: 'list-blogs',
-            title: 'List of Jobs',
+            name: "list-blogs",
+            title: "List of Jobs",
             component: AddNewJob,
-            path: '/jobs/new',
+            path: "/jobs/new",
+          },
+          {
+            name: "edit-jobs",
+            title: "Edit Jobs",
+            component: EditJobForm,
+            path: "/jobs/edit",
           },
         ],
       },
       {
-        name: 'users',
-        title: 'Users',
+        name: "users",
+        title: "Users",
         routes: [
           {
-            name: 'list-users',
-            title: 'List of users',
+            name: "list-users",
+            title: "List of users",
             component: UserList,
-            path: '/users',
+            path: "/users",
           },
           {
-            name: 'add-users',
-            title: 'Add user',
+            name: "add-users",
+            title: "Add user",
             component: UserAddForm,
-            path: '/add-user',
+            path: "/add-user",
           },
         ],
       },

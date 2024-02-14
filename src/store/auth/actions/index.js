@@ -11,16 +11,18 @@ export const bindAuthUser = (user) => (dispatch) => {
   });
 };
 
-const bindToken = (token) => (dispatch) => {
+const bindToken = (token, expires) => (dispatch) => {
   if (token) {
     dispatch({
       type: BIND_TOKEN,
       token: token,
+      expires,
     });
   } else {
     dispatch({
       type: BIND_TOKEN,
       token: null,
+      tokenExpires: 0,
     });
   }
 };
@@ -122,7 +124,8 @@ export const login =
 
       .then((response) => {
         if (response.status === 200) {
-          dispatch(bindToken(response.data.token));
+          console.log(response.data.expires);
+          dispatch(bindToken(response.data.token, response.data.expires));
           dispatch(getMeAfterLogin(callbackFun));
           notify("success", `You are logged in successfully`);
           callbackFun(true);

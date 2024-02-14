@@ -2,11 +2,10 @@
 
 import { useSelector } from "react-redux";
 import { Routes } from "./routes";
-import { getCookie } from "./utils/utility";
 
 const App = () => {
-  const { token } = useSelector(({ auth }) => auth);
-
+  const { token, tokenExpires } = useSelector(({ auth }) => auth);
+  console.log("tokenExpires", Date.now(), Date.now(tokenExpires));
   return <Routes isAuthorized={token} />;
 };
 

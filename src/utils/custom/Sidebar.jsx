@@ -1,8 +1,8 @@
-import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { RxCross1 } from 'react-icons/rx';
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { RxCross1 } from "react-icons/rx";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const Sidebar = (props) => {
   const { children, FooterComponent, handleSidebarModal, title, isOpen } =
@@ -20,7 +20,7 @@ const Sidebar = (props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity " />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">
@@ -37,7 +37,7 @@ const Sidebar = (props) => {
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                  <div className="flex h-full flex-col  bg-white shadow-xl">
                     <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
                       <div className=" border-b pb-1">
                         <div className="flex items-center justify-between">
@@ -79,7 +79,7 @@ export default Sidebar;
 Sidebar.defaultProps = {
   FooterComponent: null,
   children: null,
-  title: 'Default Title',
+  title: "Default Title",
   isOpen: false,
 
   //   label: "Button",

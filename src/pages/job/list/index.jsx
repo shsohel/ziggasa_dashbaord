@@ -1,14 +1,15 @@
-import { Button } from '../../../utils/custom/Button';
-import FormLayout from '../../../utils/custom/FormLayout';
-import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getJobs } from '../../../store/job';
-import DataTable from 'react-data-table-component';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
-import Pagination from '../../../utils/custom/Pagination';
-import moment from 'moment';
-import { tableCustomStyles } from '../../../utils/utility';
-import { useNavigate } from 'react-router-dom';
+import { Button } from "../../../utils/custom/Button";
+import FormLayout from "../../../utils/custom/FormLayout";
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { getJobs } from "../../../store/job";
+import DataTable from "react-data-table-component";
+import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import Pagination from "../../../utils/custom/Pagination";
+import moment from "moment";
+import { tableCustomStyles } from "../../../utils/utility";
+import { useNavigate } from "react-router-dom";
+import ListLoader from "../../../utils/custom/ListLoader";
 
 const Jobs = () => {
   const dispatch = useDispatch();
@@ -16,10 +17,10 @@ const Jobs = () => {
   const { jobs, job, loading, total } = useSelector(({ job }) => job);
   const [rowPerPage, setRowPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [orderBy, setOrderBy] = useState('desc');
-  const [sortedBy, setSortedBy] = useState('createdAt');
+  const [orderBy, setOrderBy] = useState("desc");
+  const [sortedBy, setSortedBy] = useState("createdAt");
   const [filterObj, setFilterObj] = useState({
-    title: '',
+    title: "",
   });
 
   const getAllJobs = useCallback(() => {
@@ -42,19 +43,33 @@ const Jobs = () => {
   }, [dispatch, getAllJobs]);
 
   const handleNew = () => {
-    navigate('/jobs/new');
+    navigate("/jobs/new");
   };
 
   const actions = [
     {
-      id: '1',
-      name: 'new-button',
+      id: "1",
+      name: "new-button",
       button: (
         <Button
           id="new-button"
           name="New"
           onClick={() => {
             handleNew();
+          }}
+        />
+      ),
+    },
+    {
+      id: "2",
+      name: "refresh-button",
+      button: (
+        <Button
+          id="refresh-button"
+          name="Refresh"
+          bgColor="bg-mute"
+          onClick={() => {
+            getAllJobs();
           }}
         />
       ),
@@ -67,6 +82,10 @@ const Jobs = () => {
   const handleSort = () => {};
   const handlePagination = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleEdit = (id) => {
+    navigate("/jobs/edit", { state: id });
   };
 
   const paginationComponent = (data) => {
@@ -93,11 +112,7 @@ const Jobs = () => {
             persistTableHead
             dense
             progressPending={loading}
-            progressComponent={
-              <div className="w-full">
-                <div>Loading</div>
-              </div>
-            }
+            progressComponent={<ListLoader rowLength={10} />}
             data={jobs}
             className="border custom-scrollbar"
             onChangeRowsPerPage={handlePerPage}
@@ -123,7 +138,7 @@ const Jobs = () => {
                     />
                     <FaPencilAlt
                       onClick={() => {
-                        // handleEdit(row);
+                        handleEdit(row.id);
                       }}
                       size={16}
                       className="cursor-pointer fill-green-600"
@@ -136,6 +151,12 @@ const Jobs = () => {
                 id: "title",
                 name: "Title",
                 selector: (row) => row["title"],
+              },
+              {
+                id: "jobType",
+                name: "Job Type",
+                width: "120px",
+                selector: (row) => row["jobType"],
               },
               {
                 id: "createdAt",

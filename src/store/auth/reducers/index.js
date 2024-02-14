@@ -5,6 +5,7 @@ import { BIND_TOKEN, GET_AUTH_USER } from "../action-types";
 const initialState = {
   authUser: null,
   token: null,
+  tokenExpires: 0,
 };
 
 const authReducers = (state = initialState, action) => {
@@ -18,6 +19,7 @@ const authReducers = (state = initialState, action) => {
       return {
         ...state,
         token: action.token,
+        tokenExpires: action.expires,
       };
 
     default:

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../../utils/custom/Button";
 import RichEditor from "../../../utils/custom/Editor";
 import FormLayout from "../../../utils/custom/FormLayout";
@@ -15,10 +15,10 @@ import {
   DocumentChartBarIcon,
   DocumentCheckIcon,
 } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { bindCategoryDropdown } from "../../../store/category";
-import { addNewJob, bindJob } from "../../../store/job";
+import { addNewJob, bindJob, getJob, updateJob } from "../../../store/job";
 import { bindTagDropdown } from "../../../store/tag";
 import { bindKeywordDropdown } from "../../../store/keyword";
 import { getFilesByQuery } from "../../../store/file-upload";
@@ -50,8 +50,9 @@ const defaultTabs = [
   },
 ];
 
-const AddNewJob = () => {
+const EditJobForm = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
     ({ category }) => category,
@@ -65,6 +66,7 @@ const AddNewJob = () => {
   const [isOpenFileUploadModal, setIsOpenFileUploadModal] = useState(false);
 
   const {
+    id,
     title,
     category,
     jobType,
@@ -83,6 +85,16 @@ const AddNewJob = () => {
     featuredImageAltText,
     isActive,
   } = job;
+
+  console.log(state);
+
+  useEffect(() => {
+    dispatch(getJob({ id: state }));
+
+    return () => {
+      dispatch(bindJob());
+    };
+  }, [dispatch, state]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -135,6 +147,7 @@ const AddNewJob = () => {
 
   const onSubmit = () => {
     const obj = {
+      id,
       title,
       category: category.map((cat) => cat.value),
       tag: tag.map((t) => t.value),
@@ -156,9 +169,8 @@ const AddNewJob = () => {
     console.log("obj", JSON.stringify(obj, null, 2));
 
     dispatch(
-      addNewJob({
+      updateJob({
         job: obj,
-        navigate,
       }),
     );
   };
@@ -269,13 +281,13 @@ const AddNewJob = () => {
               }}
             />
             {/* <SelectBox
-            id="subCategoryId"
-            classNames=""
-            name="subCategory"
-            options={[]}
-            onChange={() => {}}
-            placeholder="Select Sub Category"
-          /> */}
+              id="subCategoryId"
+              classNames=""
+              name="subCategory"
+              options={[]}
+              onChange={() => {}}
+              placeholder="Select Sub Category"
+            /> */}
             <SelectBox
               id="tagId"
               label="Tag"
@@ -326,4 +338,4 @@ const AddNewJob = () => {
   );
 };
 
-export default AddNewJob;
+export default EditJobForm;

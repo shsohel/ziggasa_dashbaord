@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,33 +9,34 @@ import FormLayout from "../../../utils/custom/FormLayout";
 import Sidebar from "../../../utils/custom/Sidebar";
 import UserAddForm from "../form/UserAddForm";
 import { userColumn } from "./column";
+import ListLoader from "../../../utils/custom/ListLoader";
 
 const UserList = () => {
   const { users, loading } = useSelector(({ users }) => users);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
-  const getUsers = () => {
+  const getUsers = useCallback(() => {
     const paramObj = {
       page: 10,
       limit: 10,
       sort: "name",
     };
-    dispatch(getAllUsers());
-  };
+    dispatch(getAllUsers(paramObj));
+  }, [dispatch]);
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [getUsers]);
 
   const handleOnClick = () => {
-    navigate('/add-user');
-  }
+    navigate("/add-user");
+  };
 
   const handleSidebarOpen = () => {
-    setIsOpen(true)
-  }
+    setIsOpen(true);
+  };
 
   const actions = [
     {
@@ -43,13 +44,27 @@ const UserList = () => {
       name: "new-button",
 
       button: (
-        // <button className="border p-1 text-sm font-semibold bg-primary">
-        //   Add New
-        // </button>
-        <Button 
-        id="new-button" 
-        name="New"
-        onClick={() => {handleSidebarOpen()}} />
+        <Button
+          id="new-button"
+          name="New"
+          onClick={() => {
+            handleSidebarOpen();
+          }}
+        />
+      ),
+    },
+    {
+      id: "2",
+      name: "refresh-button",
+      button: (
+        <Button
+          id="refresh-button"
+          name="Refresh"
+          bgColor="bg-mute"
+          onClick={() => {
+            getUsers();
+          }}
+        />
       ),
     },
   ];
@@ -66,38 +81,34 @@ const UserList = () => {
 
   return (
     <>
-    <FormLayout title="Users" actions={actions}>
-    <div>
-        <DataTable
-          noHeader
-          persistTableHead
-          defaultSortAsc
-          sortServer
-          // onSort={handleSort}
-          progressPending={loading}
-          progressComponent={<div>Loading</div>}
-          dense
-          subHeader={false}
-          highlightOnHover
-          responsive={true}
-          paginationServer
-          // expandableRows={true}
-          // expandOnRowClicked
-          columns={userColumn(handleView, handleEdit, handleDelete)}
-          // sortIcon={<ChevronDown />}
-          // onRowExpandToggled={( bool, row ) => getRowIdClick( row.id )}
-          className="react-custom-dataTable"
-          // expandableRowsComponent={<AllLcList lcScData={lcScData} />}
-          data={users}
-        />
-      </div>
-    </FormLayout>
+      <FormLayout title="Users" actions={actions}>
+        <div>
+          <DataTable
+            noHeader
+            persistTableHead
+            defaultSortAsc
+            sortServer
+            // onSort={handleSort}
+            progressPending={loading}
+            progressComponent={<ListLoader rowLength={5} colLength={9} />}
+            dense
+            subHeader={false}
+            highlightOnHover
+            responsive={true}
+            paginationServer
+            // expandableRows={true}
+            // expandOnRowClicked
+            columns={userColumn(handleView, handleEdit, handleDelete)}
+            // sortIcon={<ChevronDown />}
+            // onRowExpandToggled={( bool, row ) => getRowIdClick( row.id )}
+            className="react-custom-dataTable"
+            // expandableRowsComponent={<AllLcList lcScData={lcScData} />}
+            data={users}
+          />
+        </div>
+      </FormLayout>
 
-    <UserAddForm
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-    />
-     
+      <UserAddForm isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 };

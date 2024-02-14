@@ -13,12 +13,12 @@ const UserAddForm = ({ isOpen, setIsOpen }) => {
   const dispatch = useDispatch();
 
   const handleOnSubmit = () => {
-    const {name, email, password} = user;
+    const { name, email, password } = user;
     const submittedData = {
       name,
       email,
-      password
-    }
+      password,
+    };
     dispatch(addNewUser(submittedData));
     console.log("submitted");
     // handleSidebarModal()
@@ -51,6 +51,7 @@ const UserAddForm = ({ isOpen, setIsOpen }) => {
   return (
     <>
       <Sidebar
+        title="User"
         isOpen={isOpen}
         handleSidebarModal={handleClose}
         FooterComponent={<FooterComponent />}
@@ -89,8 +90,7 @@ const UserAddForm = ({ isOpen, setIsOpen }) => {
             <input
               type="checkbox"
               name="isActive"
-            value={user.isActive}
-
+              value={user.isActive}
               onChange={(e) => {
                 handleInputChange(e);
               }}
