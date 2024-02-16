@@ -4,7 +4,7 @@ import { getCookie } from "./utils/utility";
 const App = () => {
   const token = getCookie("token");
   const isTokenExit = token ? true : false;
-  console.log("isTokenExit", isTokenExit);
+  console.log("isTokenExit", token);
   return <Routes isAuthorized={isTokenExit} />;
 };
 

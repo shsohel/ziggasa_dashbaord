@@ -8,8 +8,7 @@ import { baseAxios } from '../../services';
 import { convertQueryString } from '../../utils/utility';
 import { notify } from '../../utils/custom/Notification';
 import { categoryModel } from './model';
-import { PURGE } from 'redux-persist';
-import { store } from '../../store';
+
 import { HttpStatusCode } from 'axios';
 const types = {
   GET_CATEGORY_DROPDOWN: 'GET_CATEGORY_DROPDOWN',
@@ -18,25 +17,24 @@ const types = {
   ADD_CATEGORY: 'ADD_CATEGORY',
   UPDATE_CATEGORY: 'UPDATE_CATEGORY',
   DELETE_CATEGORY: 'DELETE_CATEGORY',
-};
-
+};  
+ 
 //Get List Data by Query
 export const getCategories = createAsyncThunk(
-  'GET_ALL_CATEGORIES_BY_QUERY',
-  async (data) => {
-    const { queryParams, queryObj } = data;
+  'GET_ALL_CATEGORIES_BY_QUERY', async (data) => { 
+    const { queryParams, queryObj } = data; 
     // console.log("filter", filter);
     const apiEndpoint = `/category?${convertQueryString(queryParams)}`;
 
     const response = await baseAxios.post(apiEndpoint, queryObj);
     return {
       ...response.data,
-      queryParams,
+      queryParams, 
       queryObj,
     };
   }
 );
-
+ 
 export const bindCategoryDropdown = createAsyncThunk(
   types.GET_CATEGORY_DROPDOWN,
   async () => {

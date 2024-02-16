@@ -1,29 +1,33 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { jobModel } from './model';
-import { baseAxios } from '../../services';
-import { notify } from '../../utils/custom/Notification';
-import { convertQueryString } from '../../utils/utility';
-import { apiEndpoints } from '../../services/apis';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { jobModel } from "./model";
+import { baseAxios } from "../../services";
+import { notify } from "../../utils/custom/Notification";
+import { convertQueryString } from "../../utils/utility";
+import { apiEndpoints } from "../../services/apis";
 
 //Get List Data by Query
-export const getJobs = createAsyncThunk('job/getJobs', async (data) => {
-  const { queryParams, queryObj } = data;
-  const apiEndpoint = `${apiEndpoints.job}?${convertQueryString(queryParams)}`;
-  try {
-    const response = await baseAxios.post(apiEndpoint, queryObj);
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      notify('warning', error.response.data.error);
-    } else {
-      notify('error', 'An error occurred');
+export const getJobs = createAsyncThunk(
+  "job/getJobs",
+  async (data, { dispatch, getState }) => {
+    const { queryParams, queryObj } = data;
+    const apiEndpoint = `${apiEndpoints.job}?${convertQueryString(
+      queryParams
+    )}`;
+    try {
+      const response = await baseAxios.post(apiEndpoint, queryObj);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        notify("warning", error.response.data.error);
+      } else {
+        notify("error", "An error occurred");
+      }
     }
-    throw error;
   }
-});
+);
 
 const jobSlice = createSlice({
-  name: 'job',
+  name: "job",
   initialState: {
     dataProgress: false,
     submitUserDataProgress: false,

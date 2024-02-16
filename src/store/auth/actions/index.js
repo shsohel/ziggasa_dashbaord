@@ -19,7 +19,7 @@ export const logout = (handleCallback) => async (dispatch) => {
       if (response.status === 200) {
         // notify("success", `You are logout  successfully`);
         dispatch(bindAuthUser(null));
-        handleCallback();
+        // handleCallback();
       }
     })
     .catch((error) => {
@@ -103,7 +103,7 @@ export const login =
     await baseAxios
       .post(
         apiEndPoint,
-        { password, email },
+        { password, email }
         // { withCredentials: true }
       )
 

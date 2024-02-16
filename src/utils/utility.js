@@ -1,8 +1,9 @@
 /* eslint-disable no-prototype-builtins */
 import { twMerge } from "tailwind-merge";
 import defaultImage from "../assets/images/placeholder.png";
-import Cookies from "js-cookies";
+
 import clsx from "clsx";
+import Cookies from "js-cookies";
 export const imageLoader = ({ src, width, quality }) => {
   return `${src}?w=${width}&q=${quality || 75}`;
 };

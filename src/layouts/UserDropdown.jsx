@@ -26,7 +26,7 @@ const UserDropdown = () => {
     navigate("/login");
   };
   const handleLogout = () => {
-    dispatch(logout(handleCallback));
+    // dispatch(logout(handleCallback));
   };
 
   console.log(authUser);
@@ -79,7 +79,7 @@ const UserDropdown = () => {
                     href="#"
                     className={classNames(
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-sm",
+                      "block px-4 py-2 text-sm"
                     )}
                   >
                     View profile
@@ -92,7 +92,7 @@ const UserDropdown = () => {
                     href="#"
                     className={classNames(
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-sm",
+                      "block px-4 py-2 text-sm"
                     )}
                   >
                     Settings
@@ -105,7 +105,7 @@ const UserDropdown = () => {
                     href="#"
                     className={classNames(
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-sm",
+                      "block px-4 py-2 text-sm"
                     )}
                   >
                     Notifications
@@ -123,7 +123,7 @@ const UserDropdown = () => {
                     }}
                     className={classNames(
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block w-full px-4 py-2 text-left text-sm",
+                      "block w-full px-4 py-2 text-left text-sm"
                     )}
                   >
                     Logout
