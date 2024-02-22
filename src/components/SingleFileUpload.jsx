@@ -1,25 +1,28 @@
+/** @format */
+
 import { useDispatch, useSelector } from "react-redux";
-import Modal from "../../../utils/custom/Modal";
-import { uploadUrl } from "../../../services";
-import { replaceImage } from "../../../utils/utility";
+
+import { useEffect, useState } from "react";
+import moment from "moment";
+
+import { FaRegTrashAlt } from "react-icons/fa";
+import { isEmpty } from "lodash";
 import {
   bindFiles,
   deleteFile,
   getFilesByQuery,
   uploadFile,
-} from "../../../store/file-upload";
-import { useEffect, useState } from "react";
-import moment from "moment";
-import InputBox from "../../../utils/custom/InputBox";
-import TextArea from "../../../utils/custom/TextAreaBox";
-import { Button } from "../../../utils/custom/Button";
-import { notify } from "../../../utils/custom/Notification";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { isEmpty } from "lodash";
-import { HttpStatusCode } from "axios";
-import { confirmDialog } from "../../../utils/custom/ConfirmDialogBox";
-import { confirmObj } from "../../../utils/enum";
-const FileUpload = (props) => {
+} from "../store/file-upload";
+import { uploadUrl } from "../services";
+import { notify } from "../utils/custom/Notification";
+import { confirmDialog } from "../utils/custom/ConfirmDialogBox";
+import { confirmObj } from "../utils/enum";
+import Modal from "../utils/custom/Modal";
+import { Button } from "../utils/custom/Button";
+import { replaceImage } from "../utils/utility";
+import InputBox from "../utils/custom/InputBox";
+import TextArea from "../utils/custom/TextAreaBox";
+const SingleFileUpload = (props) => {
   const dispatch = useDispatch();
   const { isOpen, onClose, onSubmit } = props;
   const { files, file, loading, pagination } = useSelector(({ file }) => file);
@@ -50,7 +53,7 @@ const FileUpload = (props) => {
   const clipboard = async () => {
     try {
       await navigator.clipboard.writeText(
-        `${uploadUrl}/${selectedImage?.fileUrl}`,
+        `${uploadUrl}/${selectedImage?.fileUrl}`
       );
       notify("success", "File Url Copy successfully!");
     } catch (error) {
@@ -166,7 +169,7 @@ const FileUpload = (props) => {
             <div
               id="filesId"
               onScroll={handleScroll}
-              className=" flex flex-wrap gap-6  custom-scrollbar overflow-y-auto h-[400px] "
+              className=" flex flex-wrap gap-6   overflow-y-auto h-[400px] "
             >
               {files.map((file) => {
                 return (
@@ -182,6 +185,7 @@ const FileUpload = (props) => {
                       onDoubleClick={() => {
                         handleFileSelect(file.rowId);
                       }}
+                      alt={file.fileUrl}
                     />
                     <div
                       className="transition-all duration-500 border border-transparent hover:border-danger absolute top-2 right-2 bg-danger p-1 rounded text-white hover:bg-white hover:text-danger"
@@ -197,7 +201,7 @@ const FileUpload = (props) => {
             </div>
           </div>
           <div className="col-span-1">
-            <div className="custom-scrollbar overflow-y-auto h-[400px] ">
+            <div className=" overflow-y-auto h-[400px] ">
               <div className="flex justify-center p-2 ">
                 <div className="relative">
                   <img
@@ -207,6 +211,7 @@ const FileUpload = (props) => {
                     className="object-cover object-top w-[300px] h-[150px]  p-1 border  "
                     src={`${uploadUrl}/${selectedImage?.fileUrl ?? ""}`}
                     onError={replaceImage}
+                    alt={file.altText}
                   />
                   <div
                     hidden={!selectedImage}
@@ -222,7 +227,7 @@ const FileUpload = (props) => {
               <div className="p-2 mx-2 text-center italic border-t-2 ">
                 <p className="font-light text-sm">{`Demensions: ${imageWidth}*${imageHeight} pixels`}</p>
                 <p className="font-light text-sm">{`Date: ${moment(
-                  selectedImage?.updatedAt,
+                  selectedImage?.updatedAt
                 )?.format("DD-MMM-YYYY")}`}</p>
                 <p className="font-light text-sm">{`Original Name: ${selectedImage?.fileUrl}`}</p>
               </div>
@@ -286,4 +291,4 @@ const FileUpload = (props) => {
   );
 };
 
-export default FileUpload;
+export default SingleFileUpload;

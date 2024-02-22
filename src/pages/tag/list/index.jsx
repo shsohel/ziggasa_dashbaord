@@ -1,32 +1,32 @@
-import { Button } from '../../../utils/custom/Button';
-import FormLayout from '../../../utils/custom/FormLayout';
-import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import DataTable from 'react-data-table-component';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
-import Pagination from '../../../utils/custom/Pagination';
-import moment from 'moment';
-import { tableCustomStyles } from '../../../utils/utility';
-import { useNavigate } from 'react-router-dom';
-import { bindTagSidebar, deleteTag, getTags, getTag } from '../../../store/tag';
-import TagModal from '../form/TagForm';
-import { HttpStatusCode } from 'axios';
-import { confirmDialog } from '../../../utils/custom/ConfirmDialogBox';
-import { confirmObj } from '../../../utils/enum';
-import ListLoader from '../../../utils/custom/ListLoader';
+import { Button } from "../../../utils/custom/Button";
+import FormLayout from "../../../utils/custom/FormLayout";
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import DataTable from "react-data-table-component";
+import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import Pagination from "../../../utils/custom/Pagination";
+import moment from "moment";
+import { tableCustomStyles } from "../../../utils/utility";
+import { useNavigate } from "react-router-dom";
+import { bindTagSidebar, deleteTag, getTags, getTag } from "../../../store/tag";
+import TagModal from "../form/TagForm";
+import { HttpStatusCode } from "axios";
+import { confirmDialog } from "../../../utils/custom/ConfirmDialogBox";
+import { confirmObj } from "../../../utils/enum";
+import ListLoader from "../../../utils/custom/ListLoader";
 
 const Tags = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { tags, tagSidebarOpen, loading, total } = useSelector(
-    ({ tag }) => tag
+    ({ tag }) => tag,
   );
   const [rowPerPage, setRowPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [orderBy, setOrderBy] = useState('desc');
-  const [sortedBy, setSortedBy] = useState('createdAt');
+  const [orderBy, setOrderBy] = useState("desc");
+  const [sortedBy, setSortedBy] = useState("createdAt");
   const [filterObj, setFilterObj] = useState({
-    name: '',
+    name: "",
   });
 
   const getAllTags = useCallback(() => {
@@ -41,7 +41,7 @@ const Tags = () => {
       queryObj: filterObj,
     };
     dispatch(getTags(data));
-  }, [dispatch, rowPerPage, currentPage, orderBy, sortedBy, filterObj]);
+  }, [dispatch, currentPage, rowPerPage, sortedBy, orderBy, filterObj]);
 
   useEffect(() => {
     getAllTags();
@@ -54,8 +54,8 @@ const Tags = () => {
 
   const actions = [
     {
-      id: '1',
-      name: 'new-button',
+      id: "1",
+      name: "new-button",
       button: (
         <Button
           id="new-button"
@@ -67,13 +67,13 @@ const Tags = () => {
       ),
     },
     {
-      id: '2',
-      name: 'refresh-button',
+      id: "2",
+      name: "refresh-button",
       button: (
         <Button
           id="refresh-button"
           name="Refresh"
-          bgColor="bg-txt-mute"
+          bgColor="bg-mute"
           onClick={() => {
             getAllTags();
           }}
@@ -139,9 +139,9 @@ const Tags = () => {
             defaultSortFieldId={sortedBy}
             columns={[
               {
-                id: 'action',
-                name: 'Action',
-                width: '80px',
+                id: "action",
+                name: "Action",
+                width: "80px",
                 cell: (row) => (
                   <div className="flex justify-between">
                     <FaTrashAlt
@@ -163,24 +163,24 @@ const Tags = () => {
               },
 
               {
-                id: 'name',
-                name: 'Name',
-                selector: (row) => row['name'],
+                id: "name",
+                name: "Name",
+                selector: (row) => row["name"],
               },
               {
-                id: 'createdAt',
-                name: 'Date',
-                width: '120px',
+                id: "createdAt",
+                name: "Date",
+                width: "120px",
                 selector: (row) =>
-                  moment(row['createdAt']).format('DD-MMM-YYYY'),
+                  moment(row["createdAt"]).format("DD-MMM-YYYY"),
               },
 
               {
-                id: 'active',
-                name: 'Status',
-                width: '100px',
+                id: "active",
+                name: "Status",
+                width: "100px",
                 center: true,
-                cell: (row) => (row.isActive ? 'Active' : 'InActive'),
+                cell: (row) => (row.isActive ? "Active" : "InActive"),
               },
             ]}
             paginationComponent={paginationComponent}

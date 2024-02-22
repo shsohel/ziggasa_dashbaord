@@ -18,3 +18,19 @@ export const jobModel = {
   featuredImageAltText: "",
   isActive: true,
 };
+
+// enums: ["Full-Time", "Part-Time", "Contractual"],
+export const jobTypes = [
+  {
+    label: "Full-Time",
+    value: "Full-Time",
+  },
+  {
+    label: "Part-Time",
+    value: "Part-Time",
+  },
+  {
+    label: "Contractual",
+    value: "Contractual",
+  },
+];

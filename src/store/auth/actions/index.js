@@ -1,6 +1,6 @@
 import axios from "axios";
 import { notify } from "../../../utils/custom/Notification";
-import { GET_AUTH_USER } from "../action-types";
+import { BIND_TOKEN, GET_AUTH_USER } from "../action-types";
 import { baseAxios } from "../../../services";
 // axios.defaults.withCredentials = true;
 
@@ -11,6 +11,22 @@ export const bindAuthUser = (user) => (dispatch) => {
   });
 };
 
+const bindToken = (token, expires) => (dispatch) => {
+  if (token) {
+    dispatch({
+      type: BIND_TOKEN,
+      token: token,
+      expires,
+    });
+  } else {
+    dispatch({
+      type: BIND_TOKEN,
+      token: null,
+      tokenExpires: 0,
+    });
+  }
+};
+
 export const logout = (handleCallback) => async (dispatch) => {
   const apiEndPoint = `/auth/logout`;
   await baseAxios
@@ -19,7 +35,8 @@ export const logout = (handleCallback) => async (dispatch) => {
       if (response.status === 200) {
         // notify("success", `You are logout  successfully`);
         dispatch(bindAuthUser(null));
-        // handleCallback();
+        dispatch(bindToken(null));
+        handleCallback();
       }
     })
     .catch((error) => {
@@ -84,12 +101,14 @@ export const getMeAfterLogin = (callbackFun) => (dispatch) => {
           type: GET_AUTH_USER,
           authUser: response.data.data,
         });
+
         callbackFun(true);
       }
     })
     .catch(({ response }) => {
       callbackFun(false);
       dispatch(logout());
+
       if (response.status === 400) {
         // notify('error', `${response?.data?.error}`);
       }
@@ -101,29 +120,28 @@ export const login =
   async (dispatch) => {
     const apiEndPoint = `/auth/login`;
     await baseAxios
-      .post(
-        apiEndPoint,
-        { password, email }
-        // { withCredentials: true }
-      )
+      .post(apiEndPoint, { password, email })
 
       .then((response) => {
         if (response.status === 200) {
+          console.log(response.data.expires);
+          dispatch(bindToken(response.data.token, response.data.expires));
           dispatch(getMeAfterLogin(callbackFun));
           notify("success", `You are logged in successfully`);
           callbackFun(true);
         }
       })
-      .catch((error) => {
-        console.log(error);
+      // .catch((error) => {
+      //   console.log(error);
+      //   callbackFun(false);
+      // })
+      .catch(({ response }) => {
+        dispatch(bindToken(null));
         callbackFun(false);
+        if (response.status === 400) {
+          notify("error", `${response.data.error}`);
+        }
       });
-    // .catch(({ response }) => {
-    //   // callbackFun(false);
-    //   // if (response.status === 400) {
-    //   //   notify("error", `${response.data.error}`);
-    //   // }
-    // });
   };
 export const forgotPassword = (email, responseBack) => async (dispatch) => {
   const apiEndPoint = `/api/auth/forgot-password`;

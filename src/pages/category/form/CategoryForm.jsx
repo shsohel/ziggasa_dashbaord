@@ -1,8 +1,8 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Sidebar from '../../../utils/custom/Sidebar';
-import InputBox from '../../../utils/custom/InputBox';
-import SelectBox from '../../../utils/custom/SelectBox';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Sidebar from "../../../utils/custom/Sidebar";
+import InputBox from "../../../utils/custom/InputBox";
+import SelectBox from "../../../utils/custom/SelectBox";
 import {
   addCategory,
   bindCategory,
@@ -10,10 +10,10 @@ import {
   bindCategorySidebar,
   getCategories,
   updateCategory,
-} from '../../../store/category';
-import TextArea from '../../../utils/custom/TextAreaBox';
-import { Button } from '../../../utils/custom/Button';
-import { HttpStatusCode } from 'axios';
+} from "../../../store/category";
+import TextArea from "../../../utils/custom/TextAreaBox";
+import { Button } from "../../../utils/custom/Button";
+import { HttpStatusCode } from "axios";
 
 const CategoryModal = () => {
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ const CategoryModal = () => {
       id,
       name,
       description,
-      parentCategory: parentCategory?.value ?? '',
+      parentCategory: parentCategory?.value ?? "",
       isParent: parentCategory ? false : true,
       isActive: true,
     };
@@ -84,6 +84,7 @@ const CategoryModal = () => {
   };
   return (
     <Sidebar
+      title="Category"
       isOpen={categorySidebarOpen}
       handleSidebarModal={handleClose}
       FooterComponent={

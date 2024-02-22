@@ -1,37 +1,37 @@
-import { Button } from '../../../utils/custom/Button';
-import FormLayout from '../../../utils/custom/FormLayout';
-import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import DataTable from 'react-data-table-component';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
-import Pagination from '../../../utils/custom/Pagination';
-import moment from 'moment';
-import { tableCustomStyles } from '../../../utils/utility';
-import { useNavigate } from 'react-router-dom';
+import { Button } from "../../../utils/custom/Button";
+import FormLayout from "../../../utils/custom/FormLayout";
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import DataTable from "react-data-table-component";
+import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import Pagination from "../../../utils/custom/Pagination";
+import moment from "moment";
+import { tableCustomStyles } from "../../../utils/utility";
+import { useNavigate } from "react-router-dom";
 import {
   bindCategorySidebar,
   deleteCategory,
   getCategories,
   getCategory,
-} from '../../../store/category';
-import CategoryModal from '../form/CategoryForm';
-import { HttpStatusCode } from 'axios';
-import { confirmDialog } from '../../../utils/custom/ConfirmDialogBox';
-import { confirmObj } from '../../../utils/enum';
-import ListLoader from '../../../utils/custom/ListLoader';
+} from "../../../store/category";
+import CategoryModal from "../form/CategoryForm";
+import { HttpStatusCode } from "axios";
+import { confirmDialog } from "../../../utils/custom/ConfirmDialogBox";
+import { confirmObj } from "../../../utils/enum";
+import ListLoader from "../../../utils/custom/ListLoader";
 
 const Categories = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories, categorySidebarOpen, loading, total } = useSelector(
-    ({ category }) => category
+    ({ category }) => category,
   );
   const [rowPerPage, setRowPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [orderBy, setOrderBy] = useState('desc');
-  const [sortedBy, setSortedBy] = useState('createdAt');
+  const [orderBy, setOrderBy] = useState("desc");
+  const [sortedBy, setSortedBy] = useState("createdAt");
   const [filterObj, setFilterObj] = useState({
-    name: '',
+    name: "",
   });
 
   const getAllCategories = useCallback(() => {
@@ -59,8 +59,8 @@ const Categories = () => {
 
   const actions = [
     {
-      id: '1',
-      name: 'new-button',
+      id: "1",
+      name: "new-button",
       button: (
         <Button
           id="new-button"
@@ -72,13 +72,13 @@ const Categories = () => {
       ),
     },
     {
-      id: '2',
-      name: 'refresh-button',
+      id: "2",
+      name: "refresh-button",
       button: (
         <Button
           id="refresh-button"
           name="Refresh"
-          bgColor="bg-txt-mute"
+          bgColor="bg-mute"
           onClick={() => {
             getAllCategories();
           }}
@@ -132,7 +132,7 @@ const Categories = () => {
             persistTableHead
             dense
             progressPending={loading}
-            progressComponent={<ListLoader rowLength={5} colLength={9} />}
+            progressComponent={<ListLoader rowLength={5} />}
             data={categories}
             className="border "
             onChangeRowsPerPage={handlePerPage}
@@ -144,9 +144,9 @@ const Categories = () => {
             defaultSortFieldId={sortedBy}
             columns={[
               {
-                id: 'action',
-                name: 'Action',
-                width: '80px',
+                id: "action",
+                name: "Action",
+                width: "80px",
                 cell: (row) => (
                   <div className="flex justify-between">
                     <FaTrashAlt
@@ -168,24 +168,24 @@ const Categories = () => {
               },
 
               {
-                id: 'name',
-                name: 'Name',
-                selector: (row) => row['name'],
+                id: "name",
+                name: "Name",
+                selector: (row) => row["name"],
               },
               {
-                id: 'createdAt',
-                name: 'Date',
-                width: '120px',
+                id: "createdAt",
+                name: "Date",
+                width: "120px",
                 selector: (row) =>
-                  moment(row['createdAt']).format('DD-MMM-YYYY'),
+                  moment(row["createdAt"]).format("DD-MMM-YYYY"),
               },
 
               {
-                id: 'active',
-                name: 'Status',
-                width: '100px',
+                id: "active",
+                name: "Status",
+                width: "100px",
                 center: true,
-                cell: (row) => (row.isActive ? 'Active' : 'InActive'),
+                cell: (row) => (row.isActive ? "Active" : "InActive"),
               },
             ]}
             paginationComponent={paginationComponent}
@@ -194,7 +194,7 @@ const Categories = () => {
           />
         </div>
       </div>
-      {categorySidebarOpen && <CategoryModal />}
+      <CategoryModal />
     </FormLayout>
   );
 };

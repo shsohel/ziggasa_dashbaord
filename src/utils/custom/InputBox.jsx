@@ -19,7 +19,7 @@ const InputBox = (props) => {
   return (
     <>
       <div className={` ${labelClass}`}>
-        {label && <label className={`text-sm mb-2`}>{label}</label>}
+        {label && <label className={`text-sm font-bold mb-2`}>{label}</label>}
       </div>
       <input
         id={id}

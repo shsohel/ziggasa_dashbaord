@@ -109,9 +109,9 @@ const Blogs = () => {
             defaultSortFieldId={sortedBy}
             columns={[
               {
-                id: 'action',
-                name: 'Action',
-                width: '80px',
+                id: "action",
+                name: "Action",
+                width: "80px",
                 cell: (row) => (
                   <div className="flex justify-between">
                     <FaTrashAlt
@@ -133,30 +133,30 @@ const Blogs = () => {
               },
 
               {
-                id: 'title',
-                name: 'Title',
-                selector: (row) => row['title'],
+                id: "title",
+                name: "Title",
+                selector: (row) => row["title"],
               },
               {
-                id: 'createdAt',
-                name: 'Date',
-                width: '120px',
+                id: "createdAt",
+                name: "Date",
+                width: "120px",
                 selector: (row) =>
-                  moment(row['createdAt']).format('DD-MMM-YYYY'),
+                  moment(row["createdAt"]).format("DD-MMM-YYYY"),
               },
               {
-                id: 'writer',
-                name: 'Author',
-                width: '100px',
-                selector: (row) => row['writer'].name,
+                id: "writer",
+                name: "Author",
+                width: "100px",
+                selector: (row) => row["writer"]?.name,
               },
 
               {
-                id: 'active',
-                name: 'Status',
-                width: '100px',
+                id: "active",
+                name: "Status",
+                width: "100px",
                 center: true,
-                cell: (row) => (row.isActive ? 'Active' : 'InActive'),
+                cell: (row) => (row.isActive ? "Active" : "InActive"),
               },
             ]}
             paginationComponent={paginationComponent}

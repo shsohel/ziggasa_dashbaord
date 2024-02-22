@@ -1,8 +1,8 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Sidebar from '../../../utils/custom/Sidebar';
-import InputBox from '../../../utils/custom/InputBox';
-import SelectBox from '../../../utils/custom/SelectBox';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Sidebar from "../../../utils/custom/Sidebar";
+import InputBox from "../../../utils/custom/InputBox";
+import SelectBox from "../../../utils/custom/SelectBox";
 import {
   addTag,
   bindTag,
@@ -10,10 +10,10 @@ import {
   bindTagSidebar,
   getTags,
   updateTag,
-} from '../../../store/tag';
-import TextArea from '../../../utils/custom/TextAreaBox';
-import { Button } from '../../../utils/custom/Button';
-import { HttpStatusCode } from 'axios';
+} from "../../../store/tag";
+import TextArea from "../../../utils/custom/TextAreaBox";
+import { Button } from "../../../utils/custom/Button";
+import { HttpStatusCode } from "axios";
 
 const TagModal = () => {
   const dispatch = useDispatch();
@@ -64,6 +64,7 @@ const TagModal = () => {
   };
   return (
     <Sidebar
+      title="Tag"
       isOpen={tagSidebarOpen}
       handleSidebarModal={handleClose}
       FooterComponent={

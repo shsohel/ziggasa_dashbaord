@@ -1,8 +1,8 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Sidebar from '../../../utils/custom/Sidebar';
-import InputBox from '../../../utils/custom/InputBox';
-import SelectBox from '../../../utils/custom/SelectBox';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Sidebar from "../../../utils/custom/Sidebar";
+import InputBox from "../../../utils/custom/InputBox";
+import SelectBox from "../../../utils/custom/SelectBox";
 import {
   addKeyword,
   bindKeyword,
@@ -10,10 +10,10 @@ import {
   bindKeywordSidebar,
   getKeywords,
   updateKeyword,
-} from '../../../store/keyword';
-import TextArea from '../../../utils/custom/TextAreaBox';
-import { Button } from '../../../utils/custom/Button';
-import { HttpStatusCode } from 'axios';
+} from "../../../store/keyword";
+import TextArea from "../../../utils/custom/TextAreaBox";
+import { Button } from "../../../utils/custom/Button";
+import { HttpStatusCode } from "axios";
 
 const KeywordForm = () => {
   const dispatch = useDispatch();
@@ -83,6 +83,7 @@ const KeywordForm = () => {
   };
   return (
     <Sidebar
+      title="Keyword"
       isOpen={keywordSidebarOpen}
       handleSidebarModal={handleClose}
       FooterComponent={

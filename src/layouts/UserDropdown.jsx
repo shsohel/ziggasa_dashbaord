@@ -40,7 +40,7 @@ const UserDropdown = () => {
               <span className="flex min-w-0 items-center justify-between space-x-3">
                 <img
                   className=" flex-shrink-0 rounded-full h-10 w-10 bg-gray-300 object-cover object-center"
-                  src={`${uploadUrl}${authUser?.photoUrl}`}
+                  src={`${uploadUrl}/${authUser?.photoUrl}`}
                   alt=""
                   width={45}
                   height={45}

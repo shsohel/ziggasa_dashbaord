@@ -32,8 +32,8 @@ function AppLayout(props) {
             <span className="sr-only">Open sidebar</span>
             <Bars4Icon className="h-6 w-6" aria-hidden="true" />
           </button>
-          <div className="flex flex-1 justify-between px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-1">
+          <div className="flex flex-1 justify-end px-4 sm:px-6 lg:px-8">
+            {/* <div className="flex flex-1">
               <form className="flex w-full md:ml-0" action="#" method="GET">
                 <label htmlFor="search-field" className="sr-only">
                   Search
@@ -51,7 +51,7 @@ function AppLayout(props) {
                   />
                 </div>
               </form>
-            </div>
+            </div> */}
             <div className="flex items-center">
               <UserDropdown />
             </div>
