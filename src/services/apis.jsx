@@ -1,8 +1,9 @@
 export const apiEndpoints = {
-  blogs: '/blogs',
-  job: '/job',
-  category: '/category',
-  tag: '/tag',
-  keyword: '/keyword',
-  file: '/fileupload',
+  blog: "/blog",
+  job: "/job",
+  category: "/category",
+  tag: "/tag",
+  company: "/company",
+  keyword: "/keyword",
+  file: "/fileupload",
 };

@@ -1,82 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../../utils/custom/Button";
-import RichEditor from "../../../utils/custom/Editor";
 import FormLayout from "../../../utils/custom/FormLayout";
 import InputBox from "../../../utils/custom/InputBox";
 import SelectBox from "../../../utils/custom/SelectBox";
 import TextArea from "../../../utils/custom/TextAreaBox";
 
-import JobDescriptions from "./JobDescriptions";
+import BlogDescriptions from "./BlogDescriptions";
 import HorizontalTab from "../../../utils/custom/HorizontalTab";
-import JobQualifications from "./JobQualifications";
-import JobResponsibilities from "./JobResponsibilities";
-import {
-  DocumentTextIcon,
-  DocumentChartBarIcon,
-  DocumentCheckIcon,
-} from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
+
+import { DocumentTextIcon } from "@heroicons/react/24/outline";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { bindCategoryDropdown } from "../../../store/category";
-import { addNewJob, bindJob } from "../../../store/job";
+import { bindBlog, getBlog, updateBlog } from "../../../store/blog";
 import { bindTagDropdown } from "../../../store/tag";
 import { bindKeywordDropdown } from "../../../store/keyword";
 import { getFilesByQuery } from "../../../store/file-upload";
 import { uploadUrl } from "../../../services";
 import { replaceImage } from "../../../utils/utility";
 import SingleFileUpload from "../../../components/SingleFileUpload";
-import { jobTypes } from "../../../store/job/model";
-import { bindCompanyDropdown } from "../../../store/company";
 const defaultTabs = [
   {
     id: "description",
     title: "Description",
     icon: <DocumentTextIcon className="me-2 h-4 w-4" aria-hidden="true" />,
-    component: <JobDescriptions />,
+    component: <BlogDescriptions />,
     isActive: true,
-  },
-  {
-    id: "qualifications",
-    title: "Qualifications",
-    icon: <DocumentCheckIcon className="me-2 h-4 w-4" aria-hidden="true" />,
-    component: <JobQualifications />,
-    isActive: false,
-  },
-  {
-    id: "responsibilities",
-    title: "Responsibilities",
-    icon: <DocumentChartBarIcon className="me-2 h-4 w-4" aria-hidden="true" />,
-    component: <JobResponsibilities />,
-    isActive: false,
   },
 ];
 
-const AddNewJob = () => {
+const EditBlogForm = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
     ({ category }) => category
-  );
-  const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
     ({ keyword }) => keyword
   );
-  const { job } = useSelector(({ job }) => job);
-  const [jobDetails, setJobDetails] = useState("");
+  const { blog } = useSelector(({ blog }) => blog);
   const [isOpenFileUploadModal, setIsOpenFileUploadModal] = useState(false);
 
   const {
+    id,
     title,
     category,
-    jobType,
-    company,
     tag,
     details,
-    qualifications,
-    responsibilities,
+
     keyword,
     metaDescription,
     metaTitle,
@@ -87,25 +60,35 @@ const AddNewJob = () => {
     featuredImageDescriptions,
     featuredImageAltText,
     isActive,
-  } = job;
+  } = blog;
+
+  console.log(state);
+
+  useEffect(() => {
+    dispatch(getBlog({ id: state }));
+
+    return () => {
+      dispatch(bindBlog());
+    };
+  }, [dispatch, state]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     const updated = {
-      ...job,
+      ...blog,
       [name]: value,
     };
-    dispatch(bindJob(updated));
+    dispatch(bindBlog(updated));
   };
 
   const handleDropdown = (data, e) => {
     const { name } = e;
-    const updatedJob = {
-      ...job,
+    const updatedBlog = {
+      ...blog,
       [name]: data,
     };
 
-    dispatch(bindJob(updatedJob));
+    dispatch(bindBlog(updatedBlog));
   };
 
   const handleUploadModalOpen = () => {
@@ -124,8 +107,8 @@ const AddNewJob = () => {
   const handleFileUploadSubmit = (file) => {
     if (file) {
       const { title, descriptions, altText, fileUrl, captions } = file;
-      const updatedJob = {
-        ...job,
+      const updatedBlog = {
+        ...blog,
         featuredImageUrl: fileUrl,
         featuredImageTitle: title,
         featuredImageCaptions: captions,
@@ -133,37 +116,35 @@ const AddNewJob = () => {
         featuredImageAltText: altText,
       };
 
-      dispatch(bindJob(updatedJob));
+      dispatch(bindBlog(updatedBlog));
       setIsOpenFileUploadModal((prev) => !prev);
     }
   };
 
   const onSubmit = () => {
     const obj = {
+      id,
       title,
       category: category.map((cat) => cat.value),
       tag: tag.map((t) => t.value),
       keyword: keyword.map((t) => t.value),
       details,
-      qualifications,
-      responsibilities,
+
       metaDescription,
       metaTitle,
-      company: company?.value ?? "",
+      // author,
       featuredImageUrl,
       featuredImageTitle,
       featuredImageCaptions,
       featuredImageDescriptions,
       featuredImageAltText,
       isActive,
-      jobType: jobType?.value ?? "",
     };
     console.log("obj", JSON.stringify(obj, null, 2));
 
     dispatch(
-      addNewJob({
-        job: obj,
-        navigate,
+      updateBlog({
+        blog: obj,
       })
     );
   };
@@ -185,7 +166,7 @@ const AddNewJob = () => {
   ];
 
   return (
-    <FormLayout title="Edit Job" actions={actions}>
+    <FormLayout title="Edit Blog" actions={actions}>
       <InputBox
         label="Title"
         classNames="mb-3"
@@ -242,22 +223,6 @@ const AddNewJob = () => {
         <div className="lg:col-span-2 ">
           <div className="grid grid-cols-1 gap-6 ">
             <SelectBox
-              id="organizationId"
-              label="Organization"
-              classNames=""
-              isLoading={!isCompanyDropdownLoaded}
-              name="company"
-              options={companyDropdown}
-              value={company}
-              onChange={(data, e) => {
-                handleDropdown(data, e);
-              }}
-              placeholder="Select Organization"
-              onFocus={() => {
-                dispatch(bindCompanyDropdown());
-              }}
-            />
-            <SelectBox
               id="categoryId"
               label="Category"
               classNames=""
@@ -274,29 +239,15 @@ const AddNewJob = () => {
                 dispatch(bindCategoryDropdown());
               }}
             />
-            <SelectBox
-              id="jobTypeId"
-              label="Job Type"
-              classNames=""
-              name="jobType"
-              options={jobTypes}
-              value={jobType}
-              onChange={(data, e) => {
-                handleDropdown(data, e);
-              }}
-              placeholder="Select Job Type"
-              onFocus={() => {
-                dispatch(bindTagDropdown());
-              }}
-            />
+
             {/* <SelectBox
-            id="subCategoryId"
-            classNames=""
-            name="subCategory"
-            options={[]}
-            onChange={() => {}}
-            placeholder="Select Sub Category"
-          /> */}
+              id="subCategoryId"
+              classNames=""
+              name="subCategory"
+              options={[]}
+              onChange={() => {}}
+              placeholder="Select Sub Category"
+            /> */}
             <SelectBox
               id="tagId"
               label="Tag"
@@ -347,4 +298,4 @@ const AddNewJob = () => {
   );
 };
 
-export default AddNewJob;
+export default EditBlogForm;

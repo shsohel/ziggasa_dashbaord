@@ -79,13 +79,13 @@ export const mainNavigation = [
         icon: BuildingStorefrontIcon,
         current: false,
       },
-
       {
-        name: "My Profile",
-        href: "/brand",
+        name: "Organizations",
+        href: "/company",
         icon: BuildingStorefrontIcon,
         current: false,
       },
+
       {
         name: "Logout",
         href: "/brand",

@@ -67,6 +67,10 @@ export const getJob = createAsyncThunk(types.GET_JOB_BY_ID, async (data) => {
         label: key.name,
         value: key.id,
       })),
+      company: dt.organization.map((key) => ({
+        label: key.name,
+        value: key.id,
+      })),
       jobType: {
         label: dt.jobType,
         value: dt.jobType,

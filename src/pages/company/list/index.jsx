@@ -2,28 +2,39 @@ import { Button } from "../../../utils/custom/Button";
 import FormLayout from "../../../utils/custom/FormLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { getBlogs } from "../../../store/blog";
 import DataTable from "react-data-table-component";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import Pagination from "../../../utils/custom/Pagination";
 import moment from "moment";
 import { tableCustomStyles } from "../../../utils/utility";
 import { useNavigate } from "react-router-dom";
+import {
+  bindCompanySidebar,
+  deleteCompany,
+  getCompanies,
+  getCompany,
+} from "../../../store/company";
+import CompanyModal from "../form/CompanyForm";
+import { HttpStatusCode } from "axios";
+import { confirmDialog } from "../../../utils/custom/ConfirmDialogBox";
+import { confirmObj } from "../../../utils/enum";
 import ListLoader from "../../../utils/custom/ListLoader";
 
-const Blogs = () => {
+const Companies = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { blogs, loading, total } = useSelector(({ blog }) => blog);
+  const { companies, companySidebarOpen, loading, total } = useSelector(
+    ({ company }) => company
+  );
   const [rowPerPage, setRowPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [orderBy, setOrderBy] = useState("desc");
   const [sortedBy, setSortedBy] = useState("createdAt");
   const [filterObj, setFilterObj] = useState({
-    title: "",
+    name: "",
   });
 
-  const getAllBlogs = useCallback(() => {
+  const getAllCompanies = useCallback(() => {
     const queryParams = {
       page: currentPage,
       limit: rowPerPage,
@@ -34,16 +45,16 @@ const Blogs = () => {
       queryParams,
       queryObj: filterObj,
     };
-    dispatch(getBlogs(data));
-  }, [dispatch, rowPerPage, currentPage, orderBy, sortedBy, filterObj]);
+    dispatch(getCompanies(data));
+  }, [dispatch, currentPage, rowPerPage, sortedBy, orderBy, filterObj]);
 
   useEffect(() => {
-    getAllBlogs();
+    getAllCompanies();
     return () => {};
-  }, [dispatch, getAllBlogs]);
+  }, [dispatch, getAllCompanies]);
 
   const handleNew = () => {
-    navigate("/blogs/new");
+    dispatch(bindCompanySidebar(true));
   };
 
   const actions = [
@@ -69,7 +80,7 @@ const Blogs = () => {
           name="Refresh"
           bgColor="bg-mute"
           onClick={() => {
-            getAllBlogs();
+            getAllCompanies();
           }}
         />
       ),
@@ -84,8 +95,17 @@ const Blogs = () => {
     setCurrentPage(page);
   };
 
-  const handleEdit = (id) => {
-    navigate("/blogs/edit", { state: id });
+  const handleDelete = (id) => {
+    confirmDialog(confirmObj).then(async (e) => {
+      if (e.isConfirmed) {
+        dispatch(deleteCompany(id)).then((response) => {
+          const { payload } = response;
+          if (payload.status === HttpStatusCode.Ok) {
+            getAllCompanies();
+          }
+        });
+      }
+    });
   };
 
   const paginationComponent = (data) => {
@@ -104,7 +124,7 @@ const Blogs = () => {
     );
   };
   return (
-    <FormLayout title="Blogs" actions={actions}>
+    <FormLayout title="Companies" actions={actions}>
       <div>
         <div>
           <DataTable
@@ -112,12 +132,12 @@ const Blogs = () => {
             persistTableHead
             dense
             progressPending={loading}
-            progressComponent={<ListLoader rowLength={10} />}
-            data={blogs}
-            className="border custom-scrollbar"
+            progressComponent={<ListLoader rowLength={5} colLength={9} />}
+            data={companies}
+            className="border "
             onChangeRowsPerPage={handlePerPage}
             onSort={handleSort}
-            onChangePage={handlePagination}
+            // onChangePage={handlePagination}
             paginationServer
             sortServer
             defaultSortAsc
@@ -131,14 +151,14 @@ const Blogs = () => {
                   <div className="flex justify-between">
                     <FaTrashAlt
                       onClick={() => {
-                        // dispatch(deleteUser(row));
+                        handleDelete(row.id);
                       }}
                       size={16}
                       className="mr-3 cursor-pointer fill-red-600"
                     />
                     <FaPencilAlt
                       onClick={() => {
-                        handleEdit(row.id);
+                        dispatch(getCompany(row.id));
                       }}
                       size={16}
                       className="cursor-pointer fill-green-600"
@@ -148,23 +168,16 @@ const Blogs = () => {
               },
 
               {
-                id: "title",
-                name: "Title",
-                selector: (row) => row["title"],
+                id: "name",
+                name: "Name",
+                selector: (row) => row["name"],
               },
-
               {
                 id: "createdAt",
                 name: "Date",
                 width: "120px",
                 selector: (row) =>
                   moment(row["createdAt"]).format("DD-MMM-YYYY"),
-              },
-              {
-                id: "writer",
-                name: "Author",
-                width: "100px",
-                selector: (row) => row["writer"]?.name,
               },
 
               {
@@ -181,8 +194,9 @@ const Blogs = () => {
           />
         </div>
       </div>
+      {companySidebarOpen && <CompanyModal />}
     </FormLayout>
   );
 };
 
-export default Blogs;
+export default Companies;

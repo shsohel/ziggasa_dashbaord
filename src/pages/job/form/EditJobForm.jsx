@@ -26,6 +26,7 @@ import { uploadUrl } from "../../../services";
 import { replaceImage } from "../../../utils/utility";
 import SingleFileUpload from "../../../components/SingleFileUpload";
 import { jobTypes } from "../../../store/job/model";
+import { bindCompanyDropdown } from "../../../store/company";
 const defaultTabs = [
   {
     id: "description",
@@ -55,11 +56,14 @@ const EditJobForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
+  );
+  const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
+    ({ company }) => company
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -69,6 +73,7 @@ const EditJobForm = () => {
     id,
     title,
     category,
+    company,
     jobType,
     tag,
     details,
@@ -157,7 +162,8 @@ const EditJobForm = () => {
       responsibilities,
       metaDescription,
       metaTitle,
-      // author,
+      company: company?.value ?? "",
+
       featuredImageUrl,
       featuredImageTitle,
       featuredImageCaptions,
@@ -171,7 +177,7 @@ const EditJobForm = () => {
     dispatch(
       updateJob({
         job: obj,
-      }),
+      })
     );
   };
 
@@ -248,6 +254,22 @@ const EditJobForm = () => {
         </div>
         <div className="lg:col-span-2 ">
           <div className="grid grid-cols-1 gap-6 ">
+            <SelectBox
+              id="organizationId"
+              label="Organization"
+              classNames=""
+              isLoading={!isCompanyDropdownLoaded}
+              name="company"
+              options={companyDropdown}
+              value={company}
+              onChange={(data, e) => {
+                handleDropdown(data, e);
+              }}
+              placeholder="Select Organization"
+              onFocus={() => {
+                dispatch(bindCompanyDropdown());
+              }}
+            />
             <SelectBox
               id="categoryId"
               label="Category"

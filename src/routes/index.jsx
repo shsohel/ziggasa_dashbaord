@@ -46,6 +46,8 @@ import Keywords from "../pages/keyword/list";
 import Jobs from "../pages/job/list";
 import AddNewJob from "../pages/job/form/AddNewJob";
 import EditJobForm from "../pages/job/form/EditJobForm";
+import Companies from "../pages/company/list";
+import EditBlogForm from "../pages/blogs/form/EditBlogForm";
 
 const appRoutes = [
   {
@@ -135,6 +137,12 @@ const appRoutes = [
             component: AddNewBlog,
             path: "/blogs/new",
           },
+          {
+            name: "blog-edit",
+            title: "Edit Blog",
+            component: EditBlogForm,
+            path: "/blogs/edit",
+          },
         ],
       },
       {
@@ -176,6 +184,18 @@ const appRoutes = [
             title: "Add user",
             component: UserAddForm,
             path: "/add-user",
+          },
+        ],
+      },
+      {
+        name: "company",
+        title: "Organization",
+        routes: [
+          {
+            name: "list-company",
+            title: "List of Company",
+            component: Companies,
+            path: "/company",
           },
         ],
       },

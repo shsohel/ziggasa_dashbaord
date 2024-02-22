@@ -10,6 +10,7 @@ import tag from "./tag";
 import keyword from "./keyword";
 import job from "./job";
 import file from "./file-upload";
+import company from "./company";
 
 import basicReducers from "./basic/reducers";
 
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   tag,
   keyword,
   file,
+  company,
 });
 
 // const middleware = [thunk, createDebounce()];

@@ -4,6 +4,7 @@ export const jobModel = {
   category: [],
   subCategory: [],
   tag: [],
+  company: null,
   details: "",
   qualifications: "",
   responsibilities: "",
