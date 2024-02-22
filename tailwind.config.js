@@ -37,7 +37,7 @@ export default {
   },
   plugins: [
     require("@tailwindcss/forms"),
-    require("tailwind-scrollbar")({ nocompatible: true }),
+    // require("tailwind-scrollbar")({ nocompatible: true }),
     // require('tailwindcss-animate'),
     //   require('@tailwindcss/typography'),
     //   require('@tailwindcss/forms'),

@@ -221,3 +221,8 @@ export const getIdFromUrl = () => {
 export const cn = (...inputs) => {
   return twMerge(clsx(inputs));
 };
+
+export const createOption = (label) => ({
+  label,
+  value: label.replace(/\W/g, ""),
+});
