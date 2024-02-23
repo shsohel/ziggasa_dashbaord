@@ -107,7 +107,7 @@ export const getMeAfterLogin = (callbackFun) => (dispatch) => {
     })
     .catch(({ response }) => {
       callbackFun(false);
-      dispatch(logout());
+      //  dispatch(logout());
 
       if (response.status === 400) {
         // notify('error', `${response?.data?.error}`);
