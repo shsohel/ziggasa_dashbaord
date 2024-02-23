@@ -107,7 +107,7 @@ export const getMeAfterLogin = (callbackFun) => (dispatch) => {
     })
     .catch(({ response }) => {
       callbackFun(false);
-      //  dispatch(logout());
+      dispatch(logout());
 
       if (response.status === 400) {
         // notify('error', `${response?.data?.error}`);
@@ -117,9 +117,9 @@ export const getMeAfterLogin = (callbackFun) => (dispatch) => {
 
 export const login =
   ({ password, email }, callbackFun) =>
-  async (dispatch) => {
+  (dispatch) => {
     const apiEndPoint = `/auth/login`;
-    await baseAxios
+    baseAxios
       .post(apiEndPoint, { password, email })
 
       .then((response) => {
