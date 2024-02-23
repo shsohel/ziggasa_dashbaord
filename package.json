@@ -1,6 +1,6 @@
 {
   "name": "ziggasa_dash",
-  "homepage": "http://localhost:3005",
+  "homepage": "/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
