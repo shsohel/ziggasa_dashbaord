@@ -52,7 +52,7 @@ export const logout = (handleCallback) => async (dispatch) => {
   // });
 };
 
-export const getMe = () => (dispatch) => {
+export const getMe = (handleCallback) => (dispatch) => {
   const apiEndPoint = `/api/auth`;
   axios
     .get(apiEndPoint)
@@ -65,7 +65,7 @@ export const getMe = () => (dispatch) => {
       }
     })
     .catch(({ response }) => {
-      dispatch(logout());
+      dispatch(logout(handleCallback));
       if (response.status === 400) {
         // notify('error', `${response?.data?.error}`);
       }
@@ -107,7 +107,7 @@ export const getMeAfterLogin = (callbackFun) => (dispatch) => {
     })
     .catch(({ response }) => {
       callbackFun(false);
-      dispatch(logout());
+      dispatch(logout(callbackFun));
 
       if (response.status === 400) {
         // notify('error', `${response?.data?.error}`);
