@@ -3,7 +3,7 @@
   command = "npm run build"
   
   # Directory where the built app will be located
-  publish = "build"
+  publish = "dist"
 
 [[redirects]]
   # Redirect all requests to /index.html
