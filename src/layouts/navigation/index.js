@@ -33,6 +33,12 @@ export const mainNavigation = [
         current: false,
       },
       {
+        name: "Skill",
+        href: "/skills",
+        icon: LinkIcon,
+        current: false,
+      },
+      {
         name: "Jobs",
         href: "/jobs",
         icon: LinkIcon,
@@ -82,13 +88,6 @@ export const mainNavigation = [
       {
         name: "Organizations",
         href: "/company",
-        icon: BuildingStorefrontIcon,
-        current: false,
-      },
-
-      {
-        name: "Logout",
-        href: "/brand",
         icon: BuildingStorefrontIcon,
         current: false,
       },

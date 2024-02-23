@@ -25,8 +25,13 @@ import { getFilesByQuery } from "../../../store/file-upload";
 import { uploadUrl } from "../../../services";
 import { replaceImage } from "../../../utils/utility";
 import SingleFileUpload from "../../../components/SingleFileUpload";
-import { jobTypes } from "../../../store/job/model";
+import {
+  benefitsOptions,
+  currenciesOptions,
+  jobTypes,
+} from "../../../store/job/model";
 import { bindCompanyDropdown } from "../../../store/company";
+import { bindSkillDropdown } from "../../../store/skill";
 const defaultTabs = [
   {
     id: "description",
@@ -56,14 +61,17 @@ const EditJobForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category
+    ({ category }) => category,
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company
+    ({ company }) => company,
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword
+    ({ keyword }) => keyword,
+  );
+  const { skillDropdown, isSkillDropdownLoaded } = useSelector(
+    ({ skill }) => skill,
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -74,6 +82,7 @@ const EditJobForm = () => {
     title,
     category,
     company,
+    currency,
     jobType,
     tag,
     details,
@@ -83,6 +92,11 @@ const EditJobForm = () => {
     metaDescription,
     metaTitle,
     author,
+    skills,
+    benefits,
+    salary,
+    phoneNumber,
+    email,
     featuredImageUrl,
     featuredImageTitle,
     featuredImageCaptions,
@@ -163,7 +177,13 @@ const EditJobForm = () => {
       metaDescription,
       metaTitle,
       company: company?.value ?? "",
+      skill: skills.map((t) => t.value),
+      benefits: benefits.map((t) => t.value),
+      salary,
+      currency: currency?.label ?? "",
 
+      phoneNumber,
+      email,
       featuredImageUrl,
       featuredImageTitle,
       featuredImageCaptions,
@@ -177,7 +197,7 @@ const EditJobForm = () => {
     dispatch(
       updateJob({
         job: obj,
-      })
+      }),
     );
   };
 
@@ -197,6 +217,8 @@ const EditJobForm = () => {
     },
   ];
 
+  console.log(salary);
+
   return (
     <FormLayout title="Edit Job" actions={actions}>
       <InputBox
@@ -212,7 +234,95 @@ const EditJobForm = () => {
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         <div className="lg:col-span-7">
           <HorizontalTab defaultTabs={defaultTabs} />
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <InputBox
+                label="Salary"
+                classNames="my-3 "
+                name="salary"
+                placeholder="Salary"
+                value={salary}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+            <div>
+              <SelectBox
+                id="currencyId"
+                label="Currency"
+                classNames="my-3"
+                name="currency"
+                options={currenciesOptions}
+                value={currency}
+                onChange={(data, e) => {
+                  handleDropdown(data, e);
+                }}
+                placeholder="Salary Currency"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <InputBox
+                label="Contact Number"
+                classNames="my-3"
+                type="tel"
+                name="phoneNumber"
+                placeholder="Contact Number"
+                value={phoneNumber}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+            <div>
+              <InputBox
+                label="Email"
+                classNames="my-3"
+                name="email"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+          </div>
+
           <div>
+            <SelectBox
+              id="skillsId"
+              label="Skills"
+              classNames=""
+              isMulti={true}
+              name="skills"
+              isLoading={!isSkillDropdownLoaded}
+              options={skillDropdown}
+              value={skills}
+              onChange={(data, e) => {
+                handleDropdown(data, e);
+              }}
+              placeholder="Select Skill"
+              onFocus={() => {
+                dispatch(bindSkillDropdown());
+              }}
+            />
+            <SelectBox
+              id="benefitId"
+              label="Benefits"
+              classNames=""
+              isMulti={true}
+              name="benefits"
+              options={benefitsOptions}
+              value={benefits}
+              onChange={(data, e) => {
+                handleDropdown(data, e);
+              }}
+              placeholder="Select Benefits"
+            />
             <InputBox
               label="SEO Title"
               classNames="my-3"
@@ -271,6 +381,21 @@ const EditJobForm = () => {
               }}
             />
             <SelectBox
+              id="jobTypeId"
+              label="Job Type"
+              classNames=""
+              name="jobType"
+              options={jobTypes}
+              value={jobType}
+              onChange={(data, e) => {
+                handleDropdown(data, e);
+              }}
+              placeholder="Select Job Type"
+              onFocus={() => {
+                dispatch(bindTagDropdown());
+              }}
+            />
+            <SelectBox
               id="categoryId"
               label="Category"
               classNames=""
@@ -287,29 +412,15 @@ const EditJobForm = () => {
                 dispatch(bindCategoryDropdown());
               }}
             />
-            <SelectBox
-              id="jobTypeId"
-              label="Job Type"
-              classNames=""
-              name="jobType"
-              options={jobTypes}
-              value={jobType}
-              onChange={(data, e) => {
-                handleDropdown(data, e);
-              }}
-              placeholder="Select Job Type"
-              onFocus={() => {
-                dispatch(bindTagDropdown());
-              }}
-            />
+
             {/* <SelectBox
-              id="subCategoryId"
-              classNames=""
-              name="subCategory"
-              options={[]}
-              onChange={() => {}}
-              placeholder="Select Sub Category"
-            /> */}
+            id="subCategoryId"
+            classNames=""
+            name="subCategory"
+            options={[]}
+            onChange={() => {}}
+            placeholder="Select Sub Category"
+          /> */}
             <SelectBox
               id="tagId"
               label="Tag"

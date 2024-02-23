@@ -48,6 +48,8 @@ import AddNewJob from "../pages/job/form/AddNewJob";
 import EditJobForm from "../pages/job/form/EditJobForm";
 import Companies from "../pages/company/list";
 import EditBlogForm from "../pages/blogs/form/EditBlogForm";
+import TestTable from "../pages/test/DynamicTable";
+import Skills from "../pages/skill/list";
 
 const appRoutes = [
   {
@@ -60,6 +62,7 @@ const appRoutes = [
         path: "/login",
         isPublic: true,
       },
+
       {
         name: "register",
         title: "Register",
@@ -84,6 +87,13 @@ const appRoutes = [
         title: "Home page",
         component: Dashboard,
         path: "/",
+      },
+      {
+        name: "test",
+        title: "Test",
+        component: TestTable,
+        path: "/test",
+        isPublic: true,
       },
       {
         name: "category",
@@ -118,6 +128,18 @@ const appRoutes = [
             title: "List of Keywords",
             component: Keywords,
             path: "/keywords",
+          },
+        ],
+      },
+      {
+        name: "skill",
+        title: "Skills",
+        routes: [
+          {
+            name: "list-skill",
+            title: "List of Skills",
+            component: Skills,
+            path: "/skills",
           },
         ],
       },

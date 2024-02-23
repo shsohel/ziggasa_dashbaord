@@ -26,7 +26,7 @@ export const getCompanies = createAsyncThunk(
     const { queryParams, queryObj } = data;
     // console.log("filter", filter);
     const apiEndpoint = `${apiEndpoints.company}?${convertQueryString(
-      queryParams
+      queryParams,
     )}`;
 
     const response = await baseAxios.post(apiEndpoint, queryObj);
@@ -35,7 +35,7 @@ export const getCompanies = createAsyncThunk(
       queryParams,
       queryObj,
     };
-  }
+  },
 );
 
 export const bindCompanyDropdown = createAsyncThunk(
@@ -48,7 +48,7 @@ export const bindCompanyDropdown = createAsyncThunk(
       label: item.name,
     }));
     return dropdown;
-  }
+  },
 );
 
 export const addCompany = createAsyncThunk(types.ADD_COMPANY, async (data) => {
@@ -90,7 +90,7 @@ export const updateCompany = createAsyncThunk(
         statusText: response?.statusText,
       };
     }
-  }
+  },
 );
 export const deleteCompany = createAsyncThunk(
   types.DELETE_COMPANY,
@@ -111,7 +111,7 @@ export const deleteCompany = createAsyncThunk(
         statusText: response?.statusText,
       };
     }
-  }
+  },
 );
 
 export const getCompany = createAsyncThunk(
@@ -123,11 +123,26 @@ export const getCompany = createAsyncThunk(
 
     const dt = {
       ...data,
+      technologies: data.technologies?.map((item) => ({
+        label: item,
+        value: item,
+      })),
+      companyBenefits: data.companyBenefits?.map((item) => ({
+        label: item,
+        value: item,
+      })),
+      countries: data.countries?.map((item) => ({
+        label: item,
+        value: item,
+      })),
+      markets: data.markets?.map((item) => ({
+        label: item,
+        value: item,
+      })),
     };
     return dt;
-  }
+  },
 );
-const adaper = createEntityAdapter();
 
 const companySlice = createSlice({
   name: "company",
@@ -147,7 +162,11 @@ const companySlice = createSlice({
       state.companySidebarOpen = action.payload;
     },
     bindCompany: (state, action) => {
-      state.company = action.payload;
+      if (action.payload) {
+        state.company = action.payload;
+      } else {
+        state.company = companyModel;
+      }
     },
   },
 

@@ -5,5 +5,6 @@ export const apiEndpoints = {
   tag: "/tag",
   company: "/company",
   keyword: "/keyword",
+  skill: "/skill",
   file: "/fileupload",
 };

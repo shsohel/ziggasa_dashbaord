@@ -8,6 +8,7 @@ import blog from "./blog";
 import category from "./category";
 import tag from "./tag";
 import keyword from "./keyword";
+import skill from "./skill";
 import job from "./job";
 import file from "./file-upload";
 import company from "./company";
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   keyword,
   file,
   company,
+  skill,
 });
 
 // const middleware = [thunk, createDebounce()];

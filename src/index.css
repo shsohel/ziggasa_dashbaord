@@ -1,7 +1,10 @@
 @tailwind base;
+
 @tailwind components;
 @tailwind utilities;
 :root {
+  --primary: #0ec6d5;
+  --secondary: cornflowerblue;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -30,7 +33,27 @@ body {
   overflow-x: hidden;
 }
 
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0ec6d5 #E9EEF1;
+}
 
+/* Chrome, Edge, and Safari */
+/* *::-webkit-scrollbar {
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background: red !important;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: red !important;
+  border-radius: 14px;
+  border: 3px solid red !important;
+} */
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -62,8 +85,13 @@ body {
     @apply scrollbar-thumb-rounded-xl scrollbar-thin scrollbar-h-11 scrollbar-thumb-primary scrollbar-track-slate-200 scrollbar-corner-rounded-md;
   }
 } */
-@layer components {
+/* @layer components {
   .overflow-y-auto {
+    @apply scrollbar-thumb-rounded-xl scrollbar-thin scrollbar-h-11 scrollbar-thumb-primary scrollbar-track-slate-200 scrollbar-corner-rounded-md;
+  }
+}
+@layer components {
+  .overflow-wrap {
     @apply scrollbar-thumb-rounded-xl scrollbar-thin scrollbar-h-11 scrollbar-thumb-primary scrollbar-track-slate-200 scrollbar-corner-rounded-md;
   }
 }
@@ -78,4 +106,4 @@ body {
   .custom-scrollbar {
     @apply scrollbar-thumb-rounded-xl scrollbar-thin scrollbar-h-11 scrollbar-thumb-primary scrollbar-track-slate-200 scrollbar-corner-rounded-md
   }
-}
+} */

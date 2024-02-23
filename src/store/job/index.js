@@ -18,7 +18,7 @@ export const getJobs = createAsyncThunk(
   async (data) => {
     const { queryParams, queryObj } = data;
     const apiEndpoint = `${apiEndpoints.job}?${convertQueryString(
-      queryParams
+      queryParams,
     )}`;
     try {
       const response = await baseAxios.post(apiEndpoint, queryObj);
@@ -31,7 +31,7 @@ export const getJobs = createAsyncThunk(
       }
       throw error;
     }
-  }
+  },
 );
 
 export const addNewJob = createAsyncThunk(types.ADD_NEW_JOB, async (data) => {
@@ -67,13 +67,25 @@ export const getJob = createAsyncThunk(types.GET_JOB_BY_ID, async (data) => {
         label: key.name,
         value: key.id,
       })),
-      company: dt.organization.map((key) => ({
-        label: key.name,
-        value: key.id,
+      benefits: dt.benefits.map((key) => ({
+        label: key,
+        value: key,
       })),
+      skills: dt?.skills?.map((key) => ({
+        label: key?.name,
+        value: key?.id,
+      })),
+      company: {
+        label: dt.organization.name,
+        value: dt.organization.id,
+      },
       jobType: {
         label: dt.jobType,
         value: dt.jobType,
+      },
+      currency: {
+        label: dt.currency,
+        value: dt.currency,
       },
     };
 
@@ -114,7 +126,7 @@ export const updateJob = createAsyncThunk(
         statusText: response?.statusText,
       };
     }
-  }
+  },
 );
 
 const jobSlice = createSlice({
