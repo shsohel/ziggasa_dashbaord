@@ -61,17 +61,17 @@ const EditJobForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company,
+    ({ company }) => company
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill,
+    ({ skill }) => skill
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -103,6 +103,9 @@ const EditJobForm = () => {
     featuredImageCaptions,
     featuredImageDescriptions,
     featuredImageAltText,
+    deadline,
+    applyLink,
+    pdfLink,
     isActive,
   } = job;
 
@@ -190,6 +193,9 @@ const EditJobForm = () => {
       featuredImageCaptions,
       featuredImageDescriptions,
       featuredImageAltText,
+      deadline,
+      applyLink,
+      pdfLink,
       isActive,
       jobType: jobType?.value ?? "",
     };
@@ -198,7 +204,7 @@ const EditJobForm = () => {
     dispatch(
       updateJob({
         job: obj,
-      }),
+      })
     );
   };
 
@@ -276,7 +282,7 @@ const EditJobForm = () => {
               />
             </div>
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             <div>
               <InputBox
                 label="Contact Number"
@@ -298,6 +304,47 @@ const EditJobForm = () => {
                 type="email"
                 placeholder="Email"
                 value={email}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+            <div>
+              <InputBox
+                label="Deadline"
+                classNames="my-3"
+                name="deadline"
+                // type="date"
+                type="datetime-local"
+                pattern=""
+                placeholder="Deadline"
+                value={deadline}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <InputBox
+                label="Apply Link"
+                classNames="my-3"
+                name="applyLink"
+                placeholder="Apply Link"
+                value={applyLink}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+            <div>
+              <InputBox
+                label="Pdf Link"
+                classNames="my-3"
+                name="pdfLink"
+                placeholder="Pdf Link"
+                value={pdfLink}
                 onChange={(e) => {
                   handleOnChange(e);
                 }}

@@ -5,6 +5,7 @@ import { notify } from "../../utils/custom/Notification";
 import { convertQueryString } from "../../utils/utility";
 import { apiEndpoints } from "../../services/apis";
 import { HttpStatusCode } from "axios";
+import moment from "moment";
 
 const types = {
   GET_JOBS_BY_QUERY: "GET_JOBS_BY_QUERY",
@@ -18,7 +19,7 @@ export const getJobs = createAsyncThunk(
   async (data) => {
     const { queryParams, queryObj } = data;
     const apiEndpoint = `${apiEndpoints.job}?${convertQueryString(
-      queryParams,
+      queryParams
     )}`;
     try {
       const response = await baseAxios.post(apiEndpoint, queryObj);
@@ -31,7 +32,7 @@ export const getJobs = createAsyncThunk(
       }
       throw error;
     }
-  },
+  }
 );
 
 export const addNewJob = createAsyncThunk(types.ADD_NEW_JOB, async (data) => {
@@ -41,10 +42,17 @@ export const addNewJob = createAsyncThunk(types.ADD_NEW_JOB, async (data) => {
     const response = await baseAxios.post(apiEndpoint, job);
     navigate("/jobs");
 
-    console.log(response);
-    return response.data;
+    return {
+      data: response.data,
+      status: response.status,
+      statusText: response.statusText,
+    };
   } catch ({ response }) {
-    console.log(response);
+    return {
+      data: response.data,
+      status: response.status,
+      statusText: response.statusText,
+    };
   }
 });
 export const getJob = createAsyncThunk(types.GET_JOB_BY_ID, async (data) => {
@@ -55,6 +63,7 @@ export const getJob = createAsyncThunk(types.GET_JOB_BY_ID, async (data) => {
     const dt = response.data.data;
     const job = {
       ...dt,
+      deadline: moment.utc(dt.deadline).local().format("YYYY-MM-DD HH:mm:ss"),
       keyword: dt.keyword.map((key) => ({
         label: key.name,
         value: key.id,
@@ -112,6 +121,8 @@ export const updateJob = createAsyncThunk(
       const response = await baseAxios.put(apiEndpoint, job);
 
       if (response.status === HttpStatusCode.Ok) {
+        notify("success", "The job has been updated successfully");
+
         dispatch(getJob({ id: job.id }));
         return {
           data: response.data.data,
@@ -126,7 +137,7 @@ export const updateJob = createAsyncThunk(
         statusText: response?.statusText,
       };
     }
-  },
+  }
 );
 
 const jobSlice = createSlice({
@@ -172,9 +183,16 @@ const jobSlice = createSlice({
         state.loading = true;
       })
       .addCase(addNewJob.fulfilled, (state, action) => {
+        const { status, data, statusText } = action.payload;
+
         state.loading = false;
-        state.job = jobModel;
-        notify("success", "The job has been submitted successfully");
+
+        if (status === HttpStatusCode.Created) {
+          state.job = jobModel;
+          notify("success", "The job has been submitted successfully");
+        } else {
+          notify("error", `${data.error}`);
+        }
       })
       .addCase(addNewJob.rejected, (state, action) => {
         state.loading = false;

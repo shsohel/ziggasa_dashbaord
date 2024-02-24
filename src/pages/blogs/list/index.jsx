@@ -2,7 +2,7 @@ import { Button } from "../../../utils/custom/Button";
 import FormLayout from "../../../utils/custom/FormLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { getBlogs } from "../../../store/blog";
+import { deleteBlog, getBlogs } from "../../../store/blog";
 import DataTable from "react-data-table-component";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import Pagination from "../../../utils/custom/Pagination";
@@ -10,6 +10,9 @@ import moment from "moment";
 import { tableCustomStyles } from "../../../utils/utility";
 import { useNavigate } from "react-router-dom";
 import ListLoader from "../../../utils/custom/ListLoader";
+import { confirmDialog } from "../../../utils/custom/ConfirmDialogBox";
+import { confirmObj } from "../../../utils/enum";
+import { HttpStatusCode } from "axios";
 
 const Blogs = () => {
   const dispatch = useDispatch();
@@ -88,6 +91,14 @@ const Blogs = () => {
     navigate("/blogs/edit", { state: id });
   };
 
+  const handleDelete = (id) => {
+    confirmDialog(confirmObj).then(async (e) => {
+      if (e.isConfirmed) {
+        dispatch(deleteBlog(id));
+      }
+    });
+  };
+
   const paginationComponent = (data) => {
     const { rowCount, paginationRowsPerPageOptions } = data;
     return (
@@ -131,7 +142,7 @@ const Blogs = () => {
                   <div className="flex justify-between">
                     <FaTrashAlt
                       onClick={() => {
-                        // dispatch(deleteUser(row));
+                        handleDelete(row?.id);
                       }}
                       size={16}
                       className="mr-3 cursor-pointer fill-red-600"

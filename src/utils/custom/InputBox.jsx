@@ -18,7 +18,7 @@ const InputBox = (props) => {
   } = props;
   return (
     <>
-      <div className={` ${labelClass}`}>
+      <div className={` ${labelClass ?? ""}`}>
         {label && <label className={`text-sm font-bold mb-2`}>{label}</label>}
       </div>
       <input
@@ -39,7 +39,7 @@ const InputBox = (props) => {
           {
             "border-rose-500": invalid,
             "bg-mute": disabled,
-          },
+          }
         )}
         {...restProps}
       />

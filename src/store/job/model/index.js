@@ -1,3 +1,10 @@
+import moment from "moment";
+
+const now = moment();
+
+// Format the date using the local date and time
+const formattedDate = now.format("LLLL");
+
 export const jobModel = {
   title: "",
   slug: "",
@@ -24,6 +31,9 @@ export const jobModel = {
   featuredImageCaptions: "",
   featuredImageDescriptions: "",
   featuredImageAltText: "",
+  deadline: moment.utc().local().format("YYYY-MM-DD HH:mm:ss"),
+  applyLink: "",
+  pdfLink: "",
   isActive: true,
 };
 

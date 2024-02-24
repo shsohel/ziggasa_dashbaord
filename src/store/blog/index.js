@@ -11,6 +11,7 @@ const types = {
   ADD_NEW_BLOG: "ADD_NEW_BLOG",
   GET_BLOG_BY_ID: "GET_BLOG_BY_ID",
   UPDATE_BLOG: "UPDATE_BLOG",
+  DELETE_BLOG: "DELETE_BLOG",
 };
 //Get List Data by Query
 export const getBlogs = createAsyncThunk(
@@ -22,7 +23,11 @@ export const getBlogs = createAsyncThunk(
     )}`;
     try {
       const response = await baseAxios.post(apiEndpoint, queryObj);
-      return response.data;
+      return {
+        ...response.data,
+        queryParams,
+        queryObj,
+      };
     } catch (error) {
       if (error.response) {
         notify("warning", error.response.data.error);
@@ -40,11 +45,17 @@ export const addNewBlog = createAsyncThunk(types.ADD_NEW_BLOG, async (data) => {
   try {
     const response = await baseAxios.post(apiEndpoint, blog);
     navigate("/blogs");
-
-    console.log(response);
-    return response.data;
+    return {
+      data: response.data,
+      status: response.status,
+      statusText: response.statusText,
+    };
   } catch ({ response }) {
-    console.log(response);
+    return {
+      data: response.data,
+      status: response.status,
+      statusText: response.statusText,
+    };
   }
 });
 export const getBlog = createAsyncThunk(types.GET_BLOG_BY_ID, async (data) => {
@@ -115,6 +126,32 @@ export const updateBlog = createAsyncThunk(
   }
 );
 
+export const deleteBlog = createAsyncThunk(
+  types.DELETE_BLOG,
+  async (id, { dispatch, getState }) => {
+    const { queryParams, queryObj } = getState().blog;
+    const apiEndPoint = `${apiEndpoints.blog}/${id}`;
+    try {
+      const response = await baseAxios.delete(apiEndPoint);
+
+      if (response?.status === HttpStatusCode.Ok) {
+        dispatch(getBlogs({ queryParams, queryObj }));
+        return {
+          data: response?.data,
+          status: response?.status,
+          statusText: response?.statusText,
+        };
+      }
+    } catch ({ response }) {
+      return {
+        data: response?.data,
+        status: response?.status,
+        statusText: response?.statusText,
+      };
+    }
+  }
+);
+
 const blogSlice = createSlice({
   name: "blog",
   initialState: {
@@ -159,6 +196,8 @@ const blogSlice = createSlice({
       })
       .addCase(addNewBlog.fulfilled, (state, action) => {
         const { status, data, statusText } = action.payload;
+
+        console.log(action.payload);
         state.loading = false;
 
         if (status === HttpStatusCode.Created) {
@@ -177,13 +216,31 @@ const blogSlice = createSlice({
       })
       .addCase(getBlog.fulfilled, (state, action) => {
         const { data } = action.payload;
-        console.log(data);
         state.loading = false;
         state.blog = data;
       })
       .addCase(getBlog.rejected, (state, action) => {
         state.loading = false;
         notify("error", "The blog has been rejected");
+      })
+      .addCase(deleteBlog.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(deleteBlog.fulfilled, (state, action) => {
+        const { status, data } = action.payload;
+
+        // state.loading = false;
+
+        if (status === HttpStatusCode.Ok) {
+          notify("success", "The Blog has been deleted successfully");
+        } else {
+          notify("error", `${data?.error}`);
+        }
+      })
+      .addCase(deleteBlog.rejected, (state, action) => {
+        state.loading = false;
+        console.log(action);
+        notify("error", "The operation was rejected!");
       });
   },
 });

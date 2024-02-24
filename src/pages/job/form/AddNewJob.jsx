@@ -59,17 +59,17 @@ const AddNewJob = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company,
+    ({ company }) => company
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill,
+    ({ skill }) => skill
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -100,6 +100,9 @@ const AddNewJob = () => {
     featuredImageCaptions,
     featuredImageDescriptions,
     featuredImageAltText,
+    deadline,
+    applyLink,
+    pdfLink,
     isActive,
   } = job;
 
@@ -176,6 +179,9 @@ const AddNewJob = () => {
       featuredImageCaptions,
       featuredImageDescriptions,
       featuredImageAltText,
+      deadline,
+      applyLink,
+      pdfLink,
       isActive,
       jobType: jobType?.value ?? "",
     };
@@ -185,7 +191,7 @@ const AddNewJob = () => {
       addNewJob({
         job: obj,
         navigate,
-      }),
+      })
     );
   };
 
@@ -206,7 +212,7 @@ const AddNewJob = () => {
   ];
 
   return (
-    <FormLayout title="Add New Job" actions={actions}>
+    <FormLayout title="Add Job" actions={actions}>
       <InputBox
         label="Title"
         classNames="mb-3"
@@ -221,11 +227,23 @@ const AddNewJob = () => {
         <div className="lg:col-span-7">
           <HorizontalTab defaultTabs={defaultTabs} />
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <InputBox
+                label="Experiences"
+                classNames="my-3 "
+                name="jobExperience"
+                placeholder="Job Experiences"
+                value={jobExperience}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
             <div>
               <InputBox
                 label="Salary"
-                classNames="my-3"
+                classNames="my-3 "
                 name="salary"
                 placeholder="Salary"
                 value={salary}
@@ -249,7 +267,7 @@ const AddNewJob = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             <div>
               <InputBox
                 label="Contact Number"
@@ -271,6 +289,45 @@ const AddNewJob = () => {
                 type="email"
                 placeholder="Email"
                 value={email}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+            <div>
+              <InputBox
+                label="Deadline"
+                classNames="my-3"
+                name="deadline"
+                type="datetime-local"
+                placeholder="Deadline"
+                value={deadline}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <InputBox
+                label="Apply Link"
+                classNames="my-3"
+                name="applyLink"
+                placeholder="Apply Link"
+                value={applyLink}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+            <div>
+              <InputBox
+                label="Pdf Link"
+                classNames="my-3"
+                name="pdfLink"
+                placeholder="Pdf Link"
+                value={pdfLink}
                 onChange={(e) => {
                   handleOnChange(e);
                 }}
@@ -400,13 +457,13 @@ const AddNewJob = () => {
             />
 
             {/* <SelectBox
-            id="subCategoryId"
-            classNames=""
-            name="subCategory"
-            options={[]}
-            onChange={() => {}}
-            placeholder="Select Sub Category"
-          /> */}
+          id="subCategoryId"
+          classNames=""
+          name="subCategory"
+          options={[]}
+          onChange={() => {}}
+          placeholder="Select Sub Category"
+        /> */}
             <SelectBox
               id="tagId"
               label="Tag"
