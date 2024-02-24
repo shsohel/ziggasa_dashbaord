@@ -92,6 +92,7 @@ const EditJobForm = () => {
     metaDescription,
     metaTitle,
     author,
+    jobExperience,
     skills,
     benefits,
     salary,
@@ -181,7 +182,7 @@ const EditJobForm = () => {
       benefits: benefits.map((t) => t.value),
       salary,
       currency: currency?.label ?? "",
-
+      jobExperience,
       phoneNumber,
       email,
       featuredImageUrl,
@@ -235,7 +236,19 @@ const EditJobForm = () => {
         <div className="lg:col-span-7">
           <HorizontalTab defaultTabs={defaultTabs} />
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <InputBox
+                label="Experiences"
+                classNames="my-3 "
+                name="jobExperience"
+                placeholder="Job Experiences"
+                value={jobExperience}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
             <div>
               <InputBox
                 label="Salary"
@@ -263,7 +276,7 @@ const EditJobForm = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             <div>
               <InputBox
                 label="Contact Number"

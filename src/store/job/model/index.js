@@ -18,6 +18,7 @@ export const jobModel = {
   metaDescription: "",
   metaTitle: "",
   author: "",
+  jobExperience: "",
   featuredImageUrl: "",
   featuredImageTitle: "",
   featuredImageCaptions: "",
