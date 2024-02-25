@@ -61,17 +61,17 @@ const EditJobForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category
+    ({ category }) => category,
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company
+    ({ company }) => company,
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword
+    ({ keyword }) => keyword,
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill
+    ({ skill }) => skill,
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -144,6 +144,7 @@ const EditJobForm = () => {
       limit: 10,
       sort: "createdAt",
       orderBy: "desc",
+      from: "job",
     };
     dispatch(getFilesByQuery({ queryParams }));
     setIsOpenFileUploadModal((prev) => !prev);
@@ -204,7 +205,7 @@ const EditJobForm = () => {
     dispatch(
       updateJob({
         job: obj,
-      })
+      }),
     );
   };
 
@@ -504,7 +505,7 @@ const EditJobForm = () => {
                 width={200}
                 height={200}
                 className="object-cover object-top w-[350px] h-[200px]  p-1   "
-                src={`${uploadUrl}/${featuredImageUrl ?? ""}`}
+                src={featuredImageUrl ?? ""}
                 onError={replaceImage}
                 alt={featuredImageAltText}
               />

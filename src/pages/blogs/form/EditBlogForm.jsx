@@ -34,11 +34,11 @@ const EditBlogForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category
+    ({ category }) => category,
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword
+    ({ keyword }) => keyword,
   );
   const { blog } = useSelector(({ blog }) => blog);
   const [isOpenFileUploadModal, setIsOpenFileUploadModal] = useState(false);
@@ -97,6 +97,7 @@ const EditBlogForm = () => {
       limit: 10,
       sort: "createdAt",
       orderBy: "desc",
+      from: "blog",
     };
     dispatch(getFilesByQuery({ queryParams }));
     setIsOpenFileUploadModal((prev) => !prev);
@@ -145,7 +146,7 @@ const EditBlogForm = () => {
     dispatch(
       updateBlog({
         blog: obj,
-      })
+      }),
     );
   };
 
@@ -271,7 +272,7 @@ const EditBlogForm = () => {
                 width={200}
                 height={200}
                 className="object-cover object-top w-[350px] h-[200px]  p-1   "
-                src={`${uploadUrl}/${featuredImageUrl ?? ""}`}
+                src={featuredImageUrl ?? ""}
                 onError={replaceImage}
                 alt={featuredImageAltText}
               />

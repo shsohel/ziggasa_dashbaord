@@ -52,9 +52,7 @@ const SingleFileUpload = (props) => {
 
   const clipboard = async () => {
     try {
-      await navigator.clipboard.writeText(
-        `${uploadUrl}/${selectedImage?.fileUrl}`
-      );
+      await navigator.clipboard.writeText(selectedImage?.fileUrl);
       notify("success", "File Url Copy successfully!");
     } catch (error) {
       console.log(error);
@@ -180,7 +178,7 @@ const SingleFileUpload = (props) => {
                       className={`object-cover h-40 w-40  p-1 ${
                         file.isSelected ? "border border-primary" : "border"
                       }`}
-                      src={`${uploadUrl}/${file.fileUrl}`}
+                      src={file.fileUrl}
                       onError={replaceImage}
                       onDoubleClick={() => {
                         handleFileSelect(file.rowId);
@@ -209,7 +207,7 @@ const SingleFileUpload = (props) => {
                     width={100}
                     height={100}
                     className="object-cover object-top w-[300px] h-[150px]  p-1 border  "
-                    src={`${uploadUrl}/${selectedImage?.fileUrl ?? ""}`}
+                    src={`${selectedImage?.fileUrl ?? ""}`}
                     onError={replaceImage}
                     alt={file.altText}
                   />
@@ -227,7 +225,7 @@ const SingleFileUpload = (props) => {
               <div className="p-2 mx-2 text-center italic border-t-2 ">
                 <p className="font-light text-sm">{`Demensions: ${imageWidth}*${imageHeight} pixels`}</p>
                 <p className="font-light text-sm">{`Date: ${moment(
-                  selectedImage?.updatedAt
+                  selectedImage?.updatedAt,
                 )?.format("DD-MMM-YYYY")}`}</p>
                 <p className="font-light text-sm">{`Original Name: ${selectedImage?.fileUrl}`}</p>
               </div>
@@ -273,7 +271,7 @@ const SingleFileUpload = (props) => {
                   label="File URL"
                   disabled={true}
                   onChange={() => {}}
-                  value={`${uploadUrl}/${selectedImage?.fileUrl ?? ""}`}
+                  value={`${selectedImage?.fileUrl ?? ""}`}
                 />
                 <Button
                   disabled={!selectedImage}

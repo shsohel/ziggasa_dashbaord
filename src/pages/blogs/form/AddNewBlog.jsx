@@ -38,11 +38,11 @@ const AddNewBlog = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category
+    ({ category }) => category,
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword
+    ({ keyword }) => keyword,
   );
   const { blog } = useSelector(({ blog }) => blog);
   const [isOpenFileUploadModal, setIsOpenFileUploadModal] = useState(false);
@@ -88,6 +88,7 @@ const AddNewBlog = () => {
       limit: 10,
       sort: "createdAt",
       orderBy: "desc",
+      from: "blog",
     };
     dispatch(getFilesByQuery({ queryParams }));
     setIsOpenFileUploadModal((prev) => !prev);
@@ -96,6 +97,7 @@ const AddNewBlog = () => {
     setIsOpenFileUploadModal((prev) => !prev);
   };
   const handleFileUploadSubmit = (file) => {
+    console.log("file", JSON.stringify(file, null, 2));
     if (file) {
       const { title, descriptions, altText, fileUrl, captions } = file;
       const updatedBlog = {
@@ -106,6 +108,8 @@ const AddNewBlog = () => {
         featuredImageDescriptions: descriptions,
         featuredImageAltText: altText,
       };
+
+      console.log("updatedBlog", JSON.stringify(updatedBlog, null, 2));
 
       dispatch(bindBlog(updatedBlog));
       setIsOpenFileUploadModal((prev) => !prev);
@@ -136,7 +140,7 @@ const AddNewBlog = () => {
       addNewBlog({
         blog: obj,
         navigate,
-      })
+      }),
     );
   };
 
@@ -262,7 +266,7 @@ const AddNewBlog = () => {
                 width={200}
                 height={200}
                 className="object-cover object-top w-[350px] h-[200px]  p-1   "
-                src={`${uploadUrl}/${featuredImageUrl ?? ""}`}
+                src={featuredImageUrl ?? ""}
                 onError={replaceImage}
                 alt={featuredImageAltText}
               />

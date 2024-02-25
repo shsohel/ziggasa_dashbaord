@@ -20,18 +20,21 @@ export const getFilesByQuery = createAsyncThunk(
   async (data, { dispatch, getState }) => {
     const { queryParams } = data;
     const { job } = getState().job;
+    const { blog } = getState().blog;
     const apiEndPoint = `${apiEndpoints.file}?${convertQueryString(
       queryParams,
     )}`;
     try {
       const response = await baseAxios.get(apiEndPoint);
+
+      const whereFrom = queryParams?.from === "blog" ? blog : job;
       const {
         featuredImageUrl,
         featuredImageTitle,
         featuredImageCaptions,
         featuredImageDescriptions,
         featuredImageAltText,
-      } = job;
+      } = whereFrom;
       const fileData = response?.data?.data.map((dt) => ({
         ...dt,
         rowId: uniqId(),
@@ -74,7 +77,7 @@ export const uploadFile = createAsyncThunk(
   async (data, { dispatch, getState }) => {
     const { queryParams } = getState().file;
     const { file } = data;
-    const apiEndPoint = `${apiEndpoints.file}/photo`;
+    const apiEndPoint = `${apiEndpoints.file}/cloud-file`;
 
     try {
       const response = await baseAxios.post(apiEndPoint, file);
@@ -99,8 +102,8 @@ export const deleteFile = createAsyncThunk(
   async (data, { dispatch, getState }) => {
     const { queryParams } = getState().file;
 
-    const { fileName } = data;
-    const apiEndPoint = `${apiEndpoints.file}/${fileName}`;
+    const { fileId } = data;
+    const apiEndPoint = `${apiEndpoints.file}/${fileId}`;
     try {
       const response = await baseAxios.delete(apiEndPoint);
       dispatch(getFilesByQuery({ queryParams }));
