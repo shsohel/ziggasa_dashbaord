@@ -55,6 +55,30 @@ export const addNewJob = createAsyncThunk(types.ADD_NEW_JOB, async (data) => {
     };
   }
 });
+
+const bindJobLocation = (location) => {
+  let locationObj;
+  if (location?.length) {
+    const data = JSON.parse(location);
+    locationObj = {
+      jobCountry: {
+        label: data.country,
+        value: data.country,
+      },
+      jobState: {
+        label: data.state,
+        value: data.state,
+      },
+    };
+  } else {
+    locationObj = {
+      jobCountry: null,
+      jobState: null,
+    };
+  }
+  return locationObj;
+};
+
 export const getJob = createAsyncThunk(types.GET_JOB_BY_ID, async (data) => {
   const { id } = data;
   const apiEndpoint = `${apiEndpoints.job}/${id}`;
@@ -63,6 +87,7 @@ export const getJob = createAsyncThunk(types.GET_JOB_BY_ID, async (data) => {
     const dt = response.data.data;
     const job = {
       ...dt,
+      ...bindJobLocation(dt.jobLocation),
       deadline: moment.utc(dt.deadline).local().format("YYYY-MM-DD HH:mm:ss"),
       keyword: dt.keyword.map((key) => ({
         label: key.name,

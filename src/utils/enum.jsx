@@ -21,7 +21,7 @@ export const status = {
 export const countries = countryData.map((country) => ({
   country: country.name,
   code: country.code,
-  state: country.states,
+  state: country.state,
 }));
 
 export const countriesOption = countryData.map((country) => ({

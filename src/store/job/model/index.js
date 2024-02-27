@@ -34,6 +34,8 @@ export const jobModel = {
   deadline: moment.utc().local().format("YYYY-MM-DD HH:mm:ss"),
   applyLink: "",
   pdfLink: "",
+  jobCountry: null,
+  jobState: null,
   isActive: true,
 };
 

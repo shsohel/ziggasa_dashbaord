@@ -31,6 +31,7 @@ import {
 } from "../../../store/job/model";
 import { bindCompanyDropdown } from "../../../store/company";
 import { bindSkillDropdown } from "../../../store/skill";
+import { countriesOption } from "../../../utils/enum";
 const defaultTabs = [
   {
     id: "description",
@@ -59,17 +60,17 @@ const AddNewJob = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company,
+    ({ company }) => company
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill,
+    ({ skill }) => skill
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -103,6 +104,8 @@ const AddNewJob = () => {
     deadline,
     applyLink,
     pdfLink,
+    jobCountry,
+    jobState,
     isActive,
   } = job;
 
@@ -117,10 +120,19 @@ const AddNewJob = () => {
 
   const handleDropdown = (data, e) => {
     const { name } = e;
-    const updatedJob = {
-      ...job,
-      [name]: data,
-    };
+    let updatedJob;
+    if (name === "jobCountry") {
+      updatedJob = {
+        ...job,
+        [name]: data,
+        ["jobState"]: null,
+      };
+    } else {
+      updatedJob = {
+        ...job,
+        [name]: data,
+      };
+    }
 
     dispatch(bindJob(updatedJob));
   };
@@ -157,6 +169,10 @@ const AddNewJob = () => {
   };
 
   const onSubmit = () => {
+    const jobLocation = {
+      country: jobCountry?.label ?? "",
+      state: jobState?.label ?? "",
+    };
     const obj = {
       title,
       category: category.map((cat) => cat.value),
@@ -182,6 +198,7 @@ const AddNewJob = () => {
       featuredImageAltText,
       deadline,
       applyLink,
+      jobLocation: JSON.stringify(jobLocation),
       pdfLink,
       isActive,
       jobType: jobType?.value ?? "",
@@ -192,7 +209,7 @@ const AddNewJob = () => {
       addNewJob({
         job: obj,
         navigate,
-      }),
+      })
     );
   };
 
@@ -211,6 +228,8 @@ const AddNewJob = () => {
       ),
     },
   ];
+  const states =
+    countriesOption.find((c) => c.value === jobCountry?.value)?.states ?? [];
 
   return (
     <FormLayout title="Add Job" actions={actions}>
@@ -332,6 +351,37 @@ const AddNewJob = () => {
                 onChange={(e) => {
                   handleOnChange(e);
                 }}
+              />
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <SelectBox
+                id="jobCountryId"
+                label="Job Country"
+                classNames=""
+                name="jobCountry"
+                options={countriesOption}
+                value={jobCountry}
+                onChange={(data, e) => {
+                  handleDropdown(data, e);
+                }}
+                placeholder="Select Country"
+              />
+            </div>
+            <div>
+              <SelectBox
+                isCreatable={true}
+                id="jobStateId"
+                label="Job State"
+                classNames=""
+                name="jobState"
+                options={states}
+                value={jobState}
+                onChange={(data, e) => {
+                  handleDropdown(data, e);
+                }}
+                placeholder="Select State"
               />
             </div>
           </div>

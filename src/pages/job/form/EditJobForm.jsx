@@ -32,6 +32,7 @@ import {
 } from "../../../store/job/model";
 import { bindCompanyDropdown } from "../../../store/company";
 import { bindSkillDropdown } from "../../../store/skill";
+import { countriesOption } from "../../../utils/enum";
 const defaultTabs = [
   {
     id: "description",
@@ -61,17 +62,17 @@ const EditJobForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company,
+    ({ company }) => company
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill,
+    ({ skill }) => skill
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -106,6 +107,8 @@ const EditJobForm = () => {
     deadline,
     applyLink,
     pdfLink,
+    jobCountry,
+    jobState,
     isActive,
   } = job;
 
@@ -130,10 +133,19 @@ const EditJobForm = () => {
 
   const handleDropdown = (data, e) => {
     const { name } = e;
-    const updatedJob = {
-      ...job,
-      [name]: data,
-    };
+    let updatedJob;
+    if (name === "jobCountry") {
+      updatedJob = {
+        ...job,
+        [name]: data,
+        ["jobState"]: null,
+      };
+    } else {
+      updatedJob = {
+        ...job,
+        [name]: data,
+      };
+    }
 
     dispatch(bindJob(updatedJob));
   };
@@ -170,6 +182,10 @@ const EditJobForm = () => {
   };
 
   const onSubmit = () => {
+    const jobLocation = {
+      country: jobCountry?.label ?? "",
+      state: jobState?.label ?? "",
+    };
     const obj = {
       id,
       title,
@@ -197,6 +213,7 @@ const EditJobForm = () => {
       deadline,
       applyLink,
       pdfLink,
+      jobLocation: JSON.stringify(jobLocation),
       isActive,
       jobType: jobType?.value ?? "",
     };
@@ -205,7 +222,7 @@ const EditJobForm = () => {
     dispatch(
       updateJob({
         job: obj,
-      }),
+      })
     );
   };
 
@@ -225,7 +242,8 @@ const EditJobForm = () => {
     },
   ];
 
-  console.log(salary);
+  const states =
+    countriesOption.find((c) => c.value === jobCountry?.value)?.states ?? [];
 
   return (
     <FormLayout title="Edit Job" actions={actions}>
@@ -352,7 +370,37 @@ const EditJobForm = () => {
               />
             </div>
           </div>
-
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <SelectBox
+                id="jobCountryId"
+                label="Job Country"
+                classNames=""
+                name="jobCountry"
+                options={countriesOption}
+                value={jobCountry}
+                onChange={(data, e) => {
+                  handleDropdown(data, e);
+                }}
+                placeholder="Select Country"
+              />
+            </div>
+            <div>
+              <SelectBox
+                isCreatable={true}
+                id="jobStateId"
+                label="Job State"
+                classNames=""
+                name="jobState"
+                options={states}
+                value={jobState}
+                onChange={(data, e) => {
+                  handleDropdown(data, e);
+                }}
+                placeholder="Select State"
+              />
+            </div>
+          </div>
           <div>
             <SelectBox
               id="skillsId"
