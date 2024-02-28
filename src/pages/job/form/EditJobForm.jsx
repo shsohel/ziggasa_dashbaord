@@ -17,10 +17,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { bindCategoryDropdown } from "../../../store/category";
+import { addCategory, bindCategoryDropdown } from "../../../store/category";
 import { addNewJob, bindJob, getJob, updateJob } from "../../../store/job";
-import { bindTagDropdown } from "../../../store/tag";
-import { bindKeywordDropdown } from "../../../store/keyword";
+import { addTag, bindTagDropdown } from "../../../store/tag";
+import { addKeyword, bindKeywordDropdown } from "../../../store/keyword";
 import { getFilesByQuery } from "../../../store/file-upload";
 import { uploadUrl } from "../../../services";
 import { replaceImage } from "../../../utils/utility";
@@ -31,8 +31,9 @@ import {
   jobTypes,
 } from "../../../store/job/model";
 import { bindCompanyDropdown } from "../../../store/company";
-import { bindSkillDropdown } from "../../../store/skill";
+import { addSkill, bindSkillDropdown } from "../../../store/skill";
 import { countriesOption } from "../../../utils/enum";
+import { HttpStatusCode } from "axios";
 const defaultTabs = [
   {
     id: "description",
@@ -62,17 +63,17 @@ const EditJobForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category
+    ({ category }) => category,
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company
+    ({ company }) => company,
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword
+    ({ keyword }) => keyword,
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill
+    ({ skill }) => skill,
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -222,8 +223,102 @@ const EditJobForm = () => {
     dispatch(
       updateJob({
         job: obj,
-      })
+      }),
     );
+  };
+
+  const handleSkillOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      descriptions: inputValue,
+
+      isActive: true,
+    };
+    dispatch(addSkill(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        console.log(response);
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+        console.log([...job.skill, value]);
+        const updated = {
+          ...job,
+          ["skills"]: [...job.skills, value],
+        };
+        dispatch(bindJob(updated));
+      }
+    });
+  };
+  const handleTagOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      descriptions: inputValue,
+
+      isActive: true,
+    };
+    dispatch(addTag(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+
+        const updated = {
+          ...job,
+          ["tag"]: [...tag, value],
+        };
+        dispatch(bindJob(updated));
+      }
+    });
+  };
+  const handleKeywordOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      descriptions: inputValue,
+
+      isActive: true,
+    };
+    dispatch(addKeyword(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+
+        const updated = {
+          ...job,
+          ["keyword"]: [...keyword, value],
+        };
+        dispatch(bindJob(updated));
+      }
+    });
+  };
+  const handleCategoryOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      description: inputValue,
+      isParent: true,
+      isActive: true,
+    };
+    dispatch(addCategory(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+
+        const updated = {
+          ...job,
+          ["category"]: [...category, value],
+        };
+        dispatch(bindJob(updated));
+      }
+    });
   };
 
   const actions = [
@@ -403,6 +498,7 @@ const EditJobForm = () => {
           </div>
           <div>
             <SelectBox
+              isCreatable={true}
               id="skillsId"
               label="Skills"
               classNames=""
@@ -418,8 +514,10 @@ const EditJobForm = () => {
               onFocus={() => {
                 dispatch(bindSkillDropdown());
               }}
+              onCreateOption={handleSkillOnCreation}
             />
             <SelectBox
+              isCreatable={true}
               id="benefitId"
               label="Benefits"
               classNames=""
@@ -453,6 +551,7 @@ const EditJobForm = () => {
               }}
             />
             <SelectBox
+              isCreatable={true}
               id="keywordId"
               label="Keywords"
               classNames=""
@@ -468,6 +567,7 @@ const EditJobForm = () => {
               onFocus={() => {
                 dispatch(bindKeywordDropdown());
               }}
+              onCreateOption={handleKeywordOnCreation}
             />
           </div>
         </div>
@@ -505,6 +605,7 @@ const EditJobForm = () => {
               }}
             />
             <SelectBox
+              isCreatable={true}
               id="categoryId"
               label="Category"
               classNames=""
@@ -520,6 +621,7 @@ const EditJobForm = () => {
               onFocus={() => {
                 dispatch(bindCategoryDropdown());
               }}
+              onCreateOption={handleCategoryOnCreation}
             />
 
             {/* <SelectBox
@@ -531,6 +633,7 @@ const EditJobForm = () => {
             placeholder="Select Sub Category"
           /> */}
             <SelectBox
+              isCreatable={true}
               id="tagId"
               label="Tag"
               classNames=""
@@ -546,6 +649,7 @@ const EditJobForm = () => {
               onFocus={() => {
                 dispatch(bindTagDropdown());
               }}
+              onCreateOption={handleTagOnCreation}
             />
             <div className="border rounded-md min-h-[200px]">
               <img

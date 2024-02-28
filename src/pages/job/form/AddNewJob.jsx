@@ -30,8 +30,9 @@ import {
   jobTypes,
 } from "../../../store/job/model";
 import { bindCompanyDropdown } from "../../../store/company";
-import { bindSkillDropdown } from "../../../store/skill";
+import { addSkill, bindSkillDropdown } from "../../../store/skill";
 import { countriesOption } from "../../../utils/enum";
+import { HttpStatusCode } from "axios";
 const defaultTabs = [
   {
     id: "description",
@@ -60,17 +61,17 @@ const AddNewJob = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category
+    ({ category }) => category,
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company
+    ({ company }) => company,
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword
+    ({ keyword }) => keyword,
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill
+    ({ skill }) => skill,
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -188,9 +189,9 @@ const AddNewJob = () => {
       benefits: benefits.map((t) => t.value),
       salary,
       currency: currency?.label ?? "",
+      jobExperience,
       phoneNumber,
       email,
-      jobExperience,
       featuredImageUrl,
       featuredImageTitle,
       featuredImageCaptions,
@@ -198,8 +199,8 @@ const AddNewJob = () => {
       featuredImageAltText,
       deadline,
       applyLink,
-      jobLocation: JSON.stringify(jobLocation),
       pdfLink,
+      jobLocation: JSON.stringify(jobLocation),
       isActive,
       jobType: jobType?.value ?? "",
     };
@@ -209,8 +210,33 @@ const AddNewJob = () => {
       addNewJob({
         job: obj,
         navigate,
-      })
+      }),
     );
+  };
+
+  const handleSkillOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      descriptions: inputValue,
+
+      isActive: true,
+    };
+    dispatch(addSkill(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        console.log(response);
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+        console.log([...job.skill, value]);
+        const updated = {
+          ...job,
+          ["skills"]: [...job.skills, value],
+        };
+        dispatch(bindJob(updated));
+      }
+    });
   };
 
   const actions = [
@@ -388,6 +414,7 @@ const AddNewJob = () => {
 
           <div>
             <SelectBox
+              isCreatable={true}
               id="skillsId"
               label="Skills"
               classNames=""
@@ -403,8 +430,10 @@ const AddNewJob = () => {
               onFocus={() => {
                 dispatch(bindSkillDropdown());
               }}
+              onCreateOption={handleSkillOnCreation}
             />
             <SelectBox
+              isCreatable={true}
               id="benefitId"
               label="Benefits"
               classNames=""
