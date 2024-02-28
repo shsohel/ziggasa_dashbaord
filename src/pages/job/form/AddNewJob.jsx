@@ -16,10 +16,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { bindCategoryDropdown } from "../../../store/category";
+import { addCategory, bindCategoryDropdown } from "../../../store/category";
 import { addNewJob, bindJob } from "../../../store/job";
-import { bindTagDropdown } from "../../../store/tag";
-import { bindKeywordDropdown } from "../../../store/keyword";
+import { addTag, bindTagDropdown } from "../../../store/tag";
+import { addKeyword, bindKeywordDropdown } from "../../../store/keyword";
 import { getFilesByQuery } from "../../../store/file-upload";
 import { uploadUrl } from "../../../services";
 import { replaceImage } from "../../../utils/utility";
@@ -238,6 +238,75 @@ const AddNewJob = () => {
       }
     });
   };
+  const handleTagOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      descriptions: inputValue,
+
+      isActive: true,
+    };
+    dispatch(addTag(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+
+        const updated = {
+          ...job,
+          ["tag"]: [...tag, value],
+        };
+        dispatch(bindJob(updated));
+      }
+    });
+  };
+  const handleKeywordOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      descriptions: inputValue,
+
+      isActive: true,
+    };
+    dispatch(addKeyword(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+
+        const updated = {
+          ...job,
+          ["keyword"]: [...keyword, value],
+        };
+        dispatch(bindJob(updated));
+      }
+    });
+  };
+  const handleCategoryOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      description: inputValue,
+      isParent: true,
+      isActive: true,
+    };
+    dispatch(addCategory(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+
+        const updated = {
+          ...job,
+          ["category"]: [...category, value],
+        };
+        dispatch(bindJob(updated));
+      }
+    });
+  };
 
   const actions = [
     {
@@ -258,7 +327,7 @@ const AddNewJob = () => {
     countriesOption.find((c) => c.value === jobCountry?.value)?.states ?? [];
 
   return (
-    <FormLayout title="Add Job" actions={actions}>
+    <FormLayout title="Edit Job" actions={actions}>
       <InputBox
         label="Title"
         classNames="mb-3"
@@ -345,7 +414,9 @@ const AddNewJob = () => {
                 label="Deadline"
                 classNames="my-3"
                 name="deadline"
+                // type="date"
                 type="datetime-local"
+                pattern=""
                 placeholder="Deadline"
                 value={deadline}
                 onChange={(e) => {
@@ -411,7 +482,6 @@ const AddNewJob = () => {
               />
             </div>
           </div>
-
           <div>
             <SelectBox
               isCreatable={true}
@@ -467,6 +537,7 @@ const AddNewJob = () => {
               }}
             />
             <SelectBox
+              isCreatable={true}
               id="keywordId"
               label="Keywords"
               classNames=""
@@ -482,6 +553,7 @@ const AddNewJob = () => {
               onFocus={() => {
                 dispatch(bindKeywordDropdown());
               }}
+              onCreateOption={handleKeywordOnCreation}
             />
           </div>
         </div>
@@ -519,6 +591,7 @@ const AddNewJob = () => {
               }}
             />
             <SelectBox
+              isCreatable={true}
               id="categoryId"
               label="Category"
               classNames=""
@@ -534,17 +607,19 @@ const AddNewJob = () => {
               onFocus={() => {
                 dispatch(bindCategoryDropdown());
               }}
+              onCreateOption={handleCategoryOnCreation}
             />
 
             {/* <SelectBox
-          id="subCategoryId"
-          classNames=""
-          name="subCategory"
-          options={[]}
-          onChange={() => {}}
-          placeholder="Select Sub Category"
-        /> */}
+            id="subCategoryId"
+            classNames=""
+            name="subCategory"
+            options={[]}
+            onChange={() => {}}
+            placeholder="Select Sub Category"
+          /> */}
             <SelectBox
+              isCreatable={true}
               id="tagId"
               label="Tag"
               classNames=""
@@ -560,6 +635,7 @@ const AddNewJob = () => {
               onFocus={() => {
                 dispatch(bindTagDropdown());
               }}
+              onCreateOption={handleTagOnCreation}
             />
             <div className="border rounded-md min-h-[200px]">
               <img
