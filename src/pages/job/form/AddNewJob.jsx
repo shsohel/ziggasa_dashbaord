@@ -229,10 +229,9 @@ const AddNewJob = () => {
           label: inputValue,
           value: payload.data.id,
         };
-        console.log([...job.skill, value]);
         const updated = {
           ...job,
-          ["skills"]: [...job.skills, value],
+          ["skills"]: [...skills, value],
         };
         dispatch(bindJob(updated));
       }
