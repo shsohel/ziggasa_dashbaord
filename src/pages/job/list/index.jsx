@@ -2,9 +2,9 @@ import { Button } from "../../../utils/custom/Button";
 import FormLayout from "../../../utils/custom/FormLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { getJobs } from "../../../store/job";
+import { getJob, getJobs } from "../../../store/job";
 import DataTable from "react-data-table-component";
-import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import { FaCopy, FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import Pagination from "../../../utils/custom/Pagination";
 import moment from "moment";
 import { tableCustomStyles } from "../../../utils/utility";
@@ -87,6 +87,10 @@ const Jobs = () => {
   const handleEdit = (id) => {
     navigate("/jobs/edit", { state: id });
   };
+  const handleClone = (id) => {
+    navigate("/jobs/new");
+    dispatch(getJob({ id }));
+  };
 
   const paginationComponent = (data) => {
     const { rowCount, paginationRowsPerPageOptions } = data;
@@ -128,20 +132,27 @@ const Jobs = () => {
                 name: "Action",
                 width: "80px",
                 cell: (row) => (
-                  <div className="flex justify-between">
+                  <div className="flex gap-3 justify-between">
                     <FaTrashAlt
                       onClick={() => {
                         // dispatch(deleteUser(row));
                       }}
                       size={16}
-                      className="mr-3 cursor-pointer fill-red-600"
+                      className=" cursor-pointer fill-red-600 hover:fill-secondary"
                     />
                     <FaPencilAlt
                       onClick={() => {
                         handleEdit(row.id);
                       }}
                       size={16}
-                      className="cursor-pointer fill-green-600"
+                      className="cursor-pointer fill-green-600 hover:fill-secondary"
+                    />
+                    <FaCopy
+                      onClick={() => {
+                        handleClone(row.id);
+                      }}
+                      size={16}
+                      className="cursor-pointer fill-primary hover:fill-secondary"
                     />
                   </div>
                 ),

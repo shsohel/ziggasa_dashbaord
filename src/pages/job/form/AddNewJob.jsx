@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../../utils/custom/Button";
 import FormLayout from "../../../utils/custom/FormLayout";
 import InputBox from "../../../utils/custom/InputBox";
@@ -61,17 +61,17 @@ const AddNewJob = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company,
+    ({ company }) => company
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill,
+    ({ skill }) => skill
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -109,6 +109,12 @@ const AddNewJob = () => {
     jobState,
     isActive,
   } = job;
+
+  useEffect(() => {
+    return () => {
+      dispatch(bindJob());
+    };
+  }, [dispatch]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -210,7 +216,7 @@ const AddNewJob = () => {
       addNewJob({
         job: obj,
         navigate,
-      }),
+      })
     );
   };
 
