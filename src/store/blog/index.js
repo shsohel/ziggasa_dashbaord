@@ -42,9 +42,23 @@ export const getBlogs = createAsyncThunk(
 export const addNewBlog = createAsyncThunk(types.ADD_NEW_BLOG, async (data) => {
   const { blog, navigate } = data;
   const apiEndpoint = `${apiEndpoints.blog}/new`;
+
   try {
     const response = await baseAxios.post(apiEndpoint, blog);
+    // const notifyEndPoint = `${apiEndpoints.notify}/send-notification`;
+
+    //   const { title, slug, metaDescriptions } = response.data;
+    //   const obj = {
+    //     title: "New Job Circular Published",
+    //     imageUrl:
+    //       "https://res.cloudinary.com/dxczhch36/image/upload/v1710236045/ogy6md6mqr8inmy8expq.png", // Image URL
+    //     details: "Additional details about the notification", // Additional details
+    //     url: "https://youtube.com",
+    //   };
+    //   await baseAxios.post(notifyEndPoint, obj);
+
     navigate("/blogs");
+
     return {
       data: response.data,
       status: response.status,

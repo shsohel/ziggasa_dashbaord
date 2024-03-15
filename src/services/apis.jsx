@@ -1,4 +1,5 @@
 export const apiEndpoints = {
+  notify: "/notify",
   blog: "/blog",
   job: "/job",
   category: "/category",
