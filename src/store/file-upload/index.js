@@ -103,7 +103,7 @@ export const deleteFile = createAsyncThunk(
     const { queryParams } = getState().file;
 
     const { fileId } = data;
-    const apiEndPoint = `${apiEndpoints.file}/${fileId}`;
+    const apiEndPoint = `${apiEndpoints.file}/cloud-file/${fileId}`;
     try {
       const response = await baseAxios.delete(apiEndPoint);
       dispatch(getFilesByQuery({ queryParams }));

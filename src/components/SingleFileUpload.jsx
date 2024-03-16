@@ -83,10 +83,10 @@ const SingleFileUpload = (props) => {
     }
   };
 
-  const handleFileDelete = (fileName) => {
+  const handleFileDelete = (fileId) => {
     confirmDialog(confirmObj).then(async (e) => {
       if (e.isConfirmed) {
-        dispatch(deleteFile({ fileName }));
+        dispatch(deleteFile({ fileId }));
       }
     });
   };
@@ -188,7 +188,7 @@ const SingleFileUpload = (props) => {
                     <div
                       className="transition-all duration-500 border border-transparent hover:border-danger absolute top-2 right-2 bg-danger p-1 rounded text-white hover:bg-white hover:text-danger"
                       onClick={() => {
-                        handleFileDelete(file.fileUrl);
+                        handleFileDelete(file?._id);
                       }}
                     >
                       <FaRegTrashAlt />

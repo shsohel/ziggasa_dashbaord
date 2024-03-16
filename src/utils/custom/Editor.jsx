@@ -23,7 +23,7 @@ export default function RichEditor(props) {
   };
 
   const handleImageUpload = (file, success, failure, progress) => {
-    const apiEndPoint = `${apiEndpoints.file}/photo`;
+    const apiEndPoint = `${apiEndpoints.file}/cloud-file`;
     // Simulating an image upload using a Promise
     return new Promise((resolve, reject) => {
       const formData = new FormData();
@@ -35,7 +35,7 @@ export default function RichEditor(props) {
           const { data } = response;
 
           // On successful upload, resolve the Promise with the image URL
-          const imageUrl = `${uploadUrl}/${data.data.fileUrl}`; // Replace this with the actual URL returned from your server
+          const imageUrl = data.data.fileUrl; // Replace this with the actual URL returned from your server
           resolve(imageUrl);
         })
         .catch((error) => {
