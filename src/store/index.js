@@ -12,6 +12,7 @@ import skill from "./skill";
 import job from "./job";
 import file from "./file-upload";
 import company from "./company";
+import common from "./common";
 
 import basicReducers from "./basic/reducers";
 
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   file,
   company,
   skill,
+  common,
 });
 
 // const middleware = [thunk, createDebounce()];

@@ -10,11 +10,13 @@ import moment from "moment";
 import { tableCustomStyles } from "../../../utils/utility";
 import { useNavigate } from "react-router-dom";
 import ListLoader from "../../../utils/custom/ListLoader";
-
+import { IoNotifications } from "react-icons/io5";
+import { sendUserNotification } from "../../../store/common";
 const Jobs = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { jobs, job, loading, total } = useSelector(({ job }) => job);
+  const { loading: commonLoading } = useSelector(({ common }) => common);
   const [rowPerPage, setRowPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [orderBy, setOrderBy] = useState("desc");
@@ -91,6 +93,15 @@ const Jobs = () => {
     navigate("/jobs/new");
     dispatch(getJob({ id }));
   };
+  const notifyUser = (row) => {
+    const payload = {
+      title: row.title,
+      imageUrl: row.featuredImageUrl,
+      details: row.metaDescription,
+      url: `https://ziggasa.com/${row.slug}`,
+    };
+    dispatch(sendUserNotification(payload));
+  };
 
   const paginationComponent = (data) => {
     const { rowCount, paginationRowsPerPageOptions } = data;
@@ -115,7 +126,7 @@ const Jobs = () => {
             paginationTotalRows={total}
             persistTableHead
             dense
-            progressPending={loading}
+            progressPending={loading || commonLoading}
             progressComponent={<ListLoader rowLength={10} />}
             data={jobs}
             className="border custom-scrollbar"
@@ -130,7 +141,7 @@ const Jobs = () => {
               {
                 id: "action",
                 name: "Action",
-                width: "80px",
+                width: "180px",
                 cell: (row) => (
                   <div className="flex gap-3 justify-between">
                     <FaTrashAlt
@@ -152,7 +163,14 @@ const Jobs = () => {
                         handleClone(row.id);
                       }}
                       size={16}
-                      className="cursor-pointer fill-primary hover:fill-secondary"
+                      className="cursor-pointer fill-green-600 hover:fill-secondary"
+                    />
+                    <IoNotifications
+                      onClick={() => {
+                        notifyUser(row);
+                      }}
+                      size={16}
+                      className="cursor-pointer fill-green-600 hover:fill-secondary"
                     />
                   </div>
                 ),

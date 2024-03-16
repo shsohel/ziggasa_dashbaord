@@ -2,9 +2,9 @@ import { Button } from "../../../utils/custom/Button";
 import FormLayout from "../../../utils/custom/FormLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { deleteBlog, getBlogs } from "../../../store/blog";
+import { deleteBlog, getBlog, getBlogs } from "../../../store/blog";
 import DataTable from "react-data-table-component";
-import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import { FaCopy, FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import Pagination from "../../../utils/custom/Pagination";
 import moment from "moment";
 import { tableCustomStyles } from "../../../utils/utility";
@@ -13,11 +13,15 @@ import ListLoader from "../../../utils/custom/ListLoader";
 import { confirmDialog } from "../../../utils/custom/ConfirmDialogBox";
 import { confirmObj } from "../../../utils/enum";
 import { HttpStatusCode } from "axios";
+import { sendUserNotification } from "../../../store/common";
+import { IoNotifications } from "react-icons/io5";
 
 const Blogs = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { blogs, loading, total } = useSelector(({ blog }) => blog);
+  const { loading: commonLoading } = useSelector(({ common }) => common);
+
   const [rowPerPage, setRowPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [orderBy, setOrderBy] = useState("desc");
@@ -99,6 +103,21 @@ const Blogs = () => {
     });
   };
 
+  const handleClone = (id) => {
+    navigate("/blogs/new");
+    dispatch(getBlog({ id }));
+  };
+
+  const notifyUser = (row) => {
+    const payload = {
+      title: row.title,
+      imageUrl: row.featuredImageUrl,
+      details: row.metaDescription,
+      url: `https://ziggasa.com/${row.slug}`,
+    };
+    dispatch(sendUserNotification(payload));
+  };
+
   const paginationComponent = (data) => {
     const { rowCount, paginationRowsPerPageOptions } = data;
     return (
@@ -122,7 +141,7 @@ const Blogs = () => {
             paginationTotalRows={total}
             persistTableHead
             dense
-            progressPending={loading}
+            progressPending={loading || commonLoading}
             progressComponent={<ListLoader rowLength={10} />}
             data={blogs}
             className="border custom-scrollbar"
@@ -137,15 +156,15 @@ const Blogs = () => {
               {
                 id: "action",
                 name: "Action",
-                width: "80px",
+                width: "120px",
                 cell: (row) => (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between gap-4">
                     <FaTrashAlt
                       onClick={() => {
                         handleDelete(row?.id);
                       }}
                       size={16}
-                      className="mr-3 cursor-pointer fill-red-600"
+                      className=" cursor-pointer fill-red-600"
                     />
                     <FaPencilAlt
                       onClick={() => {
@@ -153,6 +172,20 @@ const Blogs = () => {
                       }}
                       size={16}
                       className="cursor-pointer fill-green-600"
+                    />
+                    <FaCopy
+                      onClick={() => {
+                        handleClone(row.id);
+                      }}
+                      size={16}
+                      className="cursor-pointer fill-green-600 hover:fill-secondary"
+                    />
+                    <IoNotifications
+                      onClick={() => {
+                        notifyUser(row);
+                      }}
+                      size={16}
+                      className="cursor-pointer fill-green-600 hover:fill-secondary"
                     />
                   </div>
                 ),
