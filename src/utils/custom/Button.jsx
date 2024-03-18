@@ -4,6 +4,7 @@ export const Button = (props) => {
   const {
     id,
     name,
+    icon = null,
     onClick,
     bgColor,
     hoverText,
@@ -24,7 +25,7 @@ export const Button = (props) => {
       } ${textColor}`}
       {...rest}
     >
-      {name}
+      <span>{icon ? icon : name}</span>
     </button>
   );
 };

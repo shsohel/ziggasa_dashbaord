@@ -1,5 +1,6 @@
 export const apiEndpoints = {
   notify: "/notify",
+  google: "/google",
   blog: "/blog",
   job: "/job",
   category: "/category",

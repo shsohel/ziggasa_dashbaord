@@ -11,7 +11,8 @@ import { tableCustomStyles } from "../../../utils/utility";
 import { useNavigate } from "react-router-dom";
 import ListLoader from "../../../utils/custom/ListLoader";
 import { IoNotifications } from "react-icons/io5";
-import { sendUserNotification } from "../../../store/common";
+import { sendUserNotification, urlIndexOnGoogle } from "../../../store/common";
+import { BiSolidInjection } from "react-icons/bi";
 const Jobs = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -98,9 +99,16 @@ const Jobs = () => {
       title: row.title,
       imageUrl: row.featuredImageUrl,
       details: row.metaDescription,
-      url: `https://ziggasa.com/${row.slug}`,
+      url: `https://ziggasa.com/jobs/${row.slug}`,
     };
     dispatch(sendUserNotification(payload));
+  };
+
+  const handleIndexing = (row) => {
+    const payload = {
+      url: `https://ziggasa.com/jobs/${row.slug}`,
+    };
+    dispatch(urlIndexOnGoogle(payload));
   };
 
   const paginationComponent = (data) => {
@@ -168,6 +176,13 @@ const Jobs = () => {
                     <IoNotifications
                       onClick={() => {
                         notifyUser(row);
+                      }}
+                      size={16}
+                      className="cursor-pointer fill-green-600 hover:fill-secondary"
+                    />
+                    <BiSolidInjection
+                      onClick={() => {
+                        handleIndexing(row);
                       }}
                       size={16}
                       className="cursor-pointer fill-green-600 hover:fill-secondary"
