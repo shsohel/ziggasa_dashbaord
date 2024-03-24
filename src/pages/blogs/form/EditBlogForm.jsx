@@ -34,11 +34,11 @@ const EditBlogForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { blog } = useSelector(({ blog }) => blog);
   const [isOpenFileUploadModal, setIsOpenFileUploadModal] = useState(false);
@@ -127,6 +127,8 @@ const EditBlogForm = () => {
     const obj = {
       id,
       title,
+      slug,
+
       category: category.map((cat) => cat.value),
       tag: tag.map((t) => t.value),
       keyword: keyword.map((t) => t.value),
@@ -147,7 +149,7 @@ const EditBlogForm = () => {
     dispatch(
       updateBlog({
         blog: obj,
-      }),
+      })
     );
   };
 

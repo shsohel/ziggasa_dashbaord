@@ -62,17 +62,17 @@ const AddNewJob = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company,
+    ({ company }) => company
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill,
+    ({ skill }) => skill
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -226,6 +226,7 @@ const AddNewJob = () => {
     };
     const obj = {
       title,
+      slug,
       category: category.map((cat) => cat.value),
       tag: tag.map((t) => t.value),
       keyword: keyword.map((t) => t.value),
@@ -260,7 +261,7 @@ const AddNewJob = () => {
       addNewJob({
         job: obj,
         navigate,
-      }),
+      })
     );
   };
 

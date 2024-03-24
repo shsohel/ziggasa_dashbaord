@@ -63,17 +63,17 @@ const EditJobForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company,
+    ({ company }) => company
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill,
+    ({ skill }) => skill
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -82,6 +82,7 @@ const EditJobForm = () => {
   const {
     id,
     title,
+    slug,
     category,
     company,
     currency,
@@ -190,6 +191,7 @@ const EditJobForm = () => {
     const obj = {
       id,
       title,
+      slug,
       category: category.map((cat) => cat.value),
       tag: tag.map((t) => t.value),
       keyword: keyword.map((t) => t.value),
@@ -223,7 +225,7 @@ const EditJobForm = () => {
     dispatch(
       updateJob({
         job: obj,
-      }),
+      })
     );
   };
 
@@ -348,6 +350,17 @@ const EditJobForm = () => {
         name="title"
         placeholder="Title"
         value={title}
+        onChange={(e) => {
+          handleOnChange(e);
+        }}
+      />
+      <InputBox
+        disabled={true}
+        // label="Slug"
+        classNames="mb-3 "
+        name="slug"
+        placeholder="slug"
+        value={slug}
         onChange={(e) => {
           handleOnChange(e);
         }}

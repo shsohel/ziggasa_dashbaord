@@ -39,11 +39,11 @@ const AddNewBlog = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category,
+    ({ category }) => category
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword,
+    ({ keyword }) => keyword
   );
   const { blog } = useSelector(({ blog }) => blog);
   const [isOpenFileUploadModal, setIsOpenFileUploadModal] = useState(false);
@@ -164,6 +164,8 @@ const AddNewBlog = () => {
   const onSubmit = () => {
     const obj = {
       title,
+      slug,
+
       category: category.map((cat) => cat.value),
       tag: tag.map((t) => t.value),
       keyword: keyword.map((t) => t.value),
@@ -185,7 +187,7 @@ const AddNewBlog = () => {
       addNewBlog({
         blog: obj,
         navigate,
-      }),
+      })
     );
   };
 
