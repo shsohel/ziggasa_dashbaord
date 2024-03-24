@@ -328,7 +328,7 @@ const EditJobForm = () => {
       button: (
         <Button
           id="save-button"
-          name="Save"
+          label="Save"
           onClick={() => {
             onSubmit();
           }}
@@ -664,7 +664,7 @@ const EditJobForm = () => {
             </div>
             <Button
               id="upload-id"
-              name="Feature Image"
+              label="Feature Image"
               onClick={() => {
                 handleUploadModalOpen();
               }}

@@ -7,6 +7,8 @@ import { apiEndpoints } from "../../services/apis";
 const TYPES = {
   NOTIFY_USER: "NOTIFY_USER",
   URL_INDEXING_ON_GOOGLE: "URL_INDEXING_ON_GOOGLE",
+  SLUG_GENERATION: "SLUG_GENERATION",
+  SLUG_CHECKING: "SLUG_CHECKING",
 };
 
 export const sendUserNotification = createAsyncThunk(
@@ -30,8 +32,51 @@ export const sendUserNotification = createAsyncThunk(
         statusText: response.statusText,
       };
     }
-  }
+  },
 );
+export const slugGeneration = createAsyncThunk(
+  TYPES.SLUG_GENERATION,
+  async (data) => {
+    const apiEndPoint = `${apiEndpoints.google}/slug-generation`;
+
+    try {
+      const response = await baseAxios.post(apiEndPoint, data);
+
+      return {
+        data: response.data,
+        status: response.status,
+        statusText: response.statusText,
+      };
+    } catch (error) {
+      const { response } = error;
+      return {
+        data: response.data,
+        status: response.status,
+        statusText: response.statusText,
+      };
+    }
+  },
+);
+export const slugCheck = createAsyncThunk(TYPES.SLUG_CHECKING, async (data) => {
+  const apiEndPoint = `${apiEndpoints.google}/slug-checking`;
+
+  try {
+    const response = await baseAxios.post(apiEndPoint, data);
+
+    return {
+      data: response.data,
+      status: response.status,
+      statusText: response.statusText,
+    };
+  } catch (error) {
+    const { response } = error;
+    return {
+      data: response.data,
+      status: response.status,
+      statusText: response.statusText,
+    };
+  }
+});
 export const urlIndexOnGoogle = createAsyncThunk(
   TYPES.URL_INDEXING_ON_GOOGLE,
   async (data) => {
@@ -53,7 +98,7 @@ export const urlIndexOnGoogle = createAsyncThunk(
         statusText: response.statusText,
       };
     }
-  }
+  },
 );
 
 const commonSlice = createSlice({
@@ -95,6 +140,40 @@ const commonSlice = createSlice({
         }
       })
       .addCase(urlIndexOnGoogle.rejected, (state, action) => {
+        state.loading = false;
+        notify("error", "The operation was rejected!");
+      })
+      .addCase(slugGeneration.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(slugGeneration.fulfilled, (state, action) => {
+        const { status, data, statusText } = action.payload;
+
+        state.loading = false;
+        if (status === HttpStatusCode.Ok) {
+          notify("success", `${data?.message}`);
+        } else {
+          notify("error", `${data?.error}`);
+        }
+      })
+      .addCase(slugGeneration.rejected, (state, action) => {
+        state.loading = false;
+        notify("error", "The operation was rejected!");
+      })
+      .addCase(slugCheck.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(slugCheck.fulfilled, (state, action) => {
+        const { status, data, statusText } = action.payload;
+
+        state.loading = false;
+        if (status === HttpStatusCode.Ok) {
+          notify("success", `${data?.message}`);
+        } else {
+          notify("error", `${data?.error}`);
+        }
+      })
+      .addCase(slugCheck.rejected, (state, action) => {
         state.loading = false;
         notify("error", "The operation was rejected!");
       });

@@ -64,7 +64,7 @@ const Keywords = () => {
       button: (
         <Button
           id="new-button"
-          name="New"
+          label="New"
           onClick={() => {
             handleNew();
           }}
@@ -77,7 +77,7 @@ const Keywords = () => {
       button: (
         <Button
           id="refresh-button"
-          name="Refresh"
+          label="Refresh"
           bgColor="bg-mute"
           onClick={() => {
             getAllKeywords();

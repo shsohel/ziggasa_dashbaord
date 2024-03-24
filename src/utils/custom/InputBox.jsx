@@ -17,7 +17,7 @@ const InputBox = (props) => {
     ...restProps
   } = props;
   return (
-    <>
+    <div>
       <div className={` ${labelClass ?? ""}`}>
         {label && <label className={`text-sm font-bold mb-2`}>{label}</label>}
       </div>
@@ -39,14 +39,14 @@ const InputBox = (props) => {
           {
             "border-rose-500": invalid,
             "bg-mute": disabled,
-          }
+          },
         )}
         {...restProps}
       />
       {invalidMassage && invalid && (
         <span className="text-xs">{invalidMassage}</span>
       )}
-    </>
+    </div>
   );
 };
 

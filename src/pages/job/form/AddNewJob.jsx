@@ -33,6 +33,7 @@ import { bindCompanyDropdown } from "../../../store/company";
 import { addSkill, bindSkillDropdown } from "../../../store/skill";
 import { countriesOption } from "../../../utils/enum";
 import { HttpStatusCode } from "axios";
+import { slugCheck, slugGeneration } from "../../../store/common";
 const defaultTabs = [
   {
     id: "description",
@@ -61,17 +62,17 @@ const AddNewJob = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category
+    ({ category }) => category,
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company
+    ({ company }) => company,
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword
+    ({ keyword }) => keyword,
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill
+    ({ skill }) => skill,
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -79,6 +80,7 @@ const AddNewJob = () => {
 
   const {
     title,
+    slug,
     category,
     jobType,
     currency,
@@ -123,6 +125,48 @@ const AddNewJob = () => {
       [name]: value,
     };
     dispatch(bindJob(updated));
+  };
+
+  const handleSlugGeneration = (title) => {
+    const obj = {
+      title: title,
+      model: "Job",
+    };
+    dispatch(slugGeneration(obj))
+      .then((response) => {
+        const { status, data, statusText } = response.payload;
+        const slug = data?.data;
+        const updated = {
+          ...job,
+          ["slug"]: slug,
+        };
+        dispatch(bindJob(updated));
+      })
+      .catch((error) => {
+        const { response } = error;
+      });
+  };
+  const handleSlugCheck = (slug) => {
+    const obj = {
+      slug,
+      model: "Job",
+    };
+    dispatch(slugCheck(obj))
+      .then((response) => {
+        const { status, data, statusText } = response.payload;
+        console.log(data);
+        const slug = data?.data;
+        if (slug) {
+          const updated = {
+            ...job,
+            ["slug"]: slug,
+          };
+          dispatch(bindJob(updated));
+        }
+      })
+      .catch((error) => {
+        const { response } = error;
+      });
   };
 
   const handleDropdown = (data, e) => {
@@ -216,7 +260,7 @@ const AddNewJob = () => {
       addNewJob({
         job: obj,
         navigate,
-      })
+      }),
     );
   };
 
@@ -320,7 +364,7 @@ const AddNewJob = () => {
       button: (
         <Button
           id="save-button"
-          name="Save"
+          label="Save"
           onClick={() => {
             onSubmit();
           }}
@@ -332,7 +376,7 @@ const AddNewJob = () => {
     countriesOption.find((c) => c.value === jobCountry?.value)?.states ?? [];
 
   return (
-    <FormLayout title="Edit Job" actions={actions}>
+    <FormLayout title="New Job" actions={actions}>
       <InputBox
         label="Title"
         classNames="mb-3"
@@ -343,6 +387,39 @@ const AddNewJob = () => {
           handleOnChange(e);
         }}
       />
+      <div className="flex   gap-4">
+        <div className="w-full ">
+          <InputBox
+            // label="Slug"
+            classNames="mb-3 "
+            name="slug"
+            placeholder="slug"
+            value={slug}
+            onChange={(e) => {
+              handleOnChange(e);
+            }}
+          />
+        </div>
+
+        <div className="">
+          <Button
+            id="url Sche"
+            label="Check Url"
+            onClick={() => {
+              handleSlugCheck(slug);
+            }}
+          />
+        </div>
+        <div className="">
+          <Button
+            id="editslug"
+            label="Re-Generate"
+            onClick={() => {
+              handleSlugGeneration(title);
+            }}
+          />
+        </div>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         <div className="lg:col-span-7">
           <HorizontalTab defaultTabs={defaultTabs} />
@@ -655,7 +732,7 @@ const AddNewJob = () => {
             </div>
             <Button
               id="upload-id"
-              name="Feature Image"
+              label="Feature Image"
               onClick={() => {
                 handleUploadModalOpen();
               }}

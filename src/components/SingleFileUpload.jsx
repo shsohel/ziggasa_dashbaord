@@ -135,7 +135,8 @@ const SingleFileUpload = (props) => {
         FooterComponent={
           <div className="flex justify-end items-center gap-6">
             <Button
-              name="Save"
+              id="saveId"
+              label="Save"
               onClick={() => {
                 handleModalDataSubmit();
               }}
@@ -274,8 +275,9 @@ const SingleFileUpload = (props) => {
                   value={`${selectedImage?.fileUrl ?? ""}`}
                 />
                 <Button
+                  id="copyId"
                   disabled={!selectedImage}
-                  name="Copy"
+                  label="Copy"
                   onClick={() => {
                     clipboard();
                   }}

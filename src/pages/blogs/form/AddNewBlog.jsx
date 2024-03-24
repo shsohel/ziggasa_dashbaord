@@ -24,6 +24,7 @@ import { getFilesByQuery } from "../../../store/file-upload";
 import { uploadUrl } from "../../../services";
 import { replaceImage } from "../../../utils/utility";
 import SingleFileUpload from "../../../components/SingleFileUpload";
+import { slugCheck, slugGeneration } from "../../../store/common";
 const defaultTabs = [
   {
     id: "description",
@@ -46,9 +47,11 @@ const AddNewBlog = () => {
   );
   const { blog } = useSelector(({ blog }) => blog);
   const [isOpenFileUploadModal, setIsOpenFileUploadModal] = useState(false);
+  const { loading: commonLoading } = useSelector(({ common }) => common);
 
   const {
     title,
+    slug,
     category,
     tag,
     details,
@@ -70,6 +73,48 @@ const AddNewBlog = () => {
       [name]: value,
     };
     dispatch(bindBlog(updated));
+  };
+
+  const handleSlugGeneration = (title) => {
+    const obj = {
+      title: title,
+      model: "Blog",
+    };
+    dispatch(slugGeneration(obj))
+      .then((response) => {
+        const { status, data, statusText } = response.payload;
+        const slug = data?.data;
+        const updated = {
+          ...blog,
+          ["slug"]: slug,
+        };
+        dispatch(bindBlog(updated));
+      })
+      .catch((error) => {
+        const { response } = error;
+      });
+  };
+  const handleSlugCheck = (slug) => {
+    const obj = {
+      slug,
+      model: "Blog",
+    };
+    dispatch(slugCheck(obj))
+      .then((response) => {
+        const { status, data, statusText } = response.payload;
+        console.log(data);
+        const slug = data?.data;
+        if (slug) {
+          const updated = {
+            ...blog,
+            ["slug"]: slug,
+          };
+          dispatch(bindBlog(updated));
+        }
+      })
+      .catch((error) => {
+        const { response } = error;
+      });
   };
 
   const handleDropdown = (data, e) => {
@@ -151,7 +196,7 @@ const AddNewBlog = () => {
       button: (
         <Button
           id="save-button"
-          name="Save"
+          label="Save"
           onClick={() => {
             onSubmit();
           }}
@@ -172,6 +217,39 @@ const AddNewBlog = () => {
           handleOnChange(e);
         }}
       />
+      <div className="flex   gap-4">
+        <div className="w-full ">
+          <InputBox
+            // label="Slug"
+            classNames="mb-3 "
+            name="slug"
+            placeholder="slug"
+            value={slug}
+            onChange={(e) => {
+              handleOnChange(e);
+            }}
+          />
+        </div>
+
+        <div className="">
+          <Button
+            id="url Sche"
+            label="Check Url"
+            onClick={() => {
+              handleSlugCheck(slug);
+            }}
+          />
+        </div>
+        <div className="">
+          <Button
+            id="editslug"
+            label="Re-Generate"
+            onClick={() => {
+              handleSlugGeneration(title);
+            }}
+          />
+        </div>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         <div className="lg:col-span-7">
           <HorizontalTab defaultTabs={defaultTabs} />
@@ -273,7 +351,7 @@ const AddNewBlog = () => {
             </div>
             <Button
               id="upload-id"
-              name="Feature Image"
+              label="Feature Image"
               onClick={() => {
                 handleUploadModalOpen();
               }}

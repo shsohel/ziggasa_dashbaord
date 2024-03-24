@@ -24,7 +24,7 @@ const Companies = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { companies, companySidebarOpen, loading, total } = useSelector(
-    ({ company }) => company
+    ({ company }) => company,
   );
   const [rowPerPage, setRowPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,7 +64,7 @@ const Companies = () => {
       button: (
         <Button
           id="new-button"
-          name="New"
+          label="New"
           onClick={() => {
             handleNew();
           }}
@@ -77,8 +77,8 @@ const Companies = () => {
       button: (
         <Button
           id="refresh-button"
-          name="Refresh"
-          bgColor="bg-mute"
+          label="Refresh"
+          className="bg-mute"
           onClick={() => {
             getAllCompanies();
           }}

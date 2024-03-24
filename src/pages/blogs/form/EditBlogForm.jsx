@@ -46,6 +46,7 @@ const EditBlogForm = () => {
   const {
     id,
     title,
+    slug,
     category,
     tag,
     details,
@@ -157,7 +158,7 @@ const EditBlogForm = () => {
       button: (
         <Button
           id="save-button"
-          name="Save"
+          label="Save"
           onClick={() => {
             onSubmit();
           }}
@@ -174,6 +175,17 @@ const EditBlogForm = () => {
         name="title"
         placeholder="Title"
         value={title}
+        onChange={(e) => {
+          handleOnChange(e);
+        }}
+      />
+      <InputBox
+        disabled={true}
+        // label="Slug"
+        classNames="mb-3 "
+        name="slug"
+        placeholder="slug"
+        value={slug}
         onChange={(e) => {
           handleOnChange(e);
         }}
@@ -279,7 +291,7 @@ const EditBlogForm = () => {
             </div>
             <Button
               id="upload-id"
-              name="Feature Image"
+              label="Feature Image"
               onClick={() => {
                 handleUploadModalOpen();
               }}

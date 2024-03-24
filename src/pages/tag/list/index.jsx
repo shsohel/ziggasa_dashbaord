@@ -59,7 +59,7 @@ const Tags = () => {
       button: (
         <Button
           id="new-button"
-          name="New"
+          label="New"
           onClick={() => {
             handleNew();
           }}
@@ -72,7 +72,7 @@ const Tags = () => {
       button: (
         <Button
           id="refresh-button"
-          name="Refresh"
+          label="Refresh"
           bgColor="bg-mute"
           onClick={() => {
             getAllTags();

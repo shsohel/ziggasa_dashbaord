@@ -95,7 +95,7 @@ const Blogs = () => {
       button: (
         <Button
           id="new-button"
-          name="New"
+          label="New"
           onClick={() => {
             handleNew();
           }}
@@ -109,7 +109,7 @@ const Blogs = () => {
       button: (
         <Button
           id="refresh-button"
-          name="Refresh"
+          label="Refresh"
           bgColor="bg-mute"
           onClick={() => {
             getAllBlogs();
@@ -124,7 +124,7 @@ const Blogs = () => {
         <Button
           mainClasses="p-1 rounded"
           id="new-button"
-          name="New"
+          label="New"
           icon={<FaFilter size={20} className="text-white p-1" />}
           onClick={() => {
             handleFilter();
@@ -211,15 +211,15 @@ const Blogs = () => {
           <div className="col-span-12 md:col-span-2 justify-self-end  ">
             <Button
               id="Search-button"
-              name="Search"
+              label="Search"
               onClick={() => {
                 handleSearch();
               }}
             />
             <Button
               id="reset-button"
-              bgColor="bg-mute"
-              name="Reset"
+              className="bg-mute"
+              label="Reset"
               onClick={() => {
                 handleReset();
               }}

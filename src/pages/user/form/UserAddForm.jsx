@@ -37,13 +37,13 @@ const UserAddForm = ({ isOpen, setIsOpen }) => {
     return (
       <div className="flex gap-3 p-2">
         <Button
-          name="Save"
+          label="Save"
           onClick={() => {
             handleOnSubmit();
           }}
         />
-        <Button name="Cancel" bgColor="bg-danger" textColor="text-white" />
-        <Button name="Reset" bgColor="bg-warning" />
+        <Button label="Cancel" bgColor="bg-danger" textColor="text-white" />
+        <Button label="Reset" bgColor="bg-warning" />
       </div>
     );
   };

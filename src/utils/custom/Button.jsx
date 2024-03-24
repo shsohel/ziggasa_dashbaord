@@ -1,57 +1,30 @@
 import PropTypes from "prop-types";
-
+import { cn } from "../utility";
 export const Button = (props) => {
   const {
-    id,
-    name,
+    id = "inputBoxId",
+    label = null,
     icon = null,
     onClick,
-    bgColor,
-    hoverText,
-    hoverBg,
-    borderClass,
-    textColor,
-    mainClasses,
-    disabled,
-    ...rest
+    className,
+    ...restProps
   } = props;
   return (
     <button
+      className={cn(
+        "border bg-primary px-2 py-1 text-nowrap text-light font-semibold hover:bg-secondary rounded",
+        className,
+      )}
       onClick={onClick}
-      id={id}
-      disabled={disabled}
-      className={`${mainClasses} ${borderClass} hover:${hoverText} hover:${hoverBg}   ${
-        disabled ? "bg-mute" : bgColor
-      } ${textColor}`}
-      {...rest}
+      {...restProps}
     >
-      <span>{icon ? icon : name}</span>
+      <span>{icon ? icon : label}</span>
     </button>
   );
 };
 
-// ** Default Props
-Button.defaultProps = {
-  id: "btn-default-id",
-  bgColor: "bg-primary",
-  color: "bg-primary",
-  textColor: "text-dark",
-  hoverText: "text-light",
-  hoverBg: "bg-secondary",
-  borderClass: "border",
-  mainClasses:
-    "py-1 px-3 rounded text-sm font-semibold transition-all duration-500",
-};
-
-// ** PropTypes
 Button.propTypes = {
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
   onClick: PropTypes.func,
-  mainClasses: PropTypes.string,
-  bgColor: PropTypes.string,
-  textColor: PropTypes.string,
-  hoverText: PropTypes.string,
-  hoverBg: PropTypes.string,
-  borderClass: PropTypes.string,
 };

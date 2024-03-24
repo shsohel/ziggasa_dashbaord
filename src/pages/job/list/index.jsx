@@ -56,7 +56,7 @@ const Jobs = () => {
       button: (
         <Button
           id="new-button"
-          name="New"
+          label="New"
           onClick={() => {
             handleNew();
           }}
@@ -69,7 +69,7 @@ const Jobs = () => {
       button: (
         <Button
           id="refresh-button"
-          name="Refresh"
+          label="Refresh"
           bgColor="bg-mute"
           onClick={() => {
             getAllJobs();

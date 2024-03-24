@@ -79,12 +79,12 @@ const SkillForm = () => {
       FooterComponent={
         <div className="p-3">
           <Button
-            name="Save"
+            label="Save"
             onClick={() => {
               onSubmit();
             }}
           />
-          <Button bgColor="bg-txt-mute" name="Reset" />
+          <Button bgColor="bg-txt-mute" label="Reset" />
         </div>
       }
     >
