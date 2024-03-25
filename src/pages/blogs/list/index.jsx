@@ -31,19 +31,30 @@ const Blogs = () => {
   const [filterObj, setFilterObj] = useState({
     title: "",
   });
-
-  const getAllBlogs = useCallback(() => {
-    const queryParams = {
+  // const queryParams = {
+  //   page: currentPage,
+  //   limit: rowPerPage,
+  //   sort: sortedBy,
+  //   orderBy: orderBy,
+  // };
+  const queryParams = useMemo(() => {
+    const obj = {
       page: currentPage,
       limit: rowPerPage,
       sort: sortedBy,
       orderBy: orderBy,
+      title: filterObj.title?.trim() ?? "",
     };
+    !obj.title && delete obj.title;
+    return obj;
+  }, [currentPage, rowPerPage, sortedBy, orderBy, filterObj.title]);
+
+  const getAllBlogs = useCallback(() => {
     const data = {
       queryParams,
     };
     dispatch(getBlogs(data));
-  }, [dispatch, rowPerPage, currentPage, orderBy, sortedBy]);
+  }, [queryParams, dispatch]);
 
   useEffect(() => {
     getAllBlogs();
@@ -294,6 +305,12 @@ const Blogs = () => {
                 selector: (row) => row["title"],
               },
 
+              {
+                id: "view",
+                name: "View",
+                width: "120px",
+                selector: (row) => row["count"],
+              },
               {
                 id: "createdAt",
                 name: "Date",

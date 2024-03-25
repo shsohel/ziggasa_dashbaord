@@ -208,6 +208,12 @@ const Jobs = () => {
                 selector: (row) => row["vacancy"],
               },
               {
+                id: "view",
+                name: "View",
+                width: "120px",
+                selector: (row) => row["count"],
+              },
+              {
                 id: "createdAt",
                 name: "Date",
                 width: "120px",

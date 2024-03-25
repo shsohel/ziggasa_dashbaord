@@ -6,16 +6,24 @@ import { updateBlog } from "../../../store/blog";
 const ExpandedBlogRow = (props) => {
   const { data, getAllBlogs } = props;
   const dispatch = useDispatch();
-  const [slugState, setSlugState] = useState(data?.slug);
-  const handleOnChange = (value) => {
-    setSlugState(value);
+  const [blogState, setBlogState] = useState({
+    slug: data?.slug,
+    count: data?.count,
+  });
+
+  const handleOnChange = (e) => {
+    const { value, name, type } = e.target;
+    setBlogState({
+      ...blogState,
+      [name]: type === "number" ? Number(value) : value,
+    });
   };
   const handleUpdateSlug = () => {
     dispatch(
       updateBlog({
         blog: {
           id: data?._id,
-          slug: slugState,
+          ...blogState,
         },
       }),
     )
@@ -33,9 +41,19 @@ const ExpandedBlogRow = (props) => {
     <div className="p-4">
       <InputBox
         label="URl"
-        value={slugState}
+        name="slug"
+        value={blogState?.slug}
         onChange={(e) => {
-          handleOnChange(e.target.value);
+          handleOnChange(e);
+        }}
+      />
+      <InputBox
+        type="number"
+        label="View"
+        name="count"
+        value={blogState?.count}
+        onChange={(e) => {
+          handleOnChange(e);
         }}
       />
       <div className="my-2">
