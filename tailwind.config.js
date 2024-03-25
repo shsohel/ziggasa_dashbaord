@@ -24,7 +24,7 @@ export default {
         danger: "#dc3545",
         light: "#f8f9fa",
         dark: "#252525",
-        mute: "#E9EEF1",
+        mute: "#f8f9fa",
         "txt-mute": "#ababab",
         "mute-200": "#696969",
         // gray: '#696969',

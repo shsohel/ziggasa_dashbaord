@@ -106,6 +106,7 @@ const AddNewJob = () => {
     featuredImageAltText,
     deadline,
     applyLink,
+    videoLink,
     pdfLink,
     vacancy,
     jobCountry,
@@ -252,6 +253,7 @@ const AddNewJob = () => {
       deadline,
       applyLink,
       pdfLink,
+      videoLink,
       vacancy,
       jobLocation: JSON.stringify(jobLocation),
       isActive,
@@ -511,20 +513,21 @@ const AddNewJob = () => {
             </div>
           </div>
           <div className="grid md:grid-cols-3 gap-4">
-            <InputBox
-              type="number"
-              label="Vacancy"
-              classNames="my-3"
-              name="vacancy"
-              placeholder="Vacancy"
-              value={vacancy}
-              onChange={(e) => {
-                handleOnChange(e);
-              }}
-              onFocus={(e) => {
-                e.target.select();
-              }}
-            />
+            <div>
+              <InputBox
+                label="Video Link"
+                classNames="my-3"
+                name="videoLink"
+                placeholder="Video Link"
+                value={videoLink}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+                onFocus={(e) => {
+                  e.target.select();
+                }}
+              />
+            </div>
             <div>
               <InputBox
                 label="Apply Link"
@@ -550,7 +553,21 @@ const AddNewJob = () => {
               />
             </div>
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
+            <InputBox
+              type="number"
+              label="Vacancy"
+              classNames="my-3"
+              name="vacancy"
+              placeholder="Vacancy"
+              value={vacancy}
+              onChange={(e) => {
+                handleOnChange(e);
+              }}
+              onFocus={(e) => {
+                e.target.select();
+              }}
+            />
             <div>
               <SelectBox
                 id="jobCountryId"

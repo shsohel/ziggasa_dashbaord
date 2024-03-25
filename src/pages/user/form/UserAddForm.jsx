@@ -42,8 +42,8 @@ const UserAddForm = ({ isOpen, setIsOpen }) => {
             handleOnSubmit();
           }}
         />
-        <Button label="Cancel" bgColor="bg-danger" textColor="text-white" />
-        <Button label="Reset" bgColor="bg-warning" />
+        <Button label="Cancel" textColor="text-white" />
+        <Button label="Reset" />
       </div>
     );
   };

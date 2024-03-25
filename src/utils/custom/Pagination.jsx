@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import ReactPaginate from 'react-paginate';
+import PropTypes from "prop-types";
+import ReactPaginate from "react-paginate";
 export default function Pagination({
   total,
   handlePagination,

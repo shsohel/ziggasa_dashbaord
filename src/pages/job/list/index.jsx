@@ -70,7 +70,6 @@ const Jobs = () => {
         <Button
           id="refresh-button"
           label="Refresh"
-          bgColor="bg-mute"
           onClick={() => {
             getAllJobs();
           }}
@@ -201,6 +200,12 @@ const Jobs = () => {
                 name: "Job Type",
                 width: "120px",
                 selector: (row) => row["jobType"],
+              },
+              {
+                id: "vacancy",
+                name: "Vacancy",
+                width: "120px",
+                selector: (row) => row["vacancy"],
               },
               {
                 id: "createdAt",

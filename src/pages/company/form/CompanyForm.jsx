@@ -118,7 +118,7 @@ const CompanyModal = () => {
               onSubmit();
             }}
           />
-          <Button bgColor="bg-txt-mute" label="Reset" />
+          <Button label="Reset" />
         </div>
       }
     >

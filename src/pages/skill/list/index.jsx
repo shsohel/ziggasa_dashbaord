@@ -78,7 +78,6 @@ const Skills = () => {
         <Button
           id="refresh-button"
           label="Refresh"
-          bgColor="bg-mute"
           onClick={() => {
             getAllSkills();
           }}

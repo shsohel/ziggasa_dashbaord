@@ -32,6 +32,7 @@ export const jobModel = {
   featuredImageDescriptions: "",
   featuredImageAltText: "",
   deadline: moment.utc().local().format("YYYY-MM-DD HH:mm:ss"),
+  videoLink: "",
   applyLink: "",
   pdfLink: "",
   vacancy: 0,

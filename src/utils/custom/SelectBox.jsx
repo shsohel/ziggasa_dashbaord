@@ -20,74 +20,76 @@ const SelectBox = (props) => {
     ...rest
   } = props;
   return (
-    <>
-      <div>
-        {label && <label className="text-sm font-bold mb-2">{label}</label>}
-        {isCreatable ? (
-          <CreatableSelect
-            classNames={{
-              control: (state) =>
-                state.isFocused
-                  ? "border border-primary"
-                  : invalid
-                  ? " border-red-600 "
-                  : " ",
-              menu: () => "text-primary font-bold ",
-              // menuList: () => 'bg-red-600 ',
+    <div>
+      {label && (
+        <div className="mb-2">
+          <label className="text-sm font-bold  ">{label}</label>
+        </div>
+      )}
+      {isCreatable ? (
+        <CreatableSelect
+          classNames={{
+            control: (state) =>
+              state.isFocused
+                ? "border border-primary"
+                : invalid
+                ? " border-red-600 "
+                : " ",
+            menu: () => "text-primary font-bold ",
+            // menuList: () => 'bg-red-600 ',
 
-              // control: () => (invalid ? ' border-red-600 ' : ''),
-            }}
-            className={cn(classNames)}
-            //  classNamePrefix="react-select"
-            // theme={selectThemeColors}
-            menuPlacement="auto"
-            menuPosition="fixed"
-            // menuPortalTarget={document.body}
-            id={id}
-            instanceId={id}
-            isClearable
-            name={name}
-            value={value}
-            options={options}
-            onChange={onChange}
-            {...rest}
-          />
-        ) : (
-          <Select
-            classNames={{
-              control: (state) =>
-                state.isFocused
-                  ? "border border-primary"
-                  : invalid
-                  ? " border-red-600 "
-                  : " ",
-              menu: () => "text-primary font-bold ",
-              // menuList: () => 'bg-red-600 ',
+            // control: () => (invalid ? ' border-red-600 ' : ''),
+          }}
+          className={`${cn(classNames)}`}
+          //  classNamePrefix="react-select"
+          // theme={selectThemeColors}
+          menuPlacement="auto"
+          menuPosition="fixed"
+          // menuPortalTarget={document.body}
+          id={id}
+          instanceId={id}
+          isClearable
+          name={name}
+          value={value}
+          options={options}
+          onChange={onChange}
+          {...rest}
+        />
+      ) : (
+        <Select
+          classNames={{
+            control: (state) =>
+              state.isFocused
+                ? "border border-primary"
+                : invalid
+                ? " border-red-600 "
+                : " ",
+            menu: () => "text-primary font-bold ",
+            // menuList: () => 'bg-red-600 ',
 
-              // control: () => (invalid ? ' border-red-600 ' : ''),
-            }}
-            className={cn(classNames)}
-            //  classNamePrefix="react-select"
-            // theme={selectThemeColors}
-            menuPlacement="auto"
-            menuPosition="fixed"
-            // menuPortalTarget={document.body}
-            id={id}
-            instanceId={id}
-            isClearable
-            name={name}
-            value={value}
-            options={options}
-            onChange={onChange}
-            {...rest}
-          />
-        )}
+            // control: () => (invalid ? ' border-red-600 ' : ''),
+          }}
+          className={`${cn(classNames)}`}
+          //  classNamePrefix="react-select"
+          // theme={selectThemeColors}
+          menuPlacement="auto"
+          menuPosition="fixed"
+          // menuPortalTarget={document.body}
+          id={id}
+          instanceId={id}
+          isClearable
+          name={name}
+          value={value}
+          options={options}
+          onChange={onChange}
+          {...rest}
+        />
+      )}
 
-        {invalidMassage && invalid && (
-          <span className="text-xs">{invalidMassage}</span>
-        )}
-      </div>
-    </>
+      {invalidMassage && invalid && (
+        <span className="text-xs">{invalidMassage}</span>
+      )}
+    </div>
   );
 };
 

@@ -78,7 +78,6 @@ const Keywords = () => {
         <Button
           id="refresh-button"
           label="Refresh"
-          bgColor="bg-mute"
           onClick={() => {
             getAllKeywords();
           }}

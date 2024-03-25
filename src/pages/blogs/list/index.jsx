@@ -16,13 +16,14 @@ import { sendUserNotification, urlIndexOnGoogle } from "../../../store/common";
 import { IoNotifications } from "react-icons/io5";
 import { BiSolidInjection } from "react-icons/bi";
 import InputBox from "../../../utils/custom/InputBox";
+import ExpandedBlogRow from "./ExpandedBlogRow";
 const Blogs = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { blogs, loading, total } = useSelector(({ blog }) => blog);
   const { loading: commonLoading } = useSelector(({ common }) => common);
 
-  const [isOpenFilterBox, setIsOpenFilterBox] = useState(false);
+  const [isOpenFilterBox, setIsOpenFilterBox] = useState(true);
   const [rowPerPage, setRowPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [orderBy, setOrderBy] = useState("desc");
@@ -110,7 +111,6 @@ const Blogs = () => {
         <Button
           id="refresh-button"
           label="Refresh"
-          bgColor="bg-mute"
           onClick={() => {
             getAllBlogs();
           }}
@@ -122,7 +122,6 @@ const Blogs = () => {
       name: "filter",
       button: (
         <Button
-          mainClasses="p-1 rounded"
           id="new-button"
           label="New"
           icon={<FaFilter size={20} className="text-white p-1" />}
@@ -218,7 +217,7 @@ const Blogs = () => {
             />
             <Button
               id="reset-button"
-              className="bg-mute"
+              className="bg-slate-400"
               label="Reset"
               onClick={() => {
                 handleReset();
@@ -320,6 +319,10 @@ const Blogs = () => {
             paginationComponent={paginationComponent}
             customStyles={tableCustomStyles}
             pagination
+            expandableRowsComponent={ExpandedBlogRow}
+            expandableRowsComponentProps={{
+              getAllBlogs: getAllBlogs,
+            }}
           />
         </div>
       </div>

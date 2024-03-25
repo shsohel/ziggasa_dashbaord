@@ -108,6 +108,8 @@ const EditJobForm = () => {
     featuredImageAltText,
     deadline,
     applyLink,
+    videoLink,
+
     pdfLink,
     vacancy,
     jobCountry,
@@ -216,6 +218,7 @@ const EditJobForm = () => {
       featuredImageAltText,
       deadline,
       applyLink,
+      videoLink,
       pdfLink,
       vacancy,
       jobLocation: JSON.stringify(jobLocation),
@@ -457,12 +460,11 @@ const EditJobForm = () => {
           <div className="grid md:grid-cols-3 gap-4">
             <div>
               <InputBox
-                type="number"
-                label="Vacancy"
+                label="Video Link"
                 classNames="my-3"
-                name="vacancy"
-                placeholder="Vacancy"
-                value={vacancy}
+                name="videoLink"
+                placeholder="Video Link"
+                value={videoLink}
                 onChange={(e) => {
                   handleOnChange(e);
                 }}
@@ -471,6 +473,7 @@ const EditJobForm = () => {
                 }}
               />
             </div>
+
             <div>
               <InputBox
                 label="Apply Link"
@@ -496,7 +499,23 @@ const EditJobForm = () => {
               />
             </div>
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <InputBox
+                type="number"
+                label="Vacancy"
+                classNames="my-3"
+                name="vacancy"
+                placeholder="Vacancy"
+                value={vacancy}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+                onFocus={(e) => {
+                  e.target.select();
+                }}
+              />
+            </div>
             <div>
               <SelectBox
                 id="jobCountryId"
