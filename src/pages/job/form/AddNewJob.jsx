@@ -62,17 +62,17 @@ const AddNewJob = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryDropdown, isCategoryDropdownLoaded } = useSelector(
-    ({ category }) => category
+    ({ category }) => category,
   );
   const { companyDropdown, isCompanyDropdownLoaded } = useSelector(
-    ({ company }) => company
+    ({ company }) => company,
   );
   const { tagDropdown, isTagDropdownLoaded } = useSelector(({ tag }) => tag);
   const { keywordDropdown, isKeywordDropdownLoaded } = useSelector(
-    ({ keyword }) => keyword
+    ({ keyword }) => keyword,
   );
   const { skillDropdown, isSkillDropdownLoaded } = useSelector(
-    ({ skill }) => skill
+    ({ skill }) => skill,
   );
   const { job } = useSelector(({ job }) => job);
   const [jobDetails, setJobDetails] = useState("");
@@ -107,6 +107,7 @@ const AddNewJob = () => {
     deadline,
     applyLink,
     pdfLink,
+    vacancy,
     jobCountry,
     jobState,
     isActive,
@@ -251,6 +252,7 @@ const AddNewJob = () => {
       deadline,
       applyLink,
       pdfLink,
+      vacancy,
       jobLocation: JSON.stringify(jobLocation),
       isActive,
       jobType: jobType?.value ?? "",
@@ -261,7 +263,7 @@ const AddNewJob = () => {
       addNewJob({
         job: obj,
         navigate,
-      })
+      }),
     );
   };
 
@@ -508,7 +510,21 @@ const AddNewJob = () => {
               />
             </div>
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
+            <InputBox
+              type="number"
+              label="Vacancy"
+              classNames="my-3"
+              name="vacancy"
+              placeholder="Vacancy"
+              value={vacancy}
+              onChange={(e) => {
+                handleOnChange(e);
+              }}
+              onFocus={(e) => {
+                e.target.select();
+              }}
+            />
             <div>
               <InputBox
                 label="Apply Link"
