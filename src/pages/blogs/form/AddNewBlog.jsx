@@ -16,15 +16,16 @@ import {
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { bindCategoryDropdown } from "../../../store/category";
+import { addCategory, bindCategoryDropdown } from "../../../store/category";
 import { addNewBlog, bindBlog } from "../../../store/blog";
-import { bindTagDropdown } from "../../../store/tag";
-import { bindKeywordDropdown } from "../../../store/keyword";
+import { addTag, bindTagDropdown } from "../../../store/tag";
+import { addKeyword, bindKeywordDropdown } from "../../../store/keyword";
 import { getFilesByQuery } from "../../../store/file-upload";
 import { uploadUrl } from "../../../services";
 import { replaceImage } from "../../../utils/utility";
 import SingleFileUpload from "../../../components/SingleFileUpload";
 import { slugCheck, slugGeneration } from "../../../store/common";
+import { HttpStatusCode } from "axios";
 const defaultTabs = [
   {
     id: "description",
@@ -63,6 +64,9 @@ const AddNewBlog = () => {
     featuredImageCaptions,
     featuredImageDescriptions,
     featuredImageAltText,
+    videoLink,
+    applyLink,
+    pdfLink,
     isActive,
   } = blog;
 
@@ -127,6 +131,78 @@ const AddNewBlog = () => {
     dispatch(bindBlog(updatedBlog));
   };
 
+  const handleCategoryOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      description: inputValue,
+      isParent: true,
+      isActive: true,
+    };
+    dispatch(addCategory(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+
+        const updated = {
+          ...blog,
+          ["category"]: [...category, value],
+        };
+        dispatch(bindBlog(updated));
+      }
+    });
+  };
+
+  const handleTagOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      descriptions: inputValue,
+
+      isActive: true,
+    };
+    dispatch(addTag(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+
+        const updated = {
+          ...blog,
+          ["tag"]: [...tag, value],
+        };
+        dispatch(bindBlog(updated));
+      }
+    });
+  };
+
+  const handleKeywordOnCreation = (inputValue) => {
+    const obj = {
+      name: inputValue,
+      descriptions: inputValue,
+
+      isActive: true,
+    };
+    dispatch(addKeyword(obj)).then((response) => {
+      const { payload } = response;
+      if (payload.status === HttpStatusCode.Created) {
+        const value = {
+          label: inputValue,
+          value: payload.data.id,
+        };
+
+        const updated = {
+          ...blog,
+          ["keyword"]: [...keyword, value],
+        };
+        dispatch(bindBlog(updated));
+      }
+    });
+  };
+
   const handleUploadModalOpen = () => {
     const queryParams = {
       page: 1,
@@ -179,6 +255,9 @@ const AddNewBlog = () => {
       featuredImageCaptions,
       featuredImageDescriptions,
       featuredImageAltText,
+      videoLink,
+      applyLink,
+      pdfLink,
       isActive,
     };
     console.log("obj", JSON.stringify(obj, null, 2));
@@ -255,6 +334,47 @@ const AddNewBlog = () => {
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         <div className="lg:col-span-7">
           <HorizontalTab defaultTabs={defaultTabs} />
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <InputBox
+                label="Video Link"
+                classNames="my-3"
+                name="videoLink"
+                placeholder="Video Link"
+                value={videoLink}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+                onFocus={(e) => {
+                  e.target.select();
+                }}
+              />
+            </div>
+            <div>
+              <InputBox
+                label="Apply Link"
+                classNames="my-3"
+                name="applyLink"
+                placeholder="Apply Link"
+                value={applyLink}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+            <div>
+              <InputBox
+                label="Pdf Link"
+                classNames="my-3"
+                name="pdfLink"
+                placeholder="Pdf Link"
+                value={pdfLink}
+                onChange={(e) => {
+                  handleOnChange(e);
+                }}
+              />
+            </div>
+          </div>
           <div>
             <InputBox
               label="SEO Title"
@@ -277,6 +397,7 @@ const AddNewBlog = () => {
               }}
             />
             <SelectBox
+              isCreatable={true}
               id="keywordId"
               label="Keywords"
               classNames=""
@@ -292,12 +413,14 @@ const AddNewBlog = () => {
               onFocus={() => {
                 dispatch(bindKeywordDropdown());
               }}
+              onCreateOption={handleKeywordOnCreation}
             />
           </div>
         </div>
         <div className="lg:col-span-2 ">
           <div className="grid grid-cols-1 gap-6 ">
             <SelectBox
+              isCreatable={true}
               id="categoryId"
               label="Category"
               classNames=""
@@ -313,6 +436,7 @@ const AddNewBlog = () => {
               onFocus={() => {
                 dispatch(bindCategoryDropdown());
               }}
+              onCreateOption={handleCategoryOnCreation}
             />
 
             {/* <SelectBox
@@ -324,6 +448,7 @@ const AddNewBlog = () => {
             placeholder="Select Sub Category"
           /> */}
             <SelectBox
+              isCreatable={true}
               id="tagId"
               label="Tag"
               classNames=""
@@ -339,6 +464,7 @@ const AddNewBlog = () => {
               onFocus={() => {
                 dispatch(bindTagDropdown());
               }}
+              onCreateOption={handleTagOnCreation}
             />
             <div className="border rounded-md min-h-[200px]">
               <img

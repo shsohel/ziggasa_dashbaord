@@ -13,5 +13,7 @@ export const blogModel = {
   author: "",
   featuredImageUrl: "",
   videoLink: "",
+  applyLink: "",
+  pdfLink: "",
   isActive: true,
 };
